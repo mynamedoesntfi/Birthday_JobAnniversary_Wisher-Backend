@@ -1,4 +1,4 @@
-package com.example.Birthday_JobAnniversary_WisherBackend.Uitl;
+package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtUtil {
+public class JwtUtilService {
 
     private static final String SECRET_KEY = "secret";
     private static final long JWT_VALID_DURATION = 24 * 60 * 60 * 1000;
