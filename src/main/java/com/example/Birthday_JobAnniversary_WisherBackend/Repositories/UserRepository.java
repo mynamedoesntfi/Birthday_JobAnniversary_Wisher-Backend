@@ -24,8 +24,8 @@ public class UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     public User getUserInfo(String username) {
-        logger.info("Here");
-        logger.info(username);
+//        logger.info("inside repository");
+//        logger.info(username);
         try {
             String query = "select * from users where username='levi'";
             List<User> userResponse = jdbcTemplate.query(query,new UserRowMapper());
@@ -33,8 +33,6 @@ public class UserRepository {
             if (username != null) {
                 System.out.println(userResponse.get(0));
                 return userResponse.get(0);
-            } else{
-                System.out.println(userResponse.get(0));
             }
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));

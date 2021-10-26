@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             User userInfo = userRepository.getUserInfo(username);
-            System.out.println("Here 2");
+//            System.out.println("inside service");
             logger.info("userInfo= " + userInfo);
             if (userInfo != null) {
 //              Adding user roles to granted authorities collection
