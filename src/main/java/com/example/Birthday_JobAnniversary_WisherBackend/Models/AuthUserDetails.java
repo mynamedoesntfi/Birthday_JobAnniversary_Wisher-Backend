@@ -13,14 +13,12 @@ public class AuthUserDetails implements UserDetails {
 
     private String username;
     private String password;
-    private boolean active;
     private List<GrantedAuthority> authorities;
 
     public AuthUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.active = user.isActive();
-        this.authorities = Arrays.stream(user.getRoles().split(","))
+        this.authorities = Arrays.stream(user.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

@@ -14,31 +14,41 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userService;
+    private DataSource dataSource;
 
     @Autowired
     JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+//                setting true for enabled/active fileds as users table doesn't contain those fields
+                .usersByUsernameQuery(
+                        "SELECT username, password, true FROM user WHERE username=?")
+//                users role can be either ROLE_ADMIN or ROLE_USER
+                .authoritiesByUsernameQuery(
+                        "SELECT username, role FROM user WHERE username=?");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
+        http.csrf()
+                .disable().authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/").permitAll()
-                .antMatchers("/authenticate").permitAll()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+                .anyRequest().authenticated().and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and().formLogin();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
