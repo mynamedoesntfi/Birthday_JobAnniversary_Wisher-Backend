@@ -58,11 +58,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                  * validating the jwt (validating jwt is not part of default behaviour)
                  */
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        username, userDetails.getPassword(), userDetails.getAuthorities());
+                        userDetails, null, userDetails.getAuthorities());
 
-                logger.info("\n User details");
-                logger.info("Credentials: "+ usernamePasswordAuthenticationToken.getCredentials());
-                logger.info("Principal: "+ usernamePasswordAuthenticationToken.getPrincipal());
+//                logger.info("\n User details {} Credentials: " + usernamePasswordAuthenticationToken.getCredentials() +
+//                "Principal: "+ usernamePasswordAuthenticationToken.getPrincipal()
+//                );
 
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

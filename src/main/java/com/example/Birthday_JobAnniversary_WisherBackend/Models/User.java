@@ -54,6 +54,26 @@ public class User {
     public User() {
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", contact='" + contact + '\'' +
+                ", image='" + image + '\'' +
+                ", gender='" + gender + '\'' +
+                ", address='" + address + '\'' +
+                ", birthDate=" + birthDate +
+                ", hireDate=" + hireDate +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", teamID='" + teamID + '\'' +
+                '}';
+    }
+
     public int getUserID() {
         return userID;
     }

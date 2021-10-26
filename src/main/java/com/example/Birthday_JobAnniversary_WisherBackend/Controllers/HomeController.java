@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+/** localhost:8080/api **/
 @RestController
 public class HomeController {
 
@@ -24,11 +25,13 @@ public class HomeController {
     @Autowired
     private JwtUtilService jwt;
 
+    /** localhost:8080/api */
     @GetMapping("/")
     public String home() {
         return("Welcome to our application!");
     }
 
+    /** localhost:8080/api/authenticate */
     @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
@@ -47,11 +50,13 @@ public class HomeController {
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
     }
 
+    /** localhost:8080/api/user */
     @GetMapping("/user")
     public String user() {
         return("Welcome User!");
     }
 
+    /** localhost:8080/api/admin */
     @GetMapping("/admin")
     public String admin() {
         return("Welcome Admin!");

@@ -1,6 +1,5 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthUserDetails;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implements UserDetailsService for use with SpringSecurity
@@ -51,5 +49,17 @@ public class UserService implements UserDetailsService {
 
     /**
      * TODO: ENTER OTHER SERVICE QUERIES
+     *
+     * /* update user details
+     *
+     * /* get user details
+     *
+     * /* get user's bday or job anniversary date
+     *
+     * /* send bday wish
      */
+
+
+
+
 }

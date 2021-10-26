@@ -29,9 +29,9 @@ public class UserRepository {
         try {
             String query = "select * from users where username=?";
             List<User> userResponse = jdbcTemplate.query(query,new UserRowMapper(),username);
-            logger.info("userResponse= " + userResponse);
+//            logger.info("userResponse= " + userResponse);
             if (username != null) {
-                System.out.println(userResponse.get(0));
+               logger.info("userResponse: "+userResponse.get(0));
                 return userResponse.get(0);
             }
         } catch (Exception e) {

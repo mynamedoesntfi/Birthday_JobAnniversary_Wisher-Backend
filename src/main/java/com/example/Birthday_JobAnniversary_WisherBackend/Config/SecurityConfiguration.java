@@ -31,10 +31,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
 //                setting true for enabled/active fileds as users table doesn't contain those fields
                 .usersByUsernameQuery(
-                        "SELECT username, password, true FROM user WHERE username=?")
+                        "SELECT username, password, true FROM users WHERE username=?")
 //                users role can be either ROLE_ADMIN or ROLE_USER
                 .authoritiesByUsernameQuery(
-                        "SELECT username, role FROM user WHERE username=?");
+                        "SELECT username, role FROM users WHERE username=?");
     }
 
     @Override
@@ -45,9 +45,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/").permitAll()
-                .anyRequest().authenticated().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //                .and().formLogin();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
