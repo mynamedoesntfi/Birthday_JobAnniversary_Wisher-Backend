@@ -27,8 +27,8 @@ public class UserRepository {
 //        logger.info("inside repository");
 //        logger.info(username);
         try {
-            String query = "select * from users where username='levi'";
-            List<User> userResponse = jdbcTemplate.query(query,new UserRowMapper());
+            String query = "select * from users where username=?";
+            List<User> userResponse = jdbcTemplate.query(query,new UserRowMapper(),username);
             logger.info("userResponse= " + userResponse);
             if (username != null) {
                 System.out.println(userResponse.get(0));
