@@ -14,7 +14,8 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String SECRET_KEY = "secret";
+    private static final String SECRET_KEY = "secret";
+    private static final long JWT_VALID_DURATION = 24 * 60 * 60 * 1000;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -46,7 +47,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims).setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_VALID_DURATION))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
