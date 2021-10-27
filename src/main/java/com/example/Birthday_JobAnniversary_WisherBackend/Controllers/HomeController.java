@@ -2,10 +2,14 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,9 +17,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** localhost:8080/api **/
 @RestController
 public class HomeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -35,8 +44,8 @@ public class HomeController {
         return("Welcome to our application!");
     }
 
-    /** localhost:8080/api/authenticate */
-    @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
+    /** localhost:8080/api/login */
+    @RequestMapping(value = "login",method = RequestMethod.POST)
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         //region authenticating the user
@@ -55,5 +64,20 @@ public class HomeController {
         //endregion
 
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
+    }
+
+    @RequestMapping(value = "signUp", method = RequestMethod.POST)
+    public ResponseEntity<?> register(@RequestBody User user){
+        try {
+            User newUser = userService.register(user);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", newUser);
+            logger.info("User registered successfully.");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot register user. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

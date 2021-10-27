@@ -1,19 +1,24 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * Implements UserDetailsService for use with SpringSecurity
@@ -47,6 +52,14 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
+    public User register(User user) {
+//        User newUser = new User();
+//        newUser.setUsername(user.getUsername());
+//        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+//        newUser.setPassword(user.getPassword());
+        return userRepository.register(user);
+    }
+
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
@@ -54,19 +67,10 @@ public class UserService implements UserDetailsService {
     public User getUserById(Integer id) {
         return userRepository.getUserById(id);
     }
-
-
-    /**
-     * TODO: ENTER OTHER SERVICE QUERIES
-     *
-     * /* update user details
-     *
-     * /* get user details
-     *
-     * /* get user's bday or job anniversary date
-     *
-     * /* send bday wish
-     */
+//
+//    public User updateUserDetails(User user) {
+//        return userRepository.updateUserDetails(user);
+//    }
 
 
 }

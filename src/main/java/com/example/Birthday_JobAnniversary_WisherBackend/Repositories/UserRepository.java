@@ -6,11 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class UserRepository {
@@ -63,21 +70,55 @@ public class UserRepository {
         return user;
     }
 
-//    public int insertUser(User user) {
-//        try {
-//            String username = user.getUserName();
-//            String pass = user.getPassword();
+    public User register(User user){
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        logger.info("details to enter:{} ",user);
+        try{
+            String query = "insert into users(username,first_name,last_name,email,password) values(?,?,?,?,?)";
+            jdbcTemplate.update(
+                    new PreparedStatementCreator() {
+                        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                            PreparedStatement ps = connection.prepareStatement(query, new String[]{"userID"});
+                            ps.setString(1, user.getUsername());
+                            ps.setString(2, user.getFirstName());
+                            ps.setString(3, user.getLastName());
+                            ps.setString(4, user.getEmail());
+                            ps.setString(5, user.getPassword());
+                            return ps;
+                        }
+                    }, keyHolder);
+            logger.info("Registered userID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
+            return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+//    public User updateUserDetails(User user){
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
 //
-//            logger.info("vvv::  username= "+username + " ,pass= "+pass );
-//            int updateStatus = template.update("insert into userDetail(username,password) values(?,?)", new Object[] {username,encoder.encode(pass)});
-//            logger.info("vvv::  updateStatus= "+updateStatus);
-//            if(updateStatus == 1) {
-//                return 1;
-//            }
-//            return 0;
+//        logger.info("details to update={} ",user);
+//        try{
+//            String query = "update users set username,first_name,last_name,email,password) values(?,?,?,?,?)";
+//            jdbcTemplate.update(
+//                    new PreparedStatementCreator() {
+//                        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+//                            PreparedStatement ps = connection.prepareStatement(query, new String[]{"userID"});
+//                            ps.setString(1, user.getUsername());
+//                            ps.setString(2, user.getFirstName());
+//                            ps.setString(3, user.getLastName());
+//                            ps.setString(4, user.getEmail());
+//                            ps.setString(5, user.getPassword());
+//                            return ps;
+//                        }
+//                    }, keyHolder);
+//            logger.info("Registered userID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
+//            return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
 //        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
+//            logger.error(Arrays.toString(e.getStackTrace()));
 //        }
+//        return null;
 //    }
 }
