@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Implements UserDetailsService for use with SpringSecurity
@@ -44,6 +45,10 @@ public class UserService implements UserDetailsService {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 
     /**

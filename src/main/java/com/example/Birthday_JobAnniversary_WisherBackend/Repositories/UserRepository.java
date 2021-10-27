@@ -28,7 +28,7 @@ public class UserRepository {
 //        logger.info(username);
         try {
             String query = "select * from users where username=?";
-            List<User> userResponse = jdbcTemplate.query(query,new UserRowMapper(),username);
+            List<User> userResponse = jdbcTemplate.query(query, new UserRowMapper(), username);
 //            logger.info("userResponse= " + userResponse);
             if (username != null) {
                logger.info("userResponse: "+userResponse.get(0));
@@ -38,6 +38,18 @@ public class UserRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
         return null;
+    }
+
+    public List<User> getAllUsers() {
+        List<User> users = null;
+        try {
+            String query = "select * from users";
+            users = jdbcTemplate.query(query, new UserRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return users;
     }
 
 //    public int insertUser(User user) {

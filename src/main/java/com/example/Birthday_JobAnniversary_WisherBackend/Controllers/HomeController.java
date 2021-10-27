@@ -66,15 +66,15 @@ public class HomeController {
         return("Welcome Admin!");
     }
 
-    /** localhost:8080/api/employees */
-    @GetMapping("/employees")
-    public ResponseEntity<?> getAllEmployees() {
-        return ResponseEntity.ok(new User());
+    /** localhost:8080/api/users */
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    /** localhost:8080/api/employee/{id} */
-    @GetMapping("/employee/{id}")
-    public String getEmployee(@RequestBody Integer id) {
+    /** localhost:8080/api/user/{id} */
+    @GetMapping("/user/{id}")
+    public String getUser(@RequestBody Integer id) {
         return("Welcome Admin!");
     }
 
