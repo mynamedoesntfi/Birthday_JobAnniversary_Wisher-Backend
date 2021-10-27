@@ -2,7 +2,6 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
@@ -57,19 +56,4 @@ public class HomeController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
     }
-
-    /** localhost:8080/api/user */
-    @GetMapping("/user")
-    public String user() {
-        return("Welcome User!");
-    }
-
-    /** localhost:8080/api/admin */
-    @GetMapping("/admin")
-    public String admin() {
-        return("Welcome Admin!");
-    }
-
-
-
 }
