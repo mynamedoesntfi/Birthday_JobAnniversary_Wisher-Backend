@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class TeamRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(TeamRepository.class);
 
     @Autowired
     private PasswordEncoder encoder;
@@ -26,7 +26,7 @@ public class TeamRepository {
     public List<User> getTeamMembersByTeamId(Integer id) {
         List<User> users = null;
         try {
-            String query = "select * from users where team_ID=?)";
+            String query = "select * from users where team_ID=?";
             users = jdbcTemplate.query(query, new UserRowMapper(), id);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
