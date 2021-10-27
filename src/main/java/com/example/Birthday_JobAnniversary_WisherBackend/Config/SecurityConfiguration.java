@@ -41,9 +41,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable().authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
 
                 //region ADMIN URLS
-                .antMatchers("/authenticate").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/users").hasRole("ADMIN")
                 //endregion
@@ -54,9 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
                 //endregion
 
-                //region FULL ACCESS URLS
                 .antMatchers("/").permitAll()
-                //endregion
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

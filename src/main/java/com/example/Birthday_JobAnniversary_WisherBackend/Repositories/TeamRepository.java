@@ -26,7 +26,7 @@ public class TeamRepository {
     public List<User> getTeamMembersByTeamId(Integer id) {
         List<User> users = null;
         try {
-            String query = "select * from users where team_id=?)";
+            String query = "select * from users where team_ID=?)";
             users = jdbcTemplate.query(query, new UserRowMapper(), id);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));

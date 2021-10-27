@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
