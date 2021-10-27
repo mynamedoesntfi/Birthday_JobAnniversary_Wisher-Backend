@@ -70,21 +70,6 @@ public class HomeController {
         return("Welcome Admin!");
     }
 
-    /** localhost:8080/api/users */
-    @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
 
-    /** localhost:8080/api/user/{id} */
-    @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.getUserById(id));
-    }
 
-    /** localhost:8080/api/teams/{id}/members */
-    @GetMapping("/teams/{id}/members")
-    public ResponseEntity<?> getTeamMembersByTeamId(@PathVariable Integer id) {
-        return ResponseEntity.ok(teamService.getTeamMembersByTeamId(id));
-    }
 }

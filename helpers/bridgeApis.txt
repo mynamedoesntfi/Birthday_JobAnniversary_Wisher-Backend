@@ -9,11 +9,12 @@
  =======================================================================================
  Registered User APIs
  
- --- Get employee details (GET)
- --- Get all employees in a team (GET)
- --- Update employee details (PUT)
+ --- Get user details (GET)
+ --- Get all user in a team (GET)
+ --- Update user details (PUT)
  --- Get Team details (GET)
- --- Get employee's birthdate/job anniversary (GET)
+ --- Get TeamMembers by teamID
+ --- Get user's birthdate/job anniversary (GET)
  --- Send bday wish (POST)
  
  =======================================================================================
