@@ -52,6 +52,17 @@ public class UserRepository {
         return users;
     }
 
+    public User getUserById(Integer id) {
+        User user = null;
+        try {
+            String query = "select * from users where user_id=?";
+            user = jdbcTemplate.query(query, new UserRowMapper(), id).get(0);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return user;
+    }
+
 //    public int insertUser(User user) {
 //        try {
 //            String username = user.getUserName();

@@ -51,6 +51,10 @@ public class UserService implements UserDetailsService {
         return userRepository.getAllUsers();
     }
 
+    public User getUserById(Integer id) {
+        return userRepository.getUserById(id);
+    }
+
     /**
      * TODO: ENTER OTHER SERVICE QUERIES
      *

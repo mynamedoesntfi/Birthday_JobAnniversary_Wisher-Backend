@@ -74,8 +74,8 @@ public class HomeController {
 
     /** localhost:8080/api/user/{id} */
     @GetMapping("/user/{id}")
-    public String getUser(@RequestBody Integer id) {
-        return("Welcome Admin!");
+    public ResponseEntity<?> getUserByUsername(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
 }
