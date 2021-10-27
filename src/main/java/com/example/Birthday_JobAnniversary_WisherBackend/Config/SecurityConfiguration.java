@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-//                setting true for enabled/active fileds as users table doesn't contain those fields
+//                setting true for enabled/active fields as users table doesn't contain those fields
                 .usersByUsernameQuery(
                         "SELECT username, password, true FROM users WHERE username=?")
 //                users role can be either ROLE_ADMIN or ROLE_USER
@@ -42,8 +42,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable().authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
+
+                //region ADMIN URLS
                 .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/users").hasRole("ADMIN")
+                //endregion
+
+                //region USER URLS
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
+                //endregion
+
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Implements UserDetailsService for use with SpringSecurity
@@ -29,7 +30,6 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             User userInfo = userRepository.getUserInfo(username);
-//            System.out.println("inside service");
             logger.info("userInfo= " + userInfo);
             if (userInfo != null) {
 //              Adding user roles to granted authorities collection
@@ -47,6 +47,15 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.getUserById(id);
+    }
+
+
     /**
      * TODO: ENTER OTHER SERVICE QUERIES
      *
@@ -58,8 +67,6 @@ public class UserService implements UserDetailsService {
      *
      * /* send bday wish
      */
-
-
 
 
 }

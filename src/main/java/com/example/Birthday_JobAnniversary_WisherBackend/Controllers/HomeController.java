@@ -2,7 +2,9 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TeamService teamService;
 
     @Autowired
     private JwtUtilService jwt;
@@ -65,4 +70,21 @@ public class HomeController {
         return("Welcome Admin!");
     }
 
+    /** localhost:8080/api/users */
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    /** localhost:8080/api/user/{id} */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    /** localhost:8080/api/teams/{id}/members */
+    @GetMapping("/teams/{id}/members")
+    public ResponseEntity<?> getTeamMembersByTeamId(@PathVariable Integer id) {
+        return ResponseEntity.ok(teamService.getTeamMembersByTeamId(id));
+    }
 }
