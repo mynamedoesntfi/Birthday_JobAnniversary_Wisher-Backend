@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,18 @@ public class HomeController {
     /** localhost:8080/api/admin */
     @GetMapping("/admin")
     public String admin() {
+        return("Welcome Admin!");
+    }
+
+    /** localhost:8080/api/employees */
+    @GetMapping("/employees")
+    public ResponseEntity<?> getAllEmployees() {
+        return ResponseEntity.ok(new User());
+    }
+
+    /** localhost:8080/api/employee/{id} */
+    @GetMapping("/employee/{id}")
+    public String getEmployee(@RequestBody Integer id) {
         return("Welcome Admin!");
     }
 
