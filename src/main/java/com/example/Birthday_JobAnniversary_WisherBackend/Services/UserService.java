@@ -55,6 +55,7 @@ public class UserService implements UserDetailsService {
         return userRepository.getUserById(id);
     }
 
+
     /**
      * TODO: ENTER OTHER SERVICE QUERIES
      *

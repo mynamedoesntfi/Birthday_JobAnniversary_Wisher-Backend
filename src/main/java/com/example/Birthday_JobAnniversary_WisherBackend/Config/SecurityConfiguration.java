@@ -51,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //region USER URLS
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
                 //endregion
 
                 //region FULL ACCESS URLS

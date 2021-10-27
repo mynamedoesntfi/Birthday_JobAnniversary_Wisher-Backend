@@ -4,6 +4,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRe
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TeamService teamService;
 
     @Autowired
     private JwtUtilService jwt;
@@ -78,4 +82,9 @@ public class HomeController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
+    /** localhost:8080/api/teams/{id}/members */
+    @GetMapping("/teams/{id}/members")
+    public ResponseEntity<?> getTeamMembersByTeamId(@PathVariable Integer id) {
+        return ResponseEntity.ok(teamService.getTeamMembersByTeamId(id));
+    }
 }
