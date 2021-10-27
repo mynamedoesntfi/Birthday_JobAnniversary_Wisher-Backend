@@ -38,7 +38,7 @@
 --('Shoto','Shoto','Todoroki','todoroki.ice.fire.000@gmail.com','shoto123',100),
 --('Levi','Levi','Ackerman','todoroki.ice.fire.000@gmail.com','levi123',100),
 --('Langa','Langa','Hasegawa','todoroki.ice.fire.000@gmail.com','langa123',100);
---
+
 
 --ADMIN
 --insert into users(username,first_name,last_name,email,password,role,team_ID) values
