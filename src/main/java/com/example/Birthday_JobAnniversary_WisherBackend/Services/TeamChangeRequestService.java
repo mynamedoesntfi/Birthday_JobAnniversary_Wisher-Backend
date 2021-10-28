@@ -32,7 +32,7 @@ public class TeamChangeRequestService {
 
     public TeamChangeRequest approveRequestByID(Integer requestID) {
         TeamChangeRequest request = teamChangeRequestRepository.approveRequestByID(requestID);
-        // change the team for the user
+        // change the team for the user assuming team exists
         userRepository.changeTeamByID(request.getUserID(), request.getNew_team_ID());
         return request;
     }

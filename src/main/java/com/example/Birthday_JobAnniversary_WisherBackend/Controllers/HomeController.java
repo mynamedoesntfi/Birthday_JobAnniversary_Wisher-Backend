@@ -30,10 +30,10 @@ public class HomeController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
 
     @Autowired
     private JwtUtilService jwt;

@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamChangeRequestService;
@@ -23,12 +24,32 @@ public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
-    TeamChangeRequestService teamChangeRequestService;
+    private UserService userService;
+
+    @Autowired
+    private TeamChangeRequestService teamChangeRequestService;
 
     /** localhost:8080/api/admin/testAdmin */
     @GetMapping("/admin/testAdmin")
     public ResponseEntity<?> test() {
         return ResponseEntity.ok("Hello Admin");
+    }
+
+
+    /** localhost:8080/api/admin/users/{id}/removeFromTeam */
+    @GetMapping("admin/users/{id}/removeFromTeam")
+    public ResponseEntity<?> removeUserFromTeam(@PathVariable Integer userId) {
+        try {
+            User user = userService.removeUserFromTeam(userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", user);
+            logger.info("User removed from team successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Could not remove user from team. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 
@@ -50,7 +71,7 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/approve */
-    @PutMapping()
+    @PatchMapping()
     @RequestMapping(value = "/admin/requests/{id}/approve")
     public ResponseEntity<?> approveRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {
@@ -67,7 +88,7 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/decline */
-    @PutMapping()
+    @PatchMapping()
     @RequestMapping(value = "/admin/requests/{id}/decline")
     public ResponseEntity<?> declineRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {

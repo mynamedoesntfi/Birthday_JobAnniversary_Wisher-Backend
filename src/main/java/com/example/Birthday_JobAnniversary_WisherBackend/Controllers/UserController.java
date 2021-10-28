@@ -88,21 +88,6 @@ public class UserController {
 
 
 
-    /** localhost:8080/api/admin/users/{id}/removeFromTeam */
-    @GetMapping("admin/users/{id}/removeFromTeam")
-    public ResponseEntity<?> removeUserFromTeam(@PathVariable Integer userId) {
-        try {
-            User user = userService.removeUserFromTeam(userId);
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
-            response.put("data", user);
-            logger.info("User removed from team successfully. ");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e) {
-            logger.error("Could not remove user from team. Error:" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 
 //    /** localhost:8080/api/users/{id} */
 //    @RequestMapping(value = "/users/{id}",method = RequestMethod.PUT)
