@@ -70,6 +70,23 @@ public class AdminController {
         }
     }
 
+    /** localhost:8080/api/admin/requests/pending */
+    @GetMapping()
+    @RequestMapping(value = "/admin/requests/pending")
+    public ResponseEntity<?> getAllPendingTeamChangeRequests() {
+        try {
+            List<TeamChangeRequest> requests = teamChangeRequestService.getALlPendingTeamChangeRequests();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", requests);
+            logger.info("Pending requests retrieved.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot get pending requests. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     /** localhost:8080/api/admin/requests/{id}/approve */
     @PatchMapping()
     @RequestMapping(value = "/admin/requests/{id}/approve")

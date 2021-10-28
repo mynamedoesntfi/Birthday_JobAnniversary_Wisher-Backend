@@ -40,4 +40,8 @@ public class TeamChangeRequestService {
     public TeamChangeRequest declineRequestByID(Integer requestID) {
         return teamChangeRequestRepository.declineRequestByID(requestID);
     }
+
+    public List<TeamChangeRequest> getALlPendingTeamChangeRequests() {
+        return teamChangeRequestRepository.getAllPendingTeamChangeRequests();
+    }
 }

@@ -24,6 +24,7 @@
  Admin APIs
 
   +++ Get all requests (GET)                                                 api/admin/requests
+  +++ Get all pending requests (GET)                                         api/admin/requests/pending
   +++ Approve request (POST)                                                 api/admin/requests/{id}/approve
   +++ Decline the requests (POST)                                            api/admin/requests/{id}/decline
   +++ Remove user from a team (PUT)                                          api/admin/users/{id}/removeFromTeam

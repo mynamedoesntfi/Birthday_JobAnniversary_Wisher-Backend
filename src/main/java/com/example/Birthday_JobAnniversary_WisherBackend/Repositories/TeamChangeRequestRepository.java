@@ -77,6 +77,18 @@ public class TeamChangeRequestRepository {
         return requests;
     }
 
+    public List<TeamChangeRequest> getAllPendingTeamChangeRequests() {
+        List<TeamChangeRequest> requests = null;
+        try {
+            String query = "select * from requests where status='PENDING'";
+            requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return requests;
+    }
+
     public TeamChangeRequest approveRequestByID(Integer requestID) {
         try {
             String query = "update requests set status='APPROVED' where id=?";
