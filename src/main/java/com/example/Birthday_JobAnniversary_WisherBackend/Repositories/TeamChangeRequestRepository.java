@@ -76,4 +76,26 @@ public class TeamChangeRequestRepository {
 
         return requests;
     }
+
+    public TeamChangeRequest approveRequestByID(Integer requestID) {
+        try {
+            String query = "update requests set status='APPROVED' where id=?";
+            jdbcTemplate.update(query, requestID);
+            logger.info("Approved request - requestID: {}", requestID);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return getRequestByID(requestID);
+    }
+
+    public TeamChangeRequest declineRequestByID(Integer requestID) {
+        try {
+            String query = "update requests set status='DECLINED' where id=?";
+            jdbcTemplate.update(query, requestID);
+            logger.info("DECLINE request - requestID: {}", requestID);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return getRequestByID(requestID);
+    }
 }

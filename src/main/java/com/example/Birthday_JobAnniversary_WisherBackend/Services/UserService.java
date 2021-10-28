@@ -1,6 +1,5 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
@@ -32,7 +31,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            User userInfo = userRepository.getUserInfo(username);
+            User userInfo = userRepository.getUserByUsername(username);
             logger.info("userInfo= " + userInfo);
             if (userInfo != null) {
 //              Adding user roles to granted authorities collection
@@ -55,7 +54,7 @@ public class UserService implements UserDetailsService {
 //        newUser.setUsername(user.getUsername());
 //        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 //        newUser.setPassword(user.getPassword());
-        return userRepository.register(user);
+        return userRepository.createUser(user);
     }
 
     public List<User> getAllUsers() {
@@ -67,7 +66,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User removeUserFromTeam(Integer userId) {
-        return userRepository.removeFromUserTeam(userId);
+        return userRepository.removeUserFromTeam(userId);
     }
 
 //

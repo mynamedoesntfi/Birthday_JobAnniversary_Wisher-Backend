@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +41,45 @@ public class AdminController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", requests);
-            logger.info("Teams retrieved.");
+            logger.info("Requests retrieved.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Cannot get teams. Error:" + e.getMessage());
+            logger.error("Cannot get requests. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
+    /** localhost:8080/api/admin/requests/{id}/approve */
+    @PutMapping()
+    @RequestMapping(value = "/admin/requests/{id}/approve")
+    public ResponseEntity<?> approveRequestByID(@PathVariable(value = "id") Integer requestID) {
+        try {
+            TeamChangeRequest request = teamChangeRequestService.approveRequestByID(requestID);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", request);
+            logger.info("Request approved.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot approve request. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
+    /** localhost:8080/api/admin/requests/{id}/decline */
+    @PutMapping()
+    @RequestMapping(value = "/admin/requests/{id}/decline")
+    public ResponseEntity<?> declineRequestByID(@PathVariable(value = "id") Integer requestID) {
+        try {
+            TeamChangeRequest request = teamChangeRequestService.declineRequestByID(requestID);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", request);
+            logger.info("Request declined.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot decline request. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
