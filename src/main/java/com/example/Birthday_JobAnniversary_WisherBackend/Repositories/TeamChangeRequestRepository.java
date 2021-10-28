@@ -1,5 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.TeamChangeRequestStatus;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
@@ -91,8 +92,8 @@ public class TeamChangeRequestRepository {
 
     public TeamChangeRequest approveRequestByID(Integer requestID) {
         try {
-            String query = "update requests set status='APPROVED' where id=?";
-            jdbcTemplate.update(query, requestID);
+            String query = "update requests set status=? where id=?";
+            jdbcTemplate.update(query, TeamChangeRequestStatus.APPROVED.toString(), requestID);
             logger.info("Approved request - requestID: {}", requestID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -102,9 +103,9 @@ public class TeamChangeRequestRepository {
 
     public TeamChangeRequest declineRequestByID(Integer requestID) {
         try {
-            String query = "update requests set status='DECLINED' where id=?";
-            jdbcTemplate.update(query, requestID);
-            logger.info("DECLINE request - requestID: {}", requestID);
+            String query = "update requests set status=? where id=?";
+            jdbcTemplate.update(query, TeamChangeRequestStatus.DECLINED.toString(), requestID);
+            logger.info("Declined request - requestID: {}", requestID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }

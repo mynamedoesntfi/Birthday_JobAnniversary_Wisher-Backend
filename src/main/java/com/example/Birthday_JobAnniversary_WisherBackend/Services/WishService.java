@@ -1,5 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.EventSubject;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.WishRequestBody;
@@ -24,13 +25,15 @@ public class WishService {
         User toUser = userRepository.getUserById(toID);
 
         Date eventDate = null;
-        if(wishRequestBody.getSubject().equals("BIRTHDAY WISHES"))
+        if(wishRequestBody.getSubject().equals(EventSubject.BIRTHDAY_WISHES.toString()))
             eventDate = toUser.getBirthDate();
-        else if(wishRequestBody.getSubject().equals("JOB ANNIVERSARY WISHES"))
+        else if(wishRequestBody.getSubject().equals(EventSubject.JOB_ANNIVERSARY_WISHES.toString()))
             eventDate = toUser.getHireDate();
 
         if (eventDate == null)
             throw new Exception("Target user's event date is unknown");
+        if (toUser.getEmail() == null)
+            throw new Exception("Target user does not have an email address");
 
         return wishRepository.addWish(toID, wishRequestBody, eventDate);
     }

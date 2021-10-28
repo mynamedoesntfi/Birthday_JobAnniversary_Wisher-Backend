@@ -87,6 +87,22 @@ public class UserController {
         }
     }
 
+    /** localhost:8080/api/users/upcomingEvents */
+    @GetMapping("/users/upcomingEvents")
+    public ResponseEntity<?> getAllUsersWithUpcomingEvents() {
+        try {
+            Map<String,List<User>> users = userService.getAllUsersWithUpcomingEvents();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", users);
+            logger.info("Users with upcoming events retrieved successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot get users with upcoming events. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     /** localhost:8080/api/users/{toID}/wish */
     @PostMapping()
     @RequestMapping(value = "/users/{toID}/wish")

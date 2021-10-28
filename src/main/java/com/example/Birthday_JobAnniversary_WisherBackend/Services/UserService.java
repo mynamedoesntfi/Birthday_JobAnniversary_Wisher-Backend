@@ -1,5 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.EventSubject;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
@@ -67,6 +68,13 @@ public class UserService implements UserDetailsService {
 
     public User removeUserFromTeam(Integer userId) {
         return userRepository.removeUserFromTeam(userId);
+    }
+
+    public Map<String, List<User>> getAllUsersWithUpcomingEvents() {
+        Map<String, List<User>> usersWithUpcomingEvents = new HashMap<>();
+        usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithUpcomingBirthDays());
+        usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithUpcomingJobAnniversaries());
+        return usersWithUpcomingEvents;
     }
 
 //

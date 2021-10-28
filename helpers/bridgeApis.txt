@@ -9,7 +9,7 @@
  =======================================================================================
  Registered User APIs
  
- +++ Get user details                                    (GET)  api/users/{id}
+ +++ Get user details                                   (GET)  api/users/{id}
  +++ Get all user in a team                             (GET)  api/teams/{id}/members
  +++ Get all users                                      (GET)  api/users
  +++ Request for joining the team                       (POST) api/users/{userID}/teamChangeRequest/{teamID}
@@ -18,7 +18,7 @@
  +++ Get Team details                                   (GET)  api/teams/{id}
  --- Get All users with upcoming events                 (GET)  api/users/upcomingEvents
  --- Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
- --- Send wishes                                        (POST) api/users/{toID}/wish
+ +++ Send wishes                                        (POST) api/users/{toID}/wish
                                                                     RequestBody{ fromID, subject, message }
                                                                        subject - BIRTHDAY WISHES, JOB ANNIVERSARY WISHES
 
