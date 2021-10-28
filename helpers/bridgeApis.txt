@@ -3,27 +3,48 @@
  =======================================================================================
  Non registered one's
   
- --- Login (POST)
- --- Signup (POST)
+ --- Login (POST)                                              api/login
+ --- Signup (POST)                                             api/signup
  
  =======================================================================================
  Registered User APIs
  
- --- Get user details (GET)
- --- Get all user in a team (GET)
- --- Update user details (PUT)
- --- Get Team details (GET)
- --- Get TeamMembers by teamID
- --- Get user's birthdate/job anniversary (GET)
- --- Send bday wish (POST)
- 
+ --- Get user details (GET)                                    api/users/{id}
+ --- Get all user in a team (GET)                              api/teams/{id}/members
+ --- Request for joining the team (POST)                       api/teams/{id}/join          {userID:102012}
+ --- Update user details (PUT)                                 api/users/{id}
+ --- Get Team details (GET)                                    api/teams/{id}
+ --- Get bday of all users i.e., in next week (GET)            api/teams/{id}/getAllbdayjob ->users
+ --- Get birthday's                                            api/users/bday
+ --- Send wishes    (POST)                                     api/users/{id}/sendWishes  (where, id:bday userID) {userID,message,subject}
+
  =======================================================================================
  Admin APIs
- 
-  --- Add user to a team
-  --- Remove user from a team
-  --- Add or remove new team
-  --- Send email of invites to attend celebration at end of every month
+
+  --- Get all requests (GET)                                                 api/admin/requests
+  --- Approve request (POST)                                                 api/admin/requests/{id}/approve
+  --- Decline the requests (POST)                                            api/admin/requests/{id}/decline
+  --- Remove user from a team (PUT)                                          api/admin/users/{id}/removeFromTeam
+  --- Add a new team (POST)                                                  api/admin/teams/new
+  --- Remove a team (DELETE)                                                 api/admin/teams/{id} -> indirect remove users
+  --- Send email of invites to attend celebration at end of every month      api/admin/invite
   
   =======================================================================================
-  
+
+  requests{
+    userID:121721,
+    curTeamID:default(null),
+    newTeamID:89182,
+    status:PENDING,APPROVED,DECLINED
+  }
+
+  All wishes in one mail
+  email{
+    sender:"itachi@gmail.com",
+    receiver: "saba@gmail.com",
+    message: "happy birthday sabachan",
+    subject: "bday wishes",
+    sendDate: "10-10-2022",
+    status: SENT,PENDING
+  }
+
