@@ -74,9 +74,11 @@ public class TeamController {
         }
     }
 
+
+
     /** localhost:8080/api/teams/new */
     @PostMapping
-    @RequestMapping(value = "/teams/new")
+    @RequestMapping(value = "/admin/teams/new")
     public ResponseEntity<?> addNewTeam(@RequestBody Team team){
         try {
             Team newTeam = teamService.addNewTeam(team);
@@ -93,7 +95,7 @@ public class TeamController {
 
     /** localhost:8080/api/teams/new */
     @DeleteMapping
-    @RequestMapping(value = "/teams/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/teams/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteTeamById(@PathVariable Integer id){
         try {
             List<User> updatedUsers = teamService.deleteTeamById(id);

@@ -47,7 +47,7 @@ public class TeamService {
 
         for (User member :
                 teamMembers) {
-            updatedMembers.add(userRepository.removeFromTeam(member));
+            updatedMembers.add(userRepository.removeFromUserTeam(member.getUserID()));
         }
         teamRepository.deleteTeam(id);
 

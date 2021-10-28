@@ -96,19 +96,17 @@ public class UserRepository {
         return null;
     }
 
-    public User removeFromTeam(User user) {
+    public User removeFromUserTeam(Integer userID) {
         try {
             String query = "update users set team_id=? where user_id=?";
-            jdbcTemplate.update(query, null, user.getUserID());
-            logger.info("Removed from team - userID: {}, username: {}, oldTeamID: {}",
-                    user.getUserID(),
-                    user.getUsername(),
-                    user.getTeamID());
+            jdbcTemplate.update(query, null, userID);
+            logger.info("Removed from team - userID: {}", userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
-        return getUserById(user.getUserID());
+        return getUserById(userID);
     }
+
 
 //    public User updateUserDetails(User user){
 //        KeyHolder keyHolder = new GeneratedKeyHolder();

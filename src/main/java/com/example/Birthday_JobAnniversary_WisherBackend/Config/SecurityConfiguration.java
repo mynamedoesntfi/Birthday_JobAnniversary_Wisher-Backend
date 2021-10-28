@@ -42,25 +42,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable().authorizeRequests()
-                .antMatchers("/login", "/signUp").permitAll()
 
-                //region ADMIN URLS
-                .antMatchers(
-                        "/admin",
-                        "/testAdmin",
-                        "/users",
-                        "/teams/*"
-                        ).hasRole("ADMIN")
-                //endregion
+                .antMatchers("/admin/**").hasRole("ADMIN")
 
-                //region USER URLS
-                /** "/teams" is supposed to be user accessible, it is accessible without specifying */
-                .antMatchers("testUser", "/users/*").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
-                //endregion
-
+                .antMatchers("/login", "/signup").permitAll()
                 .antMatchers("/").permitAll()
+
+                /**
+                 * .anyRequest().authenticated() makes sure for any other api call,
+                 * the user has to be authenticated (i.e., is at least ROLE_USER)
+                 */
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")

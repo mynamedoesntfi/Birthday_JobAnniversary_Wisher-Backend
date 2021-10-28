@@ -66,7 +66,8 @@ public class HomeController {
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
     }
 
-    @RequestMapping(value = "signUp", method = RequestMethod.POST)
+    /** localhost:8080/api/signup */
+    @RequestMapping(value = "signup", method = RequestMethod.POST)
     public ResponseEntity<?> registerUser(@RequestBody User user){
         try {
             User newUser = userService.registerUser(user);
