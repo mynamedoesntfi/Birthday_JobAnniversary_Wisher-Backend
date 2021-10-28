@@ -96,6 +96,20 @@ public class UserRepository {
         return null;
     }
 
+    public User removeFromTeam(User user) {
+        try {
+            String query = "update users set team_id=? where user_id=?";
+            jdbcTemplate.update(query, null, user.getUserID());
+            logger.info("Removed from team - userID: {}, username: {}, oldTeamID: {}",
+                    user.getUserID(),
+                    user.getUsername(),
+                    user.getTeamID());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return getUserById(user.getUserID());
+    }
+
 //    public User updateUserDetails(User user){
 //        KeyHolder keyHolder = new GeneratedKeyHolder();
 //

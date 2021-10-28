@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-    public User register(User user) {
+    public User registerUser(User user) {
 //        User newUser = new User();
 //        newUser.setUsername(user.getUsername());
 //        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));

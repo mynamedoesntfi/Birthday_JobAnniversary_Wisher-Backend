@@ -1,16 +1,25 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TeamRepository {
@@ -23,6 +32,11 @@ public class TeamRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * @param id Team ID
+     * @return - List of team members
+     *         - Empty list if no team members
+     */
     public List<User> getTeamMembersByTeamId(Integer id) {
         List<User> users = null;
         try {
@@ -32,9 +46,58 @@ public class TeamRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        System.out.println("users: " + users);
-
         return users;
     }
 
+    public List<Team> getAllTeams() {
+        List<Team> teams = null;
+        try {
+            String query = "select * from teams";
+            teams = jdbcTemplate.query(query, new TeamRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return teams;
+    }
+
+    public Team getTeamById(Integer id) {
+        Team team = null;
+        try {
+            String query = "select * from teams where team_ID=?";
+            team = jdbcTemplate.query(query, new TeamRowMapper(), id).get(0);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return team;
+    }
+
+    public Team addNewTeam(Team team) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        logger.info("details to enter:{} ", team);
+        try{
+            String query = "insert into teams(team_name, description) values(?,?)";
+            jdbcTemplate.update(
+                    new PreparedStatementCreator() {
+                        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                            PreparedStatement ps = connection.prepareStatement(query, new String[]{"team_id"});
+                            ps.setString(1, team.getTeamname());
+                            ps.setString(2, team.getDescription());
+                            return ps;
+                        }
+                    }, keyHolder);
+            logger.info("Registered teamID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
+            return getTeamById(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+    public void deleteTeam(Integer id) {
+        String query = "delete from teams where team_id=?";
+        jdbcTemplate.update(query, id);
+    }
 }
