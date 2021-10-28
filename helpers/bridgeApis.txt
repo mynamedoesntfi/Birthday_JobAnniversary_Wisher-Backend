@@ -11,7 +11,7 @@
  
  --- Get user details (GET)                                    api/users/{id}
  --- Get all user in a team (GET)                              api/teams/{id}/members
- --- Request for joining the team (POST)                       api/users/{user_id}/joinRequest/{team_id}
+ --- Request for joining the team (POST)                       api/users/{userID}/teamChangeRequest/{teamID}
  --- Update user details (PUT)                                 api/users/{id}
  --- Get All Teams (GET)                                       api/teams
  --- Get Team details (GET)                                    api/teams/{id}
