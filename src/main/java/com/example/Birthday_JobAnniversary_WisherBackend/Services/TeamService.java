@@ -27,4 +27,8 @@ public class TeamService {
     public Team getTeamById(Integer id) {
         return teamRepository.getTeamById(id);
     }
+
+    public Team addNewTeam(Team team) {
+        return teamRepository.addNewTeam(team);
+    }
 }
