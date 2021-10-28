@@ -30,7 +30,7 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public User getUserInfo(String username) {
+    public User getUserByUsername(String username) {
 //        logger.info("inside repository");
 //        logger.info(username);
         try {
@@ -70,7 +70,7 @@ public class UserRepository {
         return user;
     }
 
-    public User register(User user){
+    public User createUser(User user){
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("details to enter:{} ",user);
@@ -96,7 +96,7 @@ public class UserRepository {
         return null;
     }
 
-    public User removeFromUserTeam(Integer userID) {
+    public User removeUserFromTeam(Integer userID) {
         try {
             String query = "update users set team_id=? where user_id=?";
             jdbcTemplate.update(query, null, userID);
@@ -105,6 +105,16 @@ public class UserRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
         return getUserById(userID);
+    }
+
+    public void changeTeamByID(int userID, int new_team_id) {
+        try {
+            String query = "update users set team_id=? where user_id=?";
+            jdbcTemplate.update(query, new_team_id, userID);
+            logger.info("Changed team - userID: {}", userID);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
     }
 
 
