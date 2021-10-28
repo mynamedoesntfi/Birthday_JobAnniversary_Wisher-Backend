@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AdminController {
 
-    /** localhost:8080/api/testAdmin */
-    @GetMapping("/testAdmin")
+    /** localhost:8080/api/admin/testAdmin */
+    @GetMapping("/admin/testAdmin")
     public ResponseEntity<?> test() {
         return ResponseEntity.ok("Hello Admin");
     }

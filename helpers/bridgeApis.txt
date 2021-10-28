@@ -13,6 +13,7 @@
  --- Get all user in a team (GET)                              api/teams/{id}/members
  --- Request for joining the team (POST)                       api/teams/{id}/join          {userID:102012}
  --- Update user details (PUT)                                 api/users/{id}
+ --- Get All Teams (GET)                                       api/teams
  --- Get Team details (GET)                                    api/teams/{id}
  --- Get bday of all users i.e., in next week (GET)            api/teams/{id}/getAllbdayjob ->users
  --- Get birthday's                                            api/users/bday
@@ -26,8 +27,8 @@
   --- Decline the requests (POST)                                            api/admin/requests/{id}/decline
   --- Remove user from a team (PUT)                                          api/admin/users/{id}/removeFromTeam
   --- Add a new team (POST)                                                  api/admin/teams/new
-  --- Remove a team (DELETE)                                                 api/admin/teams/{id} -> indirect remove users
-  --- Send email of invites to attend celebration at end of every month      api/admin/invite
+  --- Remove a team (DELETE)                                                 api/admin/teams/{id} -> indirect remove users from team
+  --- Send email invites for celebration at end of every month               api/admin/sendInvites
   
   =======================================================================================
 
