@@ -49,16 +49,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //endregion
 
                 //region USER URLS
-                .antMatchers("textUser","/users/*").hasAnyRole("USER", "ADMIN")
+                .antMatchers("testUser","/users/*").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
                 //endregion
 
                 .antMatchers("/").permitAll()
-                .anyRequest().authenticated().and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
+                .anyRequest().authenticated()
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //                .and().formLogin();
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

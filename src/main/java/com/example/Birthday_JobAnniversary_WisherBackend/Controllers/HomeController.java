@@ -69,7 +69,7 @@ public class HomeController {
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody User user){
         try {
-            User newUser = userService.register(user);
+            User newUser = userService.registerUser(user);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", newUser);
