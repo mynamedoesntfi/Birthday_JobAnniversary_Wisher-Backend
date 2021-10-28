@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,13 +31,33 @@ public class UserController {
     /** localhost:8080/api/users */
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        try {
+            List<User> users = userService.getAllUsers();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", users);
+            logger.info("All users retrieved successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot get users. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     /** localhost:8080/api/users/{id} */
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+        try {
+            User user = userService.getUserById(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", user);
+            logger.info("User retrieved successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot get user. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 //    /** localhost:8080/api/users/{id} */
