@@ -1,11 +1,10 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.*;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamChangeRequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.WishService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,9 @@ public class UserController {
 
     @Autowired
     private TeamChangeRequestService teamChangeRequestService;
+
+    @Autowired
+    private WishService wishService;
 
 
     /** localhost:8080/api/testUser */
@@ -85,7 +87,22 @@ public class UserController {
         }
     }
 
-
+    /** localhost:8080/api/users/{toID}/wish */
+    @PostMapping()
+    @RequestMapping(value = "/users/{toID}/wish")
+    public ResponseEntity<?> wishUserByID(@PathVariable(value = "toID") Integer toID, @RequestBody WishRequestBody wishRequestBody) {
+        try {
+            Wish wish = wishService.wishUserByID(toID, wishRequestBody);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", wish);
+            logger.info("Wish created, will be sent on event day.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot create wish. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 
 
