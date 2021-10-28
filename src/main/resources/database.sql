@@ -26,6 +26,28 @@
 --) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
+--CREATE TABLE `requests` (
+--  `id` int NOT NULL AUTO_INCREMENT,
+--  `user_id` int NOT NULL,
+--  `current_team_id` int DEFAULT NULL,
+--  `new_team_id` int DEFAULT NULL,
+--  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
+--  PRIMARY KEY (`id`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+--
+--
+--CREATE TABLE `wishes` (
+--  `id` int NOT NULL AUTO_INCREMENT,
+--  `sender_id` int NOT NULL,
+--  `receiver_id` int NOT NULL,
+--  `subject` varchar(45) NOT NULL DEFAULT 'BIRTHDAY WISHES',
+--  `message` varchar(100) DEFAULT NULL,
+--  `send_date` date NOT NULL,
+--  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
+--  PRIMARY KEY (`id`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+--
+--
 --ALTER TABLE users AUTO_INCREMENT=100000;
 --ALTER TABLE teams AUTO_INCREMENT=100;
 --
@@ -40,6 +62,5 @@
 --('Langa','Langa','Hasegawa','todoroki.ice.fire.000@gmail.com','langa123',100);
 
 
---ADMIN
 --insert into users(username,first_name,last_name,email,password,role,team_ID) values
 --('KSK','Saba','Khan','todoroki.ice.fire.000@gmail.com','admin123','ROLE_ADMIN',100);

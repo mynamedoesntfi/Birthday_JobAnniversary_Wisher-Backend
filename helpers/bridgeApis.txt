@@ -40,9 +40,9 @@
   }
 
   All wishes in one mail
-  email{
-    sender:"itachi@gmail.com",
-    receiver: "saba@gmail.com",
+  wishes{
+    senderID: 100,
+    receiverID: 101,
     message: "happy birthday sabachan",
     subject: "bday wishes",
     sendDate: "10-10-2022",
