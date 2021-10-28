@@ -1,6 +1,8 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TeamChangeRequestRepository teamChangeRequestRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -63,6 +68,11 @@ public class UserService implements UserDetailsService {
 
     public User removeUserFromTeam(Integer userId) {
         return userRepository.removeFromUserTeam(userId);
+    }
+
+    public TeamChangeRequest createTeamChangeRequest(Integer userID, Integer teamID) {
+        User user = getUserById(userID);
+        return teamChangeRequestRepository.createTeamChangeRequest(user, teamID);
     }
 //
 //    public User updateUserDetails(User user) {

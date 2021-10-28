@@ -49,7 +49,7 @@ public class User {
     private String role;
 
     @Column(name = "team_ID")
-    private String teamID;
+    private int teamID;
 
     public User() {
     }
@@ -178,11 +178,11 @@ public class User {
         this.role = role;
     }
 
-    public String getTeamID() {
+    public int getTeamID() {
         return teamID;
     }
 
-    public void setTeamID(String teamID) {
+    public void setTeamID(int teamID) {
         this.teamID = teamID;
     }
 }

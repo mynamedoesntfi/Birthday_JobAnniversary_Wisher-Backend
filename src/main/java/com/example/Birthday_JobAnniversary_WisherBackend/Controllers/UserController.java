@@ -1,5 +1,7 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
@@ -21,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     /** localhost:8080/api/testUser */
     @GetMapping("/testUser")
@@ -59,6 +62,27 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    /** localhost:8080/api/users/{id}/teamChangeRequest/{teamID} */
+    @PostMapping()
+    @RequestMapping(value = "/users/{userID}/teamChangeRequest/{teamID}")
+    public ResponseEntity<?> createTeamChangeRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
+
+        try {
+            TeamChangeRequest request = userService.createTeamChangeRequest(userID, teamID);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", request);
+            logger.info("Team change request created.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot create team change request. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+
 
     /** localhost:8080/api/admin/users/{id}/removeFromTeam */
     @GetMapping("admin/users/{id}/removeFromTeam")
