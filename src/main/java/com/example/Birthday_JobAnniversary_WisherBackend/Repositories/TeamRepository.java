@@ -32,6 +32,11 @@ public class TeamRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * @param id Team ID
+     * @return - List of team members
+     *         - Empty list if no team members
+     */
     public List<User> getTeamMembersByTeamId(Integer id) {
         List<User> users = null;
         try {
@@ -89,5 +94,10 @@ public class TeamRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
         return null;
+    }
+
+    public void deleteTeam(Integer id) {
+        String query = "delete from teams where team_id=?";
+        jdbcTemplate.update(query, id);
     }
 }

@@ -58,7 +58,7 @@ public class TeamController {
 
     /** localhost:8080/api/teams/{id} */
     @GetMapping()
-    @RequestMapping(value = "/teams/{id}")
+    @RequestMapping(value = "/teams/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTeamById(@PathVariable Integer id) {
 
         try {
@@ -75,7 +75,8 @@ public class TeamController {
     }
 
     /** localhost:8080/api/teams/new */
-    @RequestMapping(value = "/teams/new", method = RequestMethod.POST)
+    @PostMapping
+    @RequestMapping(value = "/teams/new")
     public ResponseEntity<?> addNewTeam(@RequestBody Team team){
         try {
             Team newTeam = teamService.addNewTeam(team);
@@ -86,6 +87,26 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot add team. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    /** localhost:8080/api/teams/new */
+    @DeleteMapping
+    @RequestMapping(value = "/teams/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteTeamById(@PathVariable Integer id){
+        try {
+            List<User> updatedUsers = teamService.deleteTeamById(id);
+            Map<String, Object> response = new HashMap<>();
+            if(updatedUsers == null)
+                response.put("message", "Success, no users updated");
+            else
+                response.put("message", "Success, users updated");
+            response.put("data", updatedUsers);
+            logger.info("Team deleted successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot delete. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

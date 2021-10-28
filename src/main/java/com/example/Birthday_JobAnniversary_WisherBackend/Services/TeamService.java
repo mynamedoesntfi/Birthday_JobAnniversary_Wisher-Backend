@@ -7,10 +7,14 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TeamService {
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -34,5 +38,21 @@ public class TeamService {
 
     public List<Team> getAllTeams() {
         return teamRepository.getAllTeams();
+    }
+
+    public List<User> deleteTeamById(Integer id) {
+
+        List<User> teamMembers = teamRepository.getTeamMembersByTeamId(id);
+        List<User> updatedMembers = new ArrayList<>();
+
+        for (User member :
+                teamMembers) {
+            updatedMembers.add(userRepository.removeFromTeam(member));
+        }
+        teamRepository.deleteTeam(id);
+
+        if (teamMembers.size() > 0)
+            return updatedMembers;
+        return null;
     }
 }
