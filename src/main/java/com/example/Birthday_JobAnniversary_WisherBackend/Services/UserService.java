@@ -70,10 +70,6 @@ public class UserService implements UserDetailsService {
         return userRepository.removeFromUserTeam(userId);
     }
 
-    public TeamChangeRequest createTeamChangeRequest(Integer userID, Integer teamID) {
-        User user = getUserById(userID);
-        return teamChangeRequestRepository.createTeamChangeRequest(user, teamID);
-    }
 //
 //    public User updateUserDetails(User user) {
 //        return userRepository.updateUserDetails(user);

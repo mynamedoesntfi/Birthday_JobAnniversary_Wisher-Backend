@@ -4,6 +4,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamChangeRequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TeamChangeRequestService teamChangeRequestService;
 
 
     /** localhost:8080/api/testUser */
@@ -69,7 +73,7 @@ public class UserController {
     public ResponseEntity<?> createTeamChangeRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
 
         try {
-            TeamChangeRequest request = userService.createTeamChangeRequest(userID, teamID);
+            TeamChangeRequest request = teamChangeRequestService.createTeamChangeRequest(userID, teamID);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", request);

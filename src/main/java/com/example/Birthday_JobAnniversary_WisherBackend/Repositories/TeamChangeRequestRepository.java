@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -62,5 +63,17 @@ public class TeamChangeRequestRepository {
         }
 
         return request;
+    }
+
+    public List<TeamChangeRequest> getAllTeamChangeRequests() {
+        List<TeamChangeRequest> requests = null;
+        try {
+            String query = "select * from requests";
+            requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return requests;
     }
 }
