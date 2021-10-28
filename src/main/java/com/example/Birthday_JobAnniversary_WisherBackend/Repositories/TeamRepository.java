@@ -1,6 +1,8 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +34,18 @@ public class TeamRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        System.out.println("users: " + users);
-
         return users;
     }
 
+    public Team getTeamById(Integer id) {
+        Team team = null;
+        try {
+            String query = "select * from teams where team_ID=?";
+            team = jdbcTemplate.query(query, new TeamRowMapper(), id).get(0);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return team;
+    }
 }

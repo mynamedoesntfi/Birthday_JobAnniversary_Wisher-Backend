@@ -42,14 +42,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable().authorizeRequests()
-                .antMatchers("/login","/signUp").permitAll()
+                .antMatchers("/login", "/signUp").permitAll()
 
                 //region ADMIN URLS
-                .antMatchers("/admin","/testAdmin", "/users").hasRole("ADMIN")
+                .antMatchers(
+                        "/admin",
+                        "/testAdmin",
+                        "/users",
+                        "/teams/*"
+                        ).hasRole("ADMIN")
                 //endregion
 
                 //region USER URLS
-                .antMatchers("testUser","/users/*").hasAnyRole("USER", "ADMIN")
+                .antMatchers("testUser", "/users/*").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
                 //endregion
