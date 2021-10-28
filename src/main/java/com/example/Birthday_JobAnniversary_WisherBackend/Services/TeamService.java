@@ -31,4 +31,8 @@ public class TeamService {
     public Team addNewTeam(Team team) {
         return teamRepository.addNewTeam(team);
     }
+
+    public List<Team> getAllTeams() {
+        return teamRepository.getAllTeams();
+    }
 }

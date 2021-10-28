@@ -44,6 +44,18 @@ public class TeamRepository {
         return users;
     }
 
+    public List<Team> getAllTeams() {
+        List<Team> teams = null;
+        try {
+            String query = "select * from teams";
+            teams = jdbcTemplate.query(query, new TeamRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return teams;
+    }
+
     public Team getTeamById(Integer id) {
         Team team = null;
         try {

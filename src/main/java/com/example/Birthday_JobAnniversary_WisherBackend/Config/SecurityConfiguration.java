@@ -54,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //endregion
 
                 //region USER URLS
+                /** "/teams" is supposed to be user accessible, it is accessible without specifying */
                 .antMatchers("testUser", "/users/*").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/user/{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/teams/{id}/members").hasAnyRole("USER", "ADMIN")
