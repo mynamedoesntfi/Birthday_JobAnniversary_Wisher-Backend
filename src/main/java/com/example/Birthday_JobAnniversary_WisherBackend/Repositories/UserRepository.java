@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -115,6 +116,38 @@ public class UserRepository {
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
+    }
+
+    public List<User> getAllUsersWithUpcomingBirthDays() {
+        List<User> users = null;
+        try {
+            String query =
+                    "select * \n" +
+                            "from users\n" +
+                            "where DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
+            users = jdbcTemplate.query(query, new UserRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return users;
+    }
+
+    public List<User> getAllUsersWithUpcomingJobAnniversaries() {
+        List<User> users = null;
+        try {
+            String query =
+                    "select * \n" +
+                            "from users\n" +
+                            "where DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
+            users = jdbcTemplate.query(query, new UserRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return users;
     }
 
 
