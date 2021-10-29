@@ -1,11 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.TeamChangeRequestStatus;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.RequestStatus;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamChangeRequestRowMapper;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +21,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class TeamChangeRequestRepository {
+public class RequestRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeamChangeRequestRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestRepository.class);
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public TeamChangeRequest createTeamChangeRequest(User user, Integer teamID) {
+    public Request createTeamChangeRequest(User user, Integer teamID) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("request to change teams for UserID: {}, {} -> {}", user.getUserID(), user.getTeamID(), teamID);
@@ -54,8 +52,8 @@ public class TeamChangeRequestRepository {
         return null;
     }
 
-    private TeamChangeRequest getRequestByID(int id) {
-        TeamChangeRequest request = null;
+    private Request getRequestByID(int id) {
+        Request request = null;
         try {
             String query = "select * from requests where id=?";
             request = jdbcTemplate.query(query, new TeamChangeRequestRowMapper(), id).get(0);
@@ -66,8 +64,8 @@ public class TeamChangeRequestRepository {
         return request;
     }
 
-    public List<TeamChangeRequest> getAllTeamChangeRequests() {
-        List<TeamChangeRequest> requests = null;
+    public List<Request> getAllTeamChangeRequests() {
+        List<Request> requests = null;
         try {
             String query = "select * from requests";
             requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
@@ -78,8 +76,8 @@ public class TeamChangeRequestRepository {
         return requests;
     }
 
-    public List<TeamChangeRequest> getAllPendingTeamChangeRequests() {
-        List<TeamChangeRequest> requests = null;
+    public List<Request> getAllPendingTeamChangeRequests() {
+        List<Request> requests = null;
         try {
             String query = "select * from requests where status='PENDING'";
             requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
@@ -90,10 +88,10 @@ public class TeamChangeRequestRepository {
         return requests;
     }
 
-    public TeamChangeRequest approveRequestByID(Integer requestID) {
+    public Request approveRequestByID(Integer requestID) {
         try {
             String query = "update requests set status=? where id=?";
-            jdbcTemplate.update(query, TeamChangeRequestStatus.APPROVED.toString(), requestID);
+            jdbcTemplate.update(query, RequestStatus.APPROVED.toString(), requestID);
             logger.info("Approved request - requestID: {}", requestID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -101,10 +99,10 @@ public class TeamChangeRequestRepository {
         return getRequestByID(requestID);
     }
 
-    public TeamChangeRequest declineRequestByID(Integer requestID) {
+    public Request declineRequestByID(Integer requestID) {
         try {
             String query = "update requests set status=? where id=?";
-            jdbcTemplate.update(query, TeamChangeRequestStatus.DECLINED.toString(), requestID);
+            jdbcTemplate.update(query, RequestStatus.DECLINED.toString(), requestID);
             logger.info("Declined request - requestID: {}", requestID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));

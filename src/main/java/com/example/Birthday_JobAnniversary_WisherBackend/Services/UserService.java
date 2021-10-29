@@ -1,8 +1,7 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.EventSubject;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.RequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class UserService implements UserDetailsService {
     private TeamRepository teamRepository;
 
     @Autowired
-    private TeamChangeRequestRepository teamChangeRequestRepository;
+    private RequestRepository requestRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -74,17 +73,21 @@ public class UserService implements UserDetailsService {
         return userRepository.removeUserFromTeam(userId);
     }
 
-    public Map<String, List<User>> getAllUsersWithUpcomingEvents() {
+    public Map<String, List<User>> getAllUsersWithUpcomingEvents(String username) {
+        Integer userID = userRepository.getUserByUsername(username).getUserID();
+
         Map<String, List<User>> usersWithUpcomingEvents = new HashMap<>();
-        usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithUpcomingBirthDays());
-        usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithUpcomingJobAnniversaries());
+        usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithUpcomingBirthDays(userID));
+        usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithUpcomingJobAnniversaries(userID));
         return usersWithUpcomingEvents;
     }
 
-    public Map<String, List<User>> getAllTeamMembersWithUpcomingEvents(Integer id) {
+    public Map<String, List<User>> getAllTeamMembersWithUpcomingEvents(Integer teamID, String username) {
+        Integer userID = userRepository.getUserByUsername(username).getUserID();
+
         Map<String, List<User>> teamMembersWithUpcomingEvents = new HashMap<>();
-        teamMembersWithUpcomingEvents.put("Birthday", teamRepository.getAllTeamMembersWithUpcomingBirthDays(id));
-        teamMembersWithUpcomingEvents.put("Anniversary", teamRepository.getAllTeamMembersWithUpcomingJobAnniversaries(id));
+        teamMembersWithUpcomingEvents.put("Birthday", teamRepository.getAllTeamMembersWithUpcomingBirthDays(teamID, userID));
+        teamMembersWithUpcomingEvents.put("Anniversary", teamRepository.getAllTeamMembersWithUpcomingJobAnniversaries(teamID, userID));
         return teamMembersWithUpcomingEvents;
     }
 

@@ -1,6 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums;
 
-public enum TeamChangeRequestStatus {
+public enum RequestStatus {
     PENDING {
         @Override
         public String toString() {

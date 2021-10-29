@@ -1,11 +1,8 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamChangeRequestService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +24,7 @@ public class AdminController {
     private UserService userService;
 
     @Autowired
-    private TeamChangeRequestService teamChangeRequestService;
+    private RequestService requestService;
 
     /** localhost:8080/api/admin/testAdmin */
     @GetMapping("/admin/testAdmin")
@@ -58,7 +55,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests")
     public ResponseEntity<?> getAllTeamChangeRequests() {
         try {
-            List<TeamChangeRequest> requests = teamChangeRequestService.getALlTeamChangeRequests();
+            List<Request> requests = requestService.getALlTeamChangeRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", requests);
@@ -75,7 +72,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests/pending")
     public ResponseEntity<?> getAllPendingTeamChangeRequests() {
         try {
-            List<TeamChangeRequest> requests = teamChangeRequestService.getALlPendingTeamChangeRequests();
+            List<Request> requests = requestService.getALlPendingTeamChangeRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", requests);
@@ -92,7 +89,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests/{id}/approve")
     public ResponseEntity<?> approveRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {
-            TeamChangeRequest request = teamChangeRequestService.approveRequestByID(requestID);
+            Request request = requestService.approveRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", request);
@@ -109,7 +106,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests/{id}/decline")
     public ResponseEntity<?> declineRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {
-            TeamChangeRequest request = teamChangeRequestService.declineRequestByID(requestID);
+            Request request = requestService.declineRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", request);

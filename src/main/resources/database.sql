@@ -11,7 +11,7 @@
 --  `username` varchar(45) NOT NULL,
 --  `first_name` varchar(45) NOT NULL,
 --  `last_name` varchar(45) NOT NULL,
---  `profile_image` varchar(200) DEFAULT "https://i.pinimg.com/originals/90/71/88/90718823e398e86b0260ff47d7187acd.jpg",
+--  `profile_image` varchar(200) DEFAULT 'https://i.pinimg.com/originals/90/71/88/90718823e398e86b0260ff47d7187acd.jpg',
 --  `gender` varchar(45) DEFAULT NULL,
 --  `address` varchar(45) DEFAULT NULL,
 --  `contact` varchar(45) DEFAULT NULL,
@@ -20,10 +20,12 @@
 --  `email` varchar(45) NOT NULL,
 --  `password` varchar(45) NOT NULL,
 --  `role` varchar(45) NOT NULL DEFAULT 'ROLE_USER',
---  `team_ID` int NOT NULL,
+--  `team_ID` int DEFAULT NULL,
 --  PRIMARY KEY (`user_ID`),
---constraint `fk_users_teams` foreign key(`team_ID`) references teams(`team_ID`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--  UNIQUE KEY `username_UNIQUE` (`username`),
+--  KEY `fk_users_teams` (`team_ID`),
+--  CONSTRAINT `fk_users_teams` FOREIGN KEY (`team_ID`) REFERENCES `teams` (`team_ID`)
+--) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 --
 --
 --CREATE TABLE `requests` (
@@ -52,14 +54,15 @@
 --ALTER TABLE teams AUTO_INCREMENT=100;
 --
 --
---insert into teams(team_name, description) values
---('Finance','Handling all the finances of the organisation');
+insert into my_db.teams (team_name, description)
+values
+('Finance', 'Handling all the Finance of the organisation'),
+('Marketing', 'Handling all the Marketing of the organisation'),
+('Operations', 'Handling all the Operations of the organisation'),
+('Human Resource', 'Handling all the Human Resource of the organisation'),
+('General Management', 'Handling all the General Management of the organisation');
 --
---insert into users(username,first_name,last_name,email,password,team_ID) values
---('Itachi','Itachi','Uchiha','todoroki.ice.fire.000@gmail.com','itachi123',100),
---('Shoto','Shoto','Todoroki','todoroki.ice.fire.000@gmail.com','shoto123',100),
---('Levi','Levi','Ackerman','todoroki.ice.fire.000@gmail.com','levi123',100),
---('Langa','Langa','Hasegawa','todoroki.ice.fire.000@gmail.com','langa123',100);
+
 
 
 --insert into users(username,first_name,last_name,email,password,role,team_ID) values

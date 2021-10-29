@@ -1,8 +1,8 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.*;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamChangeRequestService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.WishService;
 import org.slf4j.Logger;
@@ -25,10 +25,13 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private TeamChangeRequestService teamChangeRequestService;
+    private RequestService requestService;
 
     @Autowired
     private WishService wishService;
+
+    @Autowired
+    private JwtUtilService jwtUtilService;
 
 
     /** localhost:8080/api/testUser */
@@ -75,7 +78,7 @@ public class UserController {
     public ResponseEntity<?> createTeamChangeRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
 
         try {
-            TeamChangeRequest request = teamChangeRequestService.createTeamChangeRequest(userID, teamID);
+            Request request = requestService.createTeamChangeRequest(userID, teamID);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", request);
@@ -89,9 +92,12 @@ public class UserController {
 
     /** localhost:8080/api/users/upcomingEvents */
     @GetMapping("/users/upcomingEvents")
-    public ResponseEntity<?> getAllUsersWithUpcomingEvents() {
+    public ResponseEntity<?> getAllUsersWithUpcomingEvents(@RequestHeader("Authorization") String jwt) {
         try {
-            Map<String,List<User>> users = userService.getAllUsersWithUpcomingEvents();
+            jwt = jwt.substring(7);
+            String username = jwtUtilService.extractUsername(jwt);
+
+            Map<String,List<User>> users = userService.getAllUsersWithUpcomingEvents(username);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", users);
@@ -105,9 +111,12 @@ public class UserController {
 
     /** localhost:8080/api/teams/{id}/upcomingEvents */
     @GetMapping("/teams/{id}/upcomingEvents")
-    public ResponseEntity<?> getAllTeamMembersWithUpcomingEvents(@PathVariable Integer id) {
+    public ResponseEntity<?> getAllTeamMembersWithUpcomingEvents(@PathVariable Integer id, @RequestHeader("Authorization") String jwt) {
         try {
-            Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id);
+            jwt = jwt.substring(7);
+            String username = jwtUtilService.extractUsername(jwt);
+
+            Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", users);

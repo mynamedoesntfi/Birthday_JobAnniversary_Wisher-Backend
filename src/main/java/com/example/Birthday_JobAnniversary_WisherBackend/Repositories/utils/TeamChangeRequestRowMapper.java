@@ -1,15 +1,15 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.TeamChangeRequest;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeamChangeRequestRowMapper implements RowMapper<TeamChangeRequest> {
+public class TeamChangeRequestRowMapper implements RowMapper<Request> {
     @Override
-    public TeamChangeRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
-        TeamChangeRequest request = new TeamChangeRequest();
+    public Request mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Request request = new Request();
 
         request.setRequestID(rs.getInt("id"));
         request.setUserID(rs.getInt("user_id"));

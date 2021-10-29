@@ -23,6 +23,10 @@ public class WishService {
     public Wish wishUserByID(Integer toID, WishRequestBody wishRequestBody) throws Exception {
 
         User toUser = userRepository.getUserById(toID);
+        if(toID.equals(wishRequestBody.getFromID()))
+            throw new Exception("Cannot wish yourself, fromID:" + wishRequestBody.getFromID() + " -> toID:" + toID);
+        if (toUser.getEmail() == null)
+            throw new Exception("Target user does not have an email address");
 
         Date eventDate = null;
         if(wishRequestBody.getSubject().equals(EventSubject.BIRTHDAY_WISHES.toString()))
@@ -32,8 +36,6 @@ public class WishService {
 
         if (eventDate == null)
             throw new Exception("Target user's event date is unknown");
-        if (toUser.getEmail() == null)
-            throw new Exception("Target user does not have an email address");
 
         return wishRepository.addWish(toID, wishRequestBody, eventDate);
     }

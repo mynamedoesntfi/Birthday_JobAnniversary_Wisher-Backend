@@ -100,15 +100,16 @@ public class TeamRepository {
     }
 
 
-    public List<User> getAllTeamMembersWithUpcomingBirthDays(Integer id) {
+    public List<User> getAllTeamMembersWithUpcomingBirthDays(Integer teamID, Integer userID) {
+
         List<User> users = null;
         try {
             String query =
                     "select * \n" +
                             "from users\n" +
                             "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=?";
-            users = jdbcTemplate.query(query, new UserRowMapper(), id);
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), teamID, userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -116,15 +117,15 @@ public class TeamRepository {
         return users;
     }
 
-    public List<User> getAllTeamMembersWithUpcomingJobAnniversaries(Integer id) {
+    public List<User> getAllTeamMembersWithUpcomingJobAnniversaries(Integer teamID, Integer userID) {
         List<User> users = null;
         try {
             String query =
                     "select * \n" +
                             "from users\n" +
                             "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=?";
-            users = jdbcTemplate.query(query, new UserRowMapper(), id);
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), teamID, userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }

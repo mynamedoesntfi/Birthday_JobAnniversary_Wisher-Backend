@@ -118,15 +118,15 @@ public class UserRepository {
         }
     }
 
-    public List<User> getAllUsersWithUpcomingBirthDays() {
+    public List<User> getAllUsersWithUpcomingBirthDays(Integer userID) {
         List<User> users = null;
         try {
             String query =
                     "select * \n" +
                             "from users\n" +
-                            "where DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
-            users = jdbcTemplate.query(query, new UserRowMapper());
+                            "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -134,15 +134,15 @@ public class UserRepository {
         return users;
     }
 
-    public List<User> getAllUsersWithUpcomingJobAnniversaries() {
+    public List<User> getAllUsersWithUpcomingJobAnniversaries(Integer userID) {
         List<User> users = null;
         try {
             String query =
                     "select * \n" +
                             "from users\n" +
-                            "where DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
-            users = jdbcTemplate.query(query, new UserRowMapper());
+                            "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }

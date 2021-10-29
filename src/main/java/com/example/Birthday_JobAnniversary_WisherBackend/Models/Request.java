@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "requests")
-public class TeamChangeRequest {
+public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
