@@ -4,13 +4,13 @@ public enum EventSubject {
     BIRTHDAY_WISHES {
         @Override
         public String toString() {
-            return "BIRTHDAY WISHES";
+            return "BIRTHDAY_WISHES";
         }
     },
     JOB_ANNIVERSARY_WISHES {
         @Override
         public String toString() {
-            return "JOB ANNIVERSARY WISHES";
+            return "JOB_ANNIVERSARY_WISHES";
         }
     }
 }

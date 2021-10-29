@@ -20,7 +20,7 @@
   +++ Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
   +++ Send wishes                                        (POST) api/users/{toID}/wish
                                                                      RequestBody{ fromID, subject, message }
-                                                                        subject - BIRTHDAY WISHES, JOB ANNIVERSARY WISHES
+                                                                        subject - BIRTHDAY_WISHES, JOB_ANNIVERSARY_WISHES
 
   =======================================================================================
   Admin APIs
