@@ -53,7 +53,7 @@
 --
 --
 --insert into teams(team_name, description) values
---('Finance','Handling all the finances of the oragnisation');
+--('Finance','Handling all the finances of the organisation');
 --
 --insert into users(username,first_name,last_name,email,password,team_ID) values
 --('Itachi','Itachi','Uchiha','todoroki.ice.fire.000@gmail.com','itachi123',100),
@@ -64,3 +64,5 @@
 
 --insert into users(username,first_name,last_name,email,password,role,team_ID) values
 --('KSK','Saba','Khan','todoroki.ice.fire.000@gmail.com','admin123','ROLE_ADMIN',100);
+
+--ADD MORE DATA
