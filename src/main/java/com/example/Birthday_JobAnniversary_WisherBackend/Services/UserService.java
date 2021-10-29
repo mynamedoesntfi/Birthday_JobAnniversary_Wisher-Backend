@@ -3,6 +3,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.EventSubject;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamChangeRequestRepository;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +25,13 @@ public class UserService implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    TeamChangeRequestRepository teamChangeRequestRepository;
+    private TeamRepository teamRepository;
+
+    @Autowired
+    private TeamChangeRequestRepository teamChangeRequestRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,6 +79,13 @@ public class UserService implements UserDetailsService {
         usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithUpcomingBirthDays());
         usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithUpcomingJobAnniversaries());
         return usersWithUpcomingEvents;
+    }
+
+    public Map<String, List<User>> getAllTeamMembersWithUpcomingEvents(Integer id) {
+        Map<String, List<User>> teamMembersWithUpcomingEvents = new HashMap<>();
+        teamMembersWithUpcomingEvents.put("Birthday", teamRepository.getAllTeamMembersWithUpcomingBirthDays(id));
+        teamMembersWithUpcomingEvents.put("Anniversary", teamRepository.getAllTeamMembersWithUpcomingJobAnniversaries(id));
+        return teamMembersWithUpcomingEvents;
     }
 
 //

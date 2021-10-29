@@ -16,8 +16,8 @@
  --- Update user details                                (PUT)  api/users/{id}
  +++ Get All Teams                                      (GET)  api/teams
  +++ Get Team details                                   (GET)  api/teams/{id}
- --- Get All users with upcoming events                 (GET)  api/users/upcomingEvents
- --- Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
+ +++ Get All users with upcoming events                 (GET)  api/users/upcomingEvents
+ +++ Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
  +++ Send wishes                                        (POST) api/users/{toID}/wish
                                                                     RequestBody{ fromID, subject, message }
                                                                        subject - BIRTHDAY WISHES, JOB ANNIVERSARY WISHES

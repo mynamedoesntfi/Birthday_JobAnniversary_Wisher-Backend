@@ -17,9 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Repository
 public class TeamRepository {
@@ -99,5 +97,38 @@ public class TeamRepository {
     public void deleteTeam(Integer id) {
         String query = "delete from teams where team_id=?";
         jdbcTemplate.update(query, id);
+    }
+
+
+    public List<User> getAllTeamMembersWithUpcomingBirthDays(Integer id) {
+        List<User> users = null;
+        try {
+            String query =
+                    "select * \n" +
+                            "from users\n" +
+                            "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), id);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return users;
+    }
+
+    public List<User> getAllTeamMembersWithUpcomingJobAnniversaries(Integer id) {
+        List<User> users = null;
+        try {
+            String query =
+                    "select * \n" +
+                            "from users\n" +
+                            "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=?";
+            users = jdbcTemplate.query(query, new UserRowMapper(), id);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return users;
     }
 }
