@@ -34,7 +34,8 @@ public class WishRepository {
         logger.info("Adding wish ...");
         try{
             String query = "insert into wishes(sender_id, receiver_id, subject, message, send_date)" +
-                    " values(?, ?, ?, ?, ?)";
+                    " values(?, ?, ?, ?, " +
+                    "DATE_FORMAT(DATE_ADD(?, INTERVAL (YEAR(CURRENT_DATE()) - YEAR(?) + if(DAYOFYEAR(CURRENT_DATE()) > DAYOFYEAR(?), 1, 0)) YEAR), '%Y-%m-%d'))";
             jdbcTemplate.update(
                     new PreparedStatementCreator() {
                         public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -44,6 +45,8 @@ public class WishRepository {
                             ps.setString(3, wishRequestBody.getSubject());
                             ps.setString(4, wishRequestBody.getMessage());
                             ps.setDate(5, eventDate);
+                            ps.setDate(6, eventDate);
+                            ps.setDate(7, eventDate);
                             return ps;
                         }
                     }, keyHolder);
