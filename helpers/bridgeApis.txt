@@ -1,29 +1,29 @@
-=======================================================================================
+  =======================================================================================
 	APIs required
- =======================================================================================
- Non-Authenticated API
+  =======================================================================================
+  Non-Authenticated API
   
- +++ Login                                              (POST) api/login
- +++ Signup                                             (POST) api/signup
+  +++ Login                                              (POST) api/login
+  +++ Signup                                             (POST) api/signup
  
- =======================================================================================
- Registered User APIs
+  =======================================================================================
+  Registered User APIs
  
- +++ Get user details                                   (GET)  api/users/{id}
- +++ Get all user in a team                             (GET)  api/teams/{id}/members
- +++ Get all users                                      (GET)  api/users
- +++ Request for joining the team                       (POST) api/users/{userID}/teamChangeRequest/{teamID}
- --- Update user details                                (PUT)  api/users/{id}
- +++ Get All Teams                                      (GET)  api/teams
- +++ Get Team details                                   (GET)  api/teams/{id}
- +++ Get All users with upcoming events                 (GET)  api/users/upcomingEvents
- +++ Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
- +++ Send wishes                                        (POST) api/users/{toID}/wish
-                                                                    RequestBody{ fromID, subject, message }
-                                                                       subject - BIRTHDAY WISHES, JOB ANNIVERSARY WISHES
+  +++ Get user details                                   (GET)  api/users/{id}
+  +++ Get all user in a team                             (GET)  api/teams/{id}/members
+  +++ Get all users                                      (GET)  api/users
+  +++ Request for joining the team                       (POST) api/users/{userID}/teamChangeRequest/{teamID}
+  --- Update user details                                (PUT)  api/users/{id}
+  +++ Get All Teams                                      (GET)  api/teams
+  +++ Get Team details                                   (GET)  api/teams/{id}
+  +++ Get All users with upcoming events                 (GET)  api/users/upcomingEvents
+  +++ Get All team members with upcoming events          (GET)  api/teams/{id}/upcomingEvents
+  +++ Send wishes                                        (POST) api/users/{toID}/wish
+                                                                     RequestBody{ fromID, subject, message }
+                                                                        subject - BIRTHDAY WISHES, JOB ANNIVERSARY WISHES
 
- =======================================================================================
- Admin APIs
+  =======================================================================================
+  Admin APIs
 
   +++ Get all requests                                             (GET)     api/admin/requests
   +++ Get all pending requests                                     (GET)     api/admin/requests/pending
@@ -32,8 +32,9 @@
   +++ Remove user from a team                                      (PUT)     api/admin/users/{id}/removeFromTeam
   +++ Add a new team                                               (POST)    api/admin/teams/new
   +++ Remove a team                                                (DELETE)  api/admin/teams/{id}
-                                                                                Indirectly removes users from team
-  --- Send email invites for celebration at end of every month               api/admin/sendInvites
+                                                                                 Indirectly removes users from team
+  --- Send email invites for celebration at end of every month     ()        api/admin/celebrationInvites
+  --- Send event email to users                                    ()        api/admin/userEventEmails
   
   =======================================================================================
 
