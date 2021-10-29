@@ -28,15 +28,17 @@ public class WishService {
         if (toUser.getEmail() == null)
             throw new Exception("Target user does not have an email address");
 
-        Date eventDate = null;
+        Date eventDateOrg = null;
         if(wishRequestBody.getSubject().equals(EventSubject.BIRTHDAY_WISHES.toString()))
-            eventDate = toUser.getBirthDate();
+            eventDateOrg = toUser.getBirthDate();
         else if(wishRequestBody.getSubject().equals(EventSubject.JOB_ANNIVERSARY_WISHES.toString()))
-            eventDate = toUser.getHireDate();
+            eventDateOrg = toUser.getHireDate();
 
-        if (eventDate == null)
+        if (eventDateOrg == null)
             throw new Exception("Target user's event date is unknown");
 
-        return wishRepository.addWish(toID, wishRequestBody, eventDate);
+        Date eventDate = new Date(eventDateOrg.getTime());
+
+        return wishRepository.addWish(toID, wishRequestBody, eventDateOrg);
     }
 }

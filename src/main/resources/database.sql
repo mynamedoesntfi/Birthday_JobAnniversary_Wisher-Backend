@@ -1,7 +1,7 @@
 --CREATE TABLE `teams` (
 --  `team_ID` int NOT NULL AUTO_INCREMENT,
 --  `team_name` varchar(45) NOT NULL,
---  `description` varchar(45) NOT NULL,
+--  `description` varchar(200) NOT NULL,
 --  PRIMARY KEY (`team_ID`)
 --) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
@@ -25,7 +25,7 @@
 --  UNIQUE KEY `username_UNIQUE` (`username`),
 --  KEY `fk_users_teams` (`team_ID`),
 --  CONSTRAINT `fk_users_teams` FOREIGN KEY (`team_ID`) REFERENCES `teams` (`team_ID`)
---) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+--) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --CREATE TABLE `requests` (
@@ -35,7 +35,7 @@
 --  `new_team_id` int DEFAULT NULL,
 --  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
 --  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --CREATE TABLE `wishes` (
@@ -47,25 +47,62 @@
 --  `send_date` date NOT NULL,
 --  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
 --  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
---ALTER TABLE users AUTO_INCREMENT=100000;
---ALTER TABLE teams AUTO_INCREMENT=100;
+--ALTER TABLE users AUTO_INCREMENT=100001;
+--ALTER TABLE teams AUTO_INCREMENT=101;
 --
 --
-insert into my_db.teams (team_name, description)
-values
-('Finance', 'Handling all the Finance of the organisation'),
-('Marketing', 'Handling all the Marketing of the organisation'),
-('Operations', 'Handling all the Operations of the organisation'),
-('Human Resource', 'Handling all the Human Resource of the organisation'),
-('General Management', 'Handling all the General Management of the organisation');
+--insert into my_db.teams (team_name, description)
+--values
+--('Finance', 'Handling all the Finance of the organisation'),
+--('Marketing', 'Handling all the Marketing of the organisation'),
+--('Operations', 'Handling all the Operations of the organisation'),
+--('Human Resource', 'Handling all the Human Resource of the organisation'),
+--('General Management', 'Handling all the General Management of the organisation');
 --
+--
+--
+--insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, team_ID) values
+--('Itachi',	'Itachi',	'Uchiha',	'1995-11-01',	'2014-11-04',	'todoroki.ice.fire.000@gmail.com',	'itachi123',	101),
+--('Shoto',	'Shoto',	'Todoroki',	'1995-11-04',	'2014-11-01',	'todoroki.ice.fire.000@gmail.com',	'shoto123',		101),
+--('Levi',	'Levi',		'Ackerman', '1995-11-06',	'2014-11-14',	'todoroki.ice.fire.000@gmail.com',	'levi123',		101),
+--('Langa',	'Langa',	'Hasegawa',	'1995-11-14',	'2014-11-06',	'todoroki.ice.fire.000@gmail.com',	'langa123',		101),
+--('Juuzou',	'Juuzou',	'Suzuya',	'1995-11-23',	'2014-11-30',	'todoroki.ice.fire.000@gmail.com',	'juuzou123',	102),
+--('Obito',	'Obito',	'Uchiha',	'1995-11-20',	'2014-11-23',	'todoroki.ice.fire.000@gmail.com',	'obito123',		102),
+--('Maka',	'Maka',		'Albarn',	'1995-12-13',	'2014-12-01',	'todoroki.ice.fire.000@gmail.com',	'maka123',		102),
+--('Kyo',		'Kyo',		'Sohma',	'1995-12-01',	'2014-12-13',	'todoroki.ice.fire.000@gmail.com',	'kyo123',		102),
+--('Gintoki',	'Gintoki',	'Sakata',	'1995-12-02',	'2014-12-03',	'todoroki.ice.fire.000@gmail.com',	'gintoki123',	103),
+--('Yugi',	'Yugi',		'Mutou',	'1995-12-01',	'2014-12-02',	'todoroki.ice.fire.000@gmail.com',	'yugi123',		103),
+--('Shino',	'Shino',	'Aburame',	'1995-12-01',	'2014-11-01',	'todoroki.ice.fire.000@gmail.com',	'shino123',		103),
+--('Ichigo',	'Ichigo',	'Kurosaki',	'1995-09-01',	'2014-09-04',	'todoroki.ice.fire.000@gmail.com',	'ichigo123',	103),
+--('Erza',	'Erza',		'Scarlet',	'1995-09-04',	'2014-09-01',	'todoroki.ice.fire.000@gmail.com',	'erza123',		104),
+--('Armin',	'Armin',	'Arlelt',	'1995-09-06',	'2014-11-06',	'todoroki.ice.fire.000@gmail.com',	'armin123',		104),
+--('Katuski',	'Katuski',	'Bakugo',	'1995-11-06',	'2014-09-06',	'todoroki.ice.fire.000@gmail.com',	'katuski123',	104),
+--('Madara',	'Madara',	'Uchiha',	'1995-10-08',	'2014-10-04',	'todoroki.ice.fire.000@gmail.com',	'madara123',	104),
+--('Zoe',		'Zoe',		'Hange',	'1995-10-04',	'2014-10-08',	'todoroki.ice.fire.000@gmail.com',	'zoe123',		105),
+--('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'todoroki.ice.fire.000@gmail.com',	'kakashi123',	105),
+--('Minato',	'Minato',	'Namikaze',	'1995-08-25',	'2014-11-23',	'todoroki.ice.fire.000@gmail.com',	'minato123',	105),
+--('Asuna',	'Asuna',	'Yuki',		'1995-11-27',	'2014-11-03',	'todoroki.ice.fire.000@gmail.com',	'asuna123',		105);
+--
+--insert into my_db.users (username, first_name, last_name, birth_date, hire_date, email, password, role) values
+--('KSK',		'Saba',		'Khan',	'1998-10-10',	'2021-08-09',	'KhanSaba@KhanumAkbar@clarivate.com',	'admin123',	'ROLE_ADMIN'),
+--('Nandy',	'Nandan',	'Bhat',	'1999-07-12',	'2021-08-09',	'nandan.bhat@clarivate.com',			'admin123',	'ROLE_ADMIN');
+--
+--insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, role, team_ID) values
+--('Test',	'test',	'test',	'1995-11-05',	'2014-11-05',	'nandan.bhat@clarivate.com',	'admin123', 'ROLE_ADMIN',	101);
+--
+--insert into my_db.requests (user_id, current_team_id, new_team_id) values
+--(100001, 101, 102),
+--(100005, 102, 103),
+--(100009, 103, 104),
+--(100013, 104, 105),
+--(100017, 105, 101);
 
-
-
---insert into users(username,first_name,last_name,email,password,role,team_ID) values
---('KSK','Saba','Khan','todoroki.ice.fire.000@gmail.com','admin123','ROLE_ADMIN',100);
-
---ADD MORE DATA
+--insert into basic.wishes (sender_id, receiver_id, subject, message, send_date) values
+--(100001, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
+--(100005, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
+--(100009, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
+--(100013, 100023, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-10-30'),
+--(100017, 100023, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-10-30');
