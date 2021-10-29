@@ -61,7 +61,7 @@
 
   BUGS
 
-  --- sender wish himself
+  (fixed) sender wishes himself
 
 
 
