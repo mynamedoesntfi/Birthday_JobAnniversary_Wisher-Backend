@@ -65,33 +65,34 @@
 --
 --
 --insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, team_ID) values
---('Itachi',	'Itachi',	'Uchiha',	'1995-11-01',	'2014-11-04',	'todoroki.ice.fire.000@gmail.com',	'itachi123',	101),
---('Shoto',	'Shoto',	'Todoroki',	'1995-11-04',	'2014-11-01',	'todoroki.ice.fire.000@gmail.com',	'shoto123',		101),
---('Levi',	'Levi',		'Ackerman', '1995-11-06',	'2014-11-14',	'todoroki.ice.fire.000@gmail.com',	'levi123',		101),
---('Langa',	'Langa',	'Hasegawa',	'1995-11-14',	'2014-11-06',	'todoroki.ice.fire.000@gmail.com',	'langa123',		101),
---('Juuzou',	'Juuzou',	'Suzuya',	'1995-11-23',	'2014-11-30',	'todoroki.ice.fire.000@gmail.com',	'juuzou123',	102),
---('Obito',	'Obito',	'Uchiha',	'1995-11-20',	'2014-11-23',	'todoroki.ice.fire.000@gmail.com',	'obito123',		102),
---('Maka',	'Maka',		'Albarn',	'1995-12-13',	'2014-12-01',	'todoroki.ice.fire.000@gmail.com',	'maka123',		102),
---('Kyo',		'Kyo',		'Sohma',	'1995-12-01',	'2014-12-13',	'todoroki.ice.fire.000@gmail.com',	'kyo123',		102),
---('Gintoki',	'Gintoki',	'Sakata',	'1995-12-02',	'2014-12-03',	'todoroki.ice.fire.000@gmail.com',	'gintoki123',	103),
---('Yugi',	'Yugi',		'Mutou',	'1995-12-01',	'2014-12-02',	'todoroki.ice.fire.000@gmail.com',	'yugi123',		103),
---('Shino',	'Shino',	'Aburame',	'1995-12-01',	'2014-11-01',	'todoroki.ice.fire.000@gmail.com',	'shino123',		103),
---('Ichigo',	'Ichigo',	'Kurosaki',	'1995-09-01',	'2014-09-04',	'todoroki.ice.fire.000@gmail.com',	'ichigo123',	103),
---('Erza',	'Erza',		'Scarlet',	'1995-09-04',	'2014-09-01',	'todoroki.ice.fire.000@gmail.com',	'erza123',		104),
---('Armin',	'Armin',	'Arlelt',	'1995-09-06',	'2014-11-06',	'todoroki.ice.fire.000@gmail.com',	'armin123',		104),
---('Katuski',	'Katuski',	'Bakugo',	'1995-11-06',	'2014-09-06',	'todoroki.ice.fire.000@gmail.com',	'katuski123',	104),
---('Madara',	'Madara',	'Uchiha',	'1995-10-08',	'2014-10-04',	'todoroki.ice.fire.000@gmail.com',	'madara123',	104),
---('Zoe',		'Zoe',		'Hange',	'1995-10-04',	'2014-10-08',	'todoroki.ice.fire.000@gmail.com',	'zoe123',		105),
---('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'todoroki.ice.fire.000@gmail.com',	'kakashi123',	105),
---('Minato',	'Minato',	'Namikaze',	'1995-08-25',	'2014-11-23',	'todoroki.ice.fire.000@gmail.com',	'minato123',	105),
---('Asuna',	'Asuna',	'Yuki',		'1995-11-27',	'2014-11-03',	'todoroki.ice.fire.000@gmail.com',	'asuna123',		105);
+--('Itachi',	'Itachi',	'Uchiha',	'1995-11-01',	'2014-11-04',	'example@gmail.com',	'itachi123',	101),
+--('Shoto',	'Shoto',	'Todoroki',	'1995-11-04',	'2014-11-01',	'example@gmail.com',	'shoto123',		101),
+--('Levi',	'Levi',		'Ackerman', '1995-11-06',	'2014-11-14',	'example@gmail.com',	'levi123',		101),
+--('Langa',	'Langa',	'Hasegawa',	'1995-11-14',	'2014-11-06',	'example@gmail.com',	'langa123',		101),
+--('Mikey',	'Manjiro',	'Sano',	'1991-10-14',	'2014-11-06',	'example@gmail.com',	'mikey123',		101),
+--('Juuzou',	'Juuzou',	'Suzuya',	'1995-11-23',	'2014-11-30',	'example@gmail.com',	'juuzou123',	102),
+--('Obito',	'Obito',	'Uchiha',	'1995-11-20',	'2014-11-23',	'example@gmail.com',	'obito123',		102),
+--('Maka',	'Maka',		'Albarn',	'1995-12-13',	'2014-12-01',	'example@gmail.com',	'maka123',		102),
+--('Kyo',		'Kyo',		'Sohma',	'1995-12-01',	'2014-12-13',	'example@gmail.com',	'kyo123',		102),
+--('Gintoki',	'Gintoki',	'Sakata',	'1995-12-02',	'2014-12-03',	'example@gmail.com',	'gintoki123',	103),
+--('Yugi',	'Yugi',		'Mutou',	'1995-12-01',	'2014-12-02',	'example@gmail.com',	'yugi123',		103),
+--('Shino',	'Shino',	'Aburame',	'1995-12-01',	'2014-11-01',	'example@gmail.com',	'shino123',		103),
+--('Ichigo',	'Ichigo',	'Kurosaki',	'1995-09-01',	'2014-09-04',	'example@gmail.com',	'ichigo123',	103),
+--('Erza',	'Erza',		'Scarlet',	'1995-09-04',	'2014-09-01',	'example@gmail.com',	'erza123',		104),
+--('Armin',	'Armin',	'Arlelt',	'1995-09-06',	'2014-11-06',	'example@gmail.com',	'armin123',		104),
+--('Katuski',	'Katuski',	'Bakugo',	'1995-11-06',	'2014-09-06',	'example@gmail.com',	'katuski123',	104),
+--('Madara',	'Madara',	'Uchiha',	'1995-10-08',	'2014-10-04',	'example@gmail.com',	'madara123',	104),
+--('Zoe',		'Zoe',		'Hange',	'1995-10-04',	'2014-10-08',	'example@gmail.com',	'zoe123',		105),
+--('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'example@gmail.com',	'kakashi123',	105),
+--('Minato',	'Minato',	'Namikaze',	'1995-08-25',	'2014-11-23',	'example@gmail.com',	'minato123',	105),
+--('Asuna',	'Asuna',	'Yuki',		'1995-11-27',	'2014-11-03',	'example@gmail.com',	'asuna123',		105);
 --
 --insert into my_db.users (username, first_name, last_name, birth_date, hire_date, email, password, role) values
---('KSK',		'Saba',		'Khan',	'1998-10-10',	'2021-08-09',	'KhanSaba@KhanumAkbar@clarivate.com',	'admin123',	'ROLE_ADMIN'),
---('Nandy',	'Nandan',	'Bhat',	'1999-07-12',	'2021-08-09',	'nandan.bhat@clarivate.com',			'admin123',	'ROLE_ADMIN');
+--('KSK',		'Saba',		'Khan',	'1998-10-10',	'2021-08-09',	'saba@gmail.com',	'admin123',	'ROLE_ADMIN'),
+--('Nandy',	'Nandan',	'Bhat',	'1999-07-12',	'2021-08-09',	'nandan@gmail.com',		'admin123',	'ROLE_ADMIN');
 --
 --insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, role, team_ID) values
---('Test',	'test',	'test',	'1995-11-05',	'2014-11-05',	'nandan.bhat@clarivate.com',	'admin123', 'ROLE_ADMIN',	101);
+--('Test',	'test',	'test',	'1995-11-05',	'2014-11-05',	'nandan@clarivate.com',	'admin123', 'ROLE_ADMIN',	101);
 --
 --insert into my_db.requests (user_id, current_team_id, new_team_id) values
 --(100001, 101, 102),
