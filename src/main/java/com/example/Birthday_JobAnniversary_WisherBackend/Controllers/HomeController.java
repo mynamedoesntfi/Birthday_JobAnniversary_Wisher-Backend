@@ -1,7 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationResponse;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
@@ -20,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/** localhost:8080/api **/
+/**
+ * localhost:8080/api
+ **/
 @RestController
 public class HomeController {
 
@@ -38,23 +39,31 @@ public class HomeController {
     @Autowired
     private JwtUtilService jwt;
 
-    /** localhost:8080/api */
+    /**
+     * localhost:8080/api
+     */
     @GetMapping("/")
-    public String home() {
-        return("Welcome to our application!");
+    public ResponseEntity<?> home() {
+        return ResponseEntity.status(HttpStatus.OK).body("Welcome to our application");
     }
 
-    /** localhost:8080/api/login */
-    @RequestMapping(value = "login",method = RequestMethod.POST)
+    /**
+     * localhost:8080/api/login
+     */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        Map<String, Object> response = new HashMap<>();
 
         //region authenticating the user
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
-        } catch (BadCredentialsException e){
-            throw new Exception("Incorrect username or password",e);
+        } catch (BadCredentialsException e) {
+            response.put("status", "error");
+            response.put("message", "Incorrect username and password");
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
         //endregion
 
@@ -63,17 +72,27 @@ public class HomeController {
         final String jwtToken = jwt.generateToken(userDetails);
         //endregion
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
+        response.put("status", "success");
+        response.put("message", "Logged In successfully");
+        response.put("data", jwtToken);
+        logger.info("Loggen In successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    /** localhost:8080/api/signup */
+    /**
+     * localhost:8080/api/signup
+     */
     @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             User newUser = userService.registerUser(user);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
-            response.put("data", newUser);
+            Map<String, Object> data = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Registration Successful");
+            data.put("authToken","something");
+            data.put("userData",newUser);
+            response.put("data", data);
             logger.info("User registered successfully.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
