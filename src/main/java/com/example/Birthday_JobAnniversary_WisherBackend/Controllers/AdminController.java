@@ -1,7 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.EmailService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.slf4j.Logger;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private EmailService emailService;
 
     /** localhost:8080/api/admin/testAdmin */
     @GetMapping("/admin/testAdmin")
@@ -116,5 +121,16 @@ public class AdminController {
             logger.error("Cannot decline request. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    /** localhost:8080/api/admin/sendEmailInvite */
+    @PostMapping
+    @RequestMapping(value = "/admin/sendEmailInvite")
+    public String sendEmailInvite(){
+        emailService.sendEmailInvite("dcb0113977-4a2a66@inbox.mailtrap.io", //
+                "Celebration at end of month", //
+                "Invitation of celebration of events that occurred within the month." //
+                );
+        return "Email sent";
     }
 }

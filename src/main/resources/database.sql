@@ -100,8 +100,8 @@
 --(100009, 103, 104),
 --(100013, 104, 105),
 --(100017, 105, 101);
-
---insert into basic.wishes (sender_id, receiver_id, subject, message, send_date) values
+--
+--insert into my_db.wishes (sender_id, receiver_id, subject, message, send_date) values
 --(100001, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
 --(100005, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
 --(100009, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),

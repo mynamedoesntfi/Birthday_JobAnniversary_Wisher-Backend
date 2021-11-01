@@ -81,7 +81,7 @@ public class TeamController {
 
 
 
-    /** localhost:8080/api/teams/new */
+    /** localhost:8080/api/admin/teams/new */
     @PostMapping
     @RequestMapping(value = "/admin/teams/new")
     public ResponseEntity<?> addNewTeam(@RequestBody Team team){
@@ -98,7 +98,7 @@ public class TeamController {
         }
     }
 
-    /** localhost:8080/api/teams/new */
+    /** localhost:8080/api/admin/teams/new */
     @DeleteMapping
     @RequestMapping(value = "/admin/teams/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteTeamById(@PathVariable Integer id){
