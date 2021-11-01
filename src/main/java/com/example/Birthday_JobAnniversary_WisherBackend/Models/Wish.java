@@ -85,4 +85,17 @@ public class Wish {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Wish{" +
+                "wishID=" + wishID +
+                ", senderID=" + senderID +
+                ", receiverID=" + receiverID +
+                ", subject='" + subject + '\'' +
+                ", message='" + message + '\'' +
+                ", sendDate=" + sendDate +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

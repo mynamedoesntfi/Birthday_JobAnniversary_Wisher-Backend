@@ -127,7 +127,7 @@ public class AdminController {
     @PostMapping
     @RequestMapping(value = "/admin/sendEmail")
     public String sendEmailMessage(){
-        emailService.sendMessage("springboot.dummy.test.email@gmail.com", //
+        emailService.sendMessage("dcb0113977-4a2a66@inbox.mailtrap.io", //
                 "Sent using spring boot", //
                 "Text Here ..." //
                 );

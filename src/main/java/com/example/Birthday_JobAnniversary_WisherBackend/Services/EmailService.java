@@ -1,9 +1,12 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -19,5 +22,12 @@ public class EmailService {
         message.setText(text);
 
         emailSender.send(message);
+    }
+    
+    public void sendEmails(List<SimpleMailMessage> messages) {
+        for (SimpleMailMessage message :
+                messages) {
+            emailSender.send(message);
+        }
     }
 }
