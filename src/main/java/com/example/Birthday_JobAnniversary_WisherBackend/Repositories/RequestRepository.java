@@ -3,7 +3,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.RequestStatus;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamChangeRequestRowMapper;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.RequestRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class RequestRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public Request createTeamChangeRequest(User user, Integer teamID) {
+    public Request createRequest(User user, Integer teamID) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("request to change teams for UserID: {}, {} -> {}", user.getUserID(), user.getTeamID(), teamID);
@@ -56,7 +56,7 @@ public class RequestRepository {
         Request request = null;
         try {
             String query = "select * from requests where id=?";
-            request = jdbcTemplate.query(query, new TeamChangeRequestRowMapper(), id).get(0);
+            request = jdbcTemplate.query(query, new RequestRowMapper(), id).get(0);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -64,11 +64,11 @@ public class RequestRepository {
         return request;
     }
 
-    public List<Request> getAllTeamChangeRequests() {
+    public List<Request> getAllRequests() {
         List<Request> requests = null;
         try {
             String query = "select * from requests";
-            requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
+            requests = jdbcTemplate.query(query, new RequestRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -76,11 +76,11 @@ public class RequestRepository {
         return requests;
     }
 
-    public List<Request> getAllPendingTeamChangeRequests() {
+    public List<Request> getAllPendingRequests() {
         List<Request> requests = null;
         try {
             String query = "select * from requests where status='PENDING'";
-            requests = jdbcTemplate.query(query, new TeamChangeRequestRowMapper());
+            requests = jdbcTemplate.query(query, new RequestRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -108,5 +108,17 @@ public class RequestRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
         return getRequestByID(requestID);
+    }
+
+    public List<Request> getRequestsByUserId(Integer id) {
+        List<Request> requests = null;
+        try {
+            String query = "select * from requests where user_id=?";
+            requests = jdbcTemplate.query(query, new RequestRowMapper(), id);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return requests;
     }
 }

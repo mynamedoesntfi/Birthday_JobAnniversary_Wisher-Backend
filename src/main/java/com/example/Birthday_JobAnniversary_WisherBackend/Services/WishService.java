@@ -61,6 +61,7 @@ public class WishService {
     /**
      * TODO: uncomment to change to repeat everyday instead of every 30s
      */
+    //@Scheduled(cron ="s m h dom m dow")
     //@Scheduled(cron = "0 0 10 * * *")
     @Scheduled(cron = "*/30 * * * * *")
     void retrieveWishes() {

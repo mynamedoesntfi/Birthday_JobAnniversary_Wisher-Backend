@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeamChangeRequestRowMapper implements RowMapper<Request> {
+public class RequestRowMapper implements RowMapper<Request> {
     @Override
     public Request mapRow(ResultSet rs, int rowNum) throws SQLException {
         Request request = new Request();

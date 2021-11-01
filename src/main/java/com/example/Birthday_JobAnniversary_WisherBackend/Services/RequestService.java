@@ -21,13 +21,13 @@ public class RequestService {
     @Autowired
     private RequestRepository requestRepository;
 
-    public Request createTeamChangeRequest(Integer userID, Integer teamID) {
+    public Request createRequest(Integer userID, Integer teamID) {
         User user = userService.getUserById(userID);
-        return requestRepository.createTeamChangeRequest(user, teamID);
+        return requestRepository.createRequest(user, teamID);
     }
 
-    public List<Request> getALlTeamChangeRequests() {
-        return requestRepository.getAllTeamChangeRequests();
+    public List<Request> getAllRequests() {
+        return requestRepository.getAllRequests();
     }
 
     public Request approveRequestByID(Integer requestID) {
@@ -41,7 +41,11 @@ public class RequestService {
         return requestRepository.declineRequestByID(requestID);
     }
 
-    public List<Request> getALlPendingTeamChangeRequests() {
-        return requestRepository.getAllPendingTeamChangeRequests();
+    public List<Request> getAllPendingRequests() {
+        return requestRepository.getAllPendingRequests();
+    }
+
+    public List<Request> getRequestsByUserId(Integer id) {
+        return requestRepository.getRequestsByUserId(id);
     }
 }
