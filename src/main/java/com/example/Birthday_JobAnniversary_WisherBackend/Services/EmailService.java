@@ -14,7 +14,7 @@ public class EmailService {
     @Autowired
     JavaMailSender emailSender;
 
-    public void sendMessage(String to, String subject, String text) {
+    public void sendEmailInvite(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("sdcb0113977-4a2a66@inbox.mailtrap.io");
         message.setTo(to);
