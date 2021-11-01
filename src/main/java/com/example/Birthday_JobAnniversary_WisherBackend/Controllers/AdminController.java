@@ -1,7 +1,6 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.EmailService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
@@ -58,9 +57,9 @@ public class AdminController {
     /** localhost:8080/api/admin/requests */
     @GetMapping()
     @RequestMapping(value = "/admin/requests")
-    public ResponseEntity<?> getAllTeamChangeRequests() {
+    public ResponseEntity<?> getAllRequests() {
         try {
-            List<Request> requests = requestService.getALlTeamChangeRequests();
+            List<Request> requests = requestService.getAllRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", requests);
@@ -75,9 +74,9 @@ public class AdminController {
     /** localhost:8080/api/admin/requests/pending */
     @GetMapping()
     @RequestMapping(value = "/admin/requests/pending")
-    public ResponseEntity<?> getAllPendingTeamChangeRequests() {
+    public ResponseEntity<?> getAllPendingRequests() {
         try {
-            List<Request> requests = requestService.getALlPendingTeamChangeRequests();
+            List<Request> requests = requestService.getAllPendingRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", requests);
