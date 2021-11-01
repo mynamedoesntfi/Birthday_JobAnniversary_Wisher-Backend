@@ -1,7 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.EmailService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.slf4j.Logger;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private EmailService emailService;
 
     /** localhost:8080/api/admin/testAdmin */
     @GetMapping("/admin/testAdmin")
@@ -116,5 +121,16 @@ public class AdminController {
             logger.error("Cannot decline request. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    /** localhost:8080/api/admin/sendEmail */
+    @PostMapping
+    @RequestMapping(value = "/admin/sendEmail")
+    public String sendEmailMessage(){
+        emailService.sendMessage("springboot.dummy.test.email@gmail.com", //
+                "Sent using spring boot", //
+                "Text Here ..." //
+                );
+        return "Email sent";
     }
 }
