@@ -12,7 +12,8 @@
   +++ Get user details                                   (GET)      api/users/{id}
   +++ Get all user in a team                             (GET)      api/teams/{id}/members
   +++ Get all users                                      (GET)      api/users
-  +++ Request for joining the team                       (POST)     api/users/{userID}/teamChangeRequest/{teamID}
+  +++ Request for changing a team                        (POST)     api/users/{userID}/teamChangeRequest/{teamID}
+  +++ Get all requests of user                           (GET)      api/users/{id}/requests
   --- Update user details                                (PATCH)    api/users/{id}
   +++ Get All Teams                                      (GET)      api/teams
   +++ Get Team details                                   (GET)      api/teams/{id}
@@ -34,7 +35,7 @@
   +++ Remove a team                                                (DELETE)  api/admin/teams/{id}
                                                                                  Indirectly removes users from team
 
-  +++ Send email invites for celebration at end of every month     ()        api/admin/celebrationInvites
+  +++ Send email invites for celebration at end of every month     (POST)    api/admin/celebrationInvites
 
 
   +++ Send event email to users                                    ()        api/admin/userEventEmails (scheduler)

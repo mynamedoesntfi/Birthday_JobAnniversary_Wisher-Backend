@@ -75,10 +75,10 @@ public class UserController {
     /** localhost:8080/api/users/{id}/teamChangeRequest/{teamID} */
     @PostMapping()
     @RequestMapping(value = "/users/{userID}/teamChangeRequest/{teamID}")
-    public ResponseEntity<?> createTeamChangeRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
+    public ResponseEntity<?> createRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
 
         try {
-            Request request = requestService.createTeamChangeRequest(userID, teamID);
+            Request request = requestService.createRequest(userID, teamID);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Success");
             response.put("data", request);
@@ -86,6 +86,22 @@ public class UserController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot create team change request. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    /** localhost:8080/api/users/{id}/requests */
+    @GetMapping("/users/{id}/requests")
+    public ResponseEntity<?> getRequestsByUserId(@PathVariable Integer id) {
+        try {
+            List<Request> requests = requestService.getRequestsByUserId(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Success");
+            response.put("data", requests);
+            logger.info("User requests retrieved successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot get user requests. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
