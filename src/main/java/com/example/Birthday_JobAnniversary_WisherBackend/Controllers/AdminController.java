@@ -123,13 +123,13 @@ public class AdminController {
         }
     }
 
-    /** localhost:8080/api/admin/sendEmail */
+    /** localhost:8080/api/admin/sendEmailInvite */
     @PostMapping
-    @RequestMapping(value = "/admin/sendEmail")
-    public String sendEmailMessage(){
-        emailService.sendMessage("dcb0113977-4a2a66@inbox.mailtrap.io", //
-                "Sent using spring boot", //
-                "Text Here ..." //
+    @RequestMapping(value = "/admin/sendEmailInvite")
+    public String sendEmailInvite(){
+        emailService.sendEmailInvite("dcb0113977-4a2a66@inbox.mailtrap.io", //
+                "Celebration at end of month", //
+                "Invitation of celebration of events that occurred within the month." //
                 );
         return "Email sent";
     }
