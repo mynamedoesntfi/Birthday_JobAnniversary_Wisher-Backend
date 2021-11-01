@@ -185,4 +185,12 @@ public class User {
     public void setTeamID(int teamID) {
         this.teamID = teamID;
     }
+
+    public String getName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
+
+    public String getUsernameUserID() {
+        return this.getUsername() + "/" + this.getUserID();
+    }
 }

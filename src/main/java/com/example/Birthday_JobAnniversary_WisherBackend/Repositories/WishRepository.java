@@ -1,7 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.WishRequestBody;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.WishRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -70,4 +73,27 @@ public class WishRepository {
         return wish;
     }
 
+    public List<Wish> getAllWishesForToday() {
+        List<Wish> wishes = null;
+        try {
+            String query = "select * from wishes where send_date=CURRENT_DATE and status='PENDING'";
+            wishes = jdbcTemplate.query(query, new WishRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return wishes;
+    }
+
+    public List<Wish> getAllWishes() {
+        List<Wish> wishes = null;
+        try {
+            String query = "select * from wishes";
+            wishes = jdbcTemplate.query(query, new WishRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return wishes;
+    }
 }
