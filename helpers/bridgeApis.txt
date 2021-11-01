@@ -37,7 +37,7 @@
   --- Send email invites for celebration at end of every month     ()        api/admin/celebrationInvites
 
 
-  --- Send event email to users                                    ()        api/admin/userEventEmails (scheduler)
+  +++ Send event email to users                                    ()        api/admin/userEventEmails (scheduler)
   
   =======================================================================================
 
