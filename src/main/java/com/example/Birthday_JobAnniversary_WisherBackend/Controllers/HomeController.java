@@ -37,7 +37,7 @@ public class HomeController {
     private TeamService teamService;
 
     @Autowired
-    private JwtUtilService jwt;
+    private JwtUtilService jwtUtilService;
 
     /**
      * localhost:8080/api
@@ -69,13 +69,14 @@ public class HomeController {
 
         //region generating token using user details
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwtToken = jwt.generateToken(userDetails);
+        final String jwt = jwtUtilService.generateToken(userDetails);
         //endregion
 
         response.put("status", "success");
-        response.put("message", "Logged In successfully");
-        response.put("data", jwtToken);
-        logger.info("Loggen In successfully.");
+        response.put("message", "Logged in successfully");
+        response.put("token", jwt);
+        response.put("data", userService.getUserByUsername(authenticationRequest.getUsername()));
+        logger.info("Logged in successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

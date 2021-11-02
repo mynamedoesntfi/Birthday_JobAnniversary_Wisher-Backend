@@ -125,25 +125,6 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/teams/{id}/upcomingEvents */
-    @GetMapping("/teams/{id}/upcomingEvents")
-    public ResponseEntity<?> getAllTeamMembersWithUpcomingEvents(@PathVariable Integer id, @RequestHeader("Authorization") String jwt) {
-        try {
-            jwt = jwt.substring(7);
-            String username = jwtUtilService.extractUsername(jwt);
-
-            Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
-            response.put("data", users);
-            logger.info("Team members with upcoming events retrieved successfully. ");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e) {
-            logger.error("Cannot get team members with upcoming events. Error:" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
-
     /** localhost:8080/api/users/{toID}/wish */
     @PostMapping()
     @RequestMapping(value = "/users/{toID}/wish")
