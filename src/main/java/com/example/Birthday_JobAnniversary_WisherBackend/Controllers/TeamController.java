@@ -36,7 +36,8 @@ public class TeamController {
         try {
             List<User> users = teamService.getTeamMembersByTeamId(id);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "team members retrieved");
             response.put("data", users);
             logger.info("Team members retrieved.");
             return ResponseEntity.ok(response);
@@ -54,7 +55,8 @@ public class TeamController {
         try {
             List<Team> teams = teamService.getAllTeams();
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "teams retrieved");
             response.put("data", teams);
             logger.info("Teams retrieved.");
             return ResponseEntity.ok(response);
@@ -72,7 +74,8 @@ public class TeamController {
         try {
             Team team = teamService.getTeamById(id);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "team retrieved");
             response.put("data", team);
             logger.info("Team retrieved.");
             return ResponseEntity.ok(response);
@@ -90,7 +93,8 @@ public class TeamController {
         try {
             Team newTeam = teamService.addNewTeam(team);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "team added");
             response.put("data", newTeam);
             logger.info("Team added successfully.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -107,10 +111,11 @@ public class TeamController {
         try {
             List<User> updatedUsers = teamService.deleteTeamById(id);
             Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
             if(updatedUsers == null)
-                response.put("message", "Success, no users updated");
+                response.put("message", "no users updated, team deleted");
             else
-                response.put("message", "Success, users updated");
+                response.put("message", "users updated, team deleted");
             response.put("data", updatedUsers);
             logger.info("Team deleted successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -129,7 +134,8 @@ public class TeamController {
 
             Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "team members retrieved");
             response.put("data", users);
             logger.info("Team members with upcoming events retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);

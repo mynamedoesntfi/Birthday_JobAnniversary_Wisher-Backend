@@ -61,7 +61,7 @@ public class HomeController {
             );
         } catch (BadCredentialsException e) {
             response.put("status", "error");
-            response.put("message", "Incorrect username and password");
+            response.put("message", "incorrect username and password");
             logger.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
@@ -73,7 +73,7 @@ public class HomeController {
         //endregion
 
         response.put("status", "success");
-        response.put("message", "Logged in successfully");
+        response.put("message", "logged in successfully");
         response.put("token", jwt);
         response.put("data", userService.getUserByUsername(authenticationRequest.getUsername()));
         logger.info("Logged in successfully.");
@@ -90,7 +90,7 @@ public class HomeController {
             Map<String, Object> response = new HashMap<>();
             Map<String, Object> data = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "Registration Successful");
+            response.put("message", "registration successful");
             data.put("authToken","something");
             data.put("userData",newUser);
             response.put("data", data);

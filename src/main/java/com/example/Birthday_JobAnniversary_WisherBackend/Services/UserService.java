@@ -53,12 +53,17 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws Exception {
 //        User newUser = new User();
 //        newUser.setUsername(user.getUsername());
 //        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 //        newUser.setPassword(user.getPassword());
-        return userRepository.createUser(user);
+        try{
+            return userRepository.createUser(user);
+        } catch (Exception e){
+            throw new Exception("Username already exists");
+        }
+
     }
 
     public User getUserByUsername(String username) {

@@ -43,7 +43,8 @@ public class AdminController {
         try {
             User user = userService.removeUserFromTeam(userId);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "user removed from team");
             response.put("data", user);
             logger.info("User removed from team successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -61,7 +62,8 @@ public class AdminController {
         try {
             List<Request> requests = requestService.getAllRequests();
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "requests retrieved");
             response.put("data", requests);
             logger.info("Requests retrieved.");
             return ResponseEntity.ok(response);
@@ -78,7 +80,8 @@ public class AdminController {
         try {
             List<Request> requests = requestService.getAllPendingRequests();
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "pending requests retrieved");
             response.put("data", requests);
             logger.info("Pending requests retrieved.");
             return ResponseEntity.ok(response);
@@ -95,7 +98,8 @@ public class AdminController {
         try {
             Request request = requestService.approveRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "request approved");
             response.put("data", request);
             logger.info("Request approved.");
             return ResponseEntity.ok(response);
@@ -112,7 +116,8 @@ public class AdminController {
         try {
             Request request = requestService.declineRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Success");
+            response.put("status", "success");
+            response.put("message", "request declined");
             response.put("data", request);
             logger.info("Request declined.");
             return ResponseEntity.ok(response);
@@ -122,14 +127,29 @@ public class AdminController {
         }
     }
 
+
+
+
+
+
+
     /** localhost:8080/api/admin/sendEmailInvite */
     @PostMapping
     @RequestMapping(value = "/admin/sendEmailInvite")
-    public String sendEmailInvite(){
-        emailService.sendEmailInvite("dcb0113977-4a2a66@inbox.mailtrap.io", //
-                "Celebration at end of month", //
-                "Invitation of celebration of events that occurred within the month." //
-                );
-        return "Email sent";
+    public ResponseEntity<?> sendEmailInvite(){
+        try {
+            emailService.sendEmailInvite("dcb0113977-4a2a66@inbox.mailtrap.io", //
+                    "Celebration at end of month", //
+                    "Invitation of celebration of events that occurred within the month." //
+            );
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "email sent");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot send email. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 }
