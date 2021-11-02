@@ -73,7 +73,7 @@ public class HomeController {
         //endregion
 
         response.put("status", "success");
-        response.put("message", "logged in successfully");
+        response.put("message", "Logged in successfully");
         response.put("token", jwt);
         response.put("data", userService.getUserByUsername(authenticationRequest.getUsername()));
         logger.info("Logged in successfully.");
@@ -90,7 +90,7 @@ public class HomeController {
             Map<String, Object> response = new HashMap<>();
             Map<String, Object> data = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "registration successful");
+            response.put("message", "Registration successful");
             data.put("authToken","something");
             data.put("userData",newUser);
             response.put("data", data);

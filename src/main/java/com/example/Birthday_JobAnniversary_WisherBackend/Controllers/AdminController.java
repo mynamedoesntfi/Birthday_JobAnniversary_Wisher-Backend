@@ -63,7 +63,7 @@ public class AdminController {
             List<Request> requests = requestService.getAllRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "requests retrieved");
+            response.put("message", "Requests retrieved");
             response.put("data", requests);
             logger.info("Requests retrieved.");
             return ResponseEntity.ok(response);
@@ -81,7 +81,7 @@ public class AdminController {
             List<Request> requests = requestService.getAllPendingRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "pending requests retrieved");
+            response.put("message", "Pending requests retrieved");
             response.put("data", requests);
             logger.info("Pending requests retrieved.");
             return ResponseEntity.ok(response);
@@ -99,7 +99,7 @@ public class AdminController {
             Request request = requestService.approveRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "request approved");
+            response.put("message", "Request approved");
             response.put("data", request);
             logger.info("Request approved.");
             return ResponseEntity.ok(response);
@@ -117,7 +117,7 @@ public class AdminController {
             Request request = requestService.declineRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "request declined");
+            response.put("message", "Request declined");
             response.put("data", request);
             logger.info("Request declined.");
             return ResponseEntity.ok(response);
@@ -144,7 +144,7 @@ public class AdminController {
             );
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "email sent");
+            response.put("message", "Email sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot send email. Error:" + e.getMessage());

@@ -37,7 +37,7 @@ public class TeamController {
             List<User> users = teamService.getTeamMembersByTeamId(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "team members retrieved");
+            response.put("message", "Team members retrieved");
             response.put("data", users);
             logger.info("Team members retrieved.");
             return ResponseEntity.ok(response);
@@ -56,9 +56,9 @@ public class TeamController {
             List<Team> teams = teamService.getAllTeams();
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "teams retrieved");
+            response.put("message", "All teams retrieved");
             response.put("data", teams);
-            logger.info("Teams retrieved.");
+            logger.info("All Teams retrieved.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot get teams. Error:" + e.getMessage());
@@ -75,9 +75,9 @@ public class TeamController {
             Team team = teamService.getTeamById(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "team retrieved");
+            response.put("message", "Team details retrieved");
             response.put("data", team);
-            logger.info("Team retrieved.");
+            logger.info("Team details retrieved.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot get team. Error:" + e.getMessage());
@@ -94,7 +94,7 @@ public class TeamController {
             Team newTeam = teamService.addNewTeam(team);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "team added");
+            response.put("message", "Team added successfully");
             response.put("data", newTeam);
             logger.info("Team added successfully.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -113,11 +113,11 @@ public class TeamController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             if(updatedUsers == null)
-                response.put("message", "no users updated, team deleted");
+                response.put("message", "Team deleted successfully");
             else
-                response.put("message", "users updated, team deleted");
+                response.put("message", "Team deleted succesfully");
             response.put("data", updatedUsers);
-            logger.info("Team deleted successfully. ");
+            logger.info("Team deleted succesfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot delete. Error:" + e.getMessage());
@@ -135,7 +135,7 @@ public class TeamController {
             Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "team members retrieved");
+            response.put("message", "Team events retrieved");
             response.put("data", users);
             logger.info("Team members with upcoming events retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);

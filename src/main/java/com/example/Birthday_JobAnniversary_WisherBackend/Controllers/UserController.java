@@ -47,9 +47,9 @@ public class UserController {
             List<User> users = userService.getAllUsers();
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "all users retrieved");
+            response.put("message", "All users retrieved");
             response.put("data", users);
-            logger.info("all users retrieved successfully. ");
+            logger.info("All users retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot get users. Error:" + e.getMessage());
@@ -64,9 +64,9 @@ public class UserController {
             User user = userService.getUserById(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "user retrieved");
+            response.put("message", "User setails retrieved");
             response.put("data", user);
-            logger.info("user retrieved successfully. ");
+            logger.info("User details retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot get user. Error:" + e.getMessage());
@@ -83,9 +83,9 @@ public class UserController {
             Request request = requestService.createRequest(userID, teamID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "request created");
+            response.put("message", "Request sent successfully");
             response.put("data", request);
-            logger.info("Team change request created.");
+            logger.info("Team change request sent successfully.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot create team change request. Error:" + e.getMessage());
@@ -100,7 +100,7 @@ public class UserController {
             List<Request> requests = requestService.getRequestsByUserId(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "requests retrieved");
+            response.put("message", "Requests retrieved");
             response.put("data", requests);
             logger.info("User requests retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -120,7 +120,7 @@ public class UserController {
             Map<String,List<User>> users = userService.getAllUsersWithUpcomingEvents(username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "users retrieved");
+            response.put("message", "All user event retrieved");
             response.put("data", users);
             logger.info("Users with upcoming events retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -138,7 +138,7 @@ public class UserController {
             Wish wish = wishService.wishUserByID(toID, wishRequestBody);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "wish added");
+            response.put("message", "Wish sent successfully");
             response.put("data", wish);
             logger.info("Wish created, will be sent on event day.");
             return ResponseEntity.ok(response);
