@@ -35,15 +35,15 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            User userInfo = userRepository.getUserByUsername(username);
-            logger.info("userInfo= " + userInfo);
-            if (userInfo != null) {
+            User user = userRepository.getUserByUsername(username);
+            logger.info("userInfo= " + user);
+            if (user != null) {
 //              Adding user roles to granted authorities collection
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(userInfo.getRole()));
+                authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
                 return (UserDetails) new org.springframework.security.core.userdetails.User(
-                        userInfo.getUsername(), userInfo.getPassword(), authorities);
+                        user.getUsername(), user.getPassword(), authorities);
             } else {
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
@@ -53,12 +53,21 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws Exception {
 //        User newUser = new User();
 //        newUser.setUsername(user.getUsername());
 //        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 //        newUser.setPassword(user.getPassword());
-        return userRepository.createUser(user);
+        try{
+            return userRepository.createUser(user);
+        } catch (Exception e){
+            throw new Exception("Username already exists");
+        }
+
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
     }
 
     public List<User> getAllUsers() {

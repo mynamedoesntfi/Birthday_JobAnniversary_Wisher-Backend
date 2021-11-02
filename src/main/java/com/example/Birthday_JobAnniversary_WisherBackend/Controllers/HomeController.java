@@ -37,7 +37,7 @@ public class HomeController {
     private TeamService teamService;
 
     @Autowired
-    private JwtUtilService jwt;
+    private JwtUtilService jwtUtilService;
 
     /**
      * localhost:8080/api
@@ -61,7 +61,7 @@ public class HomeController {
             );
         } catch (BadCredentialsException e) {
             response.put("status", "error");
-            response.put("message", "Incorrect username and password");
+            response.put("message", "incorrect username and password");
             logger.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
@@ -69,13 +69,14 @@ public class HomeController {
 
         //region generating token using user details
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwtToken = jwt.generateToken(userDetails);
+        final String jwt = jwtUtilService.generateToken(userDetails);
         //endregion
 
         response.put("status", "success");
-        response.put("message", "Logged In successfully");
-        response.put("data", jwtToken);
-        logger.info("Loggen In successfully.");
+        response.put("message", "logged in successfully");
+        response.put("token", jwt);
+        response.put("data", userService.getUserByUsername(authenticationRequest.getUsername()));
+        logger.info("Logged in successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -89,7 +90,7 @@ public class HomeController {
             Map<String, Object> response = new HashMap<>();
             Map<String, Object> data = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "Registration Successful");
+            response.put("message", "registration successful");
             data.put("authToken","something");
             data.put("userData",newUser);
             response.put("data", data);
