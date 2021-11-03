@@ -91,10 +91,10 @@ public class UserService implements UserDetailsService {
         return usersWithUpcomingEvents;
     }
 
-    public Map<String, List<User>> getAllTeamMembersWithUpcomingEvents(Integer teamID, String username) {
+    public Map<String, List<?>> getAllTeamMembersWithUpcomingEvents(Integer teamID, String username) {
         Integer userID = userRepository.getUserByUsername(username).getUserID();
 
-        Map<String, List<User>> teamMembersWithUpcomingEvents = new HashMap<>();
+        Map<String, List<?>> teamMembersWithUpcomingEvents = new HashMap<>();
         teamMembersWithUpcomingEvents.put("Birthday", teamRepository.getAllTeamMembersWithUpcomingBirthDays(teamID, userID));
         teamMembersWithUpcomingEvents.put("Anniversary", teamRepository.getAllTeamMembersWithUpcomingJobAnniversaries(teamID, userID));
         return teamMembersWithUpcomingEvents;

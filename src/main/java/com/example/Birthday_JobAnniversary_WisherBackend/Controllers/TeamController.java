@@ -132,7 +132,7 @@ public class TeamController {
             jwt = jwt.substring(7);
             String username = jwtUtilService.extractUsername(jwt);
 
-            Map<String,List<User>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
+            Map<String,List<?>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Team events retrieved");

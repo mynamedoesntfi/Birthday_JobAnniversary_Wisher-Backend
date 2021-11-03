@@ -2,8 +2,11 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.EventRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.WishRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,7 @@ public class TeamRepository {
     /**
      * @param id Team ID
      * @return - List of team members
-     *         - Empty list if no team members
+     * - Empty list if no team members
      */
     public List<User> getTeamMembersByTeamId(Integer id) {
         List<User> users = null;
@@ -75,7 +78,7 @@ public class TeamRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("details to enter:{} ", team);
-        try{
+        try {
             String query = "insert into teams(team_name, description) values(?,?)";
             jdbcTemplate.update(
                     new PreparedStatementCreator() {
@@ -100,36 +103,95 @@ public class TeamRepository {
     }
 
 
-    public List<User> getAllTeamMembersWithUpcomingBirthDays(Integer teamID, Integer userID) {
+    public List<?> getAllTeamMembersWithUpcomingBirthDays(Integer teamID, Integer userID) {
 
         List<User> users = null;
+        List<Wish> wishes = null;
+        List<Map<Object, Object>> events = new ArrayList<>();
+
         try {
             String query =
-                    "select * \n" +
-                            "from users\n" +
+                    "select user_ID,username,first_name,last_name,email,hire_date,team_ID," +
+                            "DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR) AS birth_date from users\n" +
                             "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?";
-            users = jdbcTemplate.query(query, new UserRowMapper(), teamID, userID);
+                            "\t\tBETWEEN CURRENT_DATE()+7 AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?";
+            users = jdbcTemplate.query(query, new EventRowMapper(), teamID, userID);
+
+            String q = "select * from wishes where sender_id=? and subject='BIRTHDAY_WISHES';";
+            wishes = jdbcTemplate.query(q, new WishRowMapper(), userID);
+
+
+            System.out.println(wishes);
+            for (User user : users) {
+                Map<Object, Object> res = new HashMap<>();
+                res.put("username", user.getUsername());
+                res.put("first_name", user.getFirstName());
+                res.put("last_name", user.getLastName());
+                res.put("user_ID", user.getUserID());
+                res.put("email", user.getEmail());
+                res.put("birth_date", user.getBirthDate());
+                res.put("hire_date", user.getHireDate());
+                res.put("wish_id", null);
+                res.put("status", null);
+
+                for (Wish wish : wishes) {
+                    if ((wish.getReceiverID() == user.getUserID()) && (wish.getSenderID() == userID) &&
+                            (wish.getSendDate().toLocalDate().toString().equals(user.getBirthDate().toLocalDate().toString()))) {
+                        res.replace("wish_id", wish.getWishID());
+                        res.replace("status",wish.getStatus());
+                    }
+                }
+                events.add(res);
+            }
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        return users;
+        return events;
     }
 
-    public List<User> getAllTeamMembersWithUpcomingJobAnniversaries(Integer teamID, Integer userID) {
+    public List<?> getAllTeamMembersWithUpcomingJobAnniversaries(Integer teamID, Integer userID) {
         List<User> users = null;
+        List<Wish> wishes = null;
+        List<Map<Object, Object>> events = new ArrayList<>();
         try {
             String query =
-                    "select * \n" +
-                            "from users\n" +
+                    "select user_ID,username,first_name,last_name,email,birth_date,team_ID," +
+                            "DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR) AS hire_date from users\n" +
                             "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?";
-            users = jdbcTemplate.query(query, new UserRowMapper(), teamID, userID);
+                            "\t\tBETWEEN CURRENT_DATE()+7 AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=?;";
+            users = jdbcTemplate.query(query, new EventRowMapper(), teamID, userID);
+
+            String q = "select * from wishes where sender_id=? and subject='JOB_ANNIVERSARY_WISHES';";
+            wishes = jdbcTemplate.query(q, new WishRowMapper(), userID);
+
+            System.out.println(wishes);
+            for (User user : users) {
+                Map<Object, Object> res = new HashMap<>();
+                res.put("username", user.getUsername());
+                res.put("first_name", user.getFirstName());
+                res.put("last_name", user.getLastName());
+                res.put("user_ID", user.getUserID());
+                res.put("email", user.getEmail());
+                res.put("birth_date", user.getBirthDate());
+                res.put("hire_date", user.getHireDate());
+                res.put("wish_id", null);
+                res.put("status", null);
+
+                for (Wish wish : wishes) {
+                    if ((wish.getReceiverID() == user.getUserID()) && (wish.getSenderID() == userID) &&
+                            (wish.getSendDate().toLocalDate().toString().equals(user.getHireDate().toLocalDate().toString()))) {
+                        res.replace("wish_id", wish.getWishID());
+                        res.replace("status",wish.getStatus());
+                    }
+                }
+                events.add(res);
+            }
+
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        return users;
+        return events;
     }
 }
