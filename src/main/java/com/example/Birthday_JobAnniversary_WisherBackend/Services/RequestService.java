@@ -33,7 +33,7 @@ public class RequestService {
     public Request approveRequestByID(Integer requestID) {
         Request request = requestRepository.approveRequestByID(requestID);
         // change the team for the user assuming team exists
-        userRepository.changeTeamByID(request.getUserID(), request.getNew_team_ID());
+        userRepository.changeTeamByID(request.getUserID(), request.getNewTeamID());
         return request;
     }
 
