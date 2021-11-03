@@ -71,7 +71,7 @@ public class UserRepository {
         return user;
     }
 
-    public User createUser(User user){
+    public User createUser(User user) throws Exception {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("details to enter:{} ",user);
@@ -93,8 +93,8 @@ public class UserRepository {
             return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
+            throw new Exception("Error occurred in adding user");
         }
-        return null;
     }
 
     public User removeUserFromTeam(Integer userID) {
