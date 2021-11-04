@@ -63,7 +63,7 @@ public class WishService {
      */
     //@Scheduled(cron ="s m h dom m dow")
     //@Scheduled(cron = "0 0 12 * * *")
-    @Scheduled(cron = "0 */1 * * * *")
+//    @Scheduled(cron = "0 */1 * * * *")
     void scheduledJobs() {
 
         /**
