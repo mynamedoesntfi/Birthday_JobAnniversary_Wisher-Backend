@@ -92,7 +92,7 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/approve */
-    @PatchMapping()
+    @GetMapping()
     @RequestMapping(value = "/admin/requests/{id}/approve")
     public ResponseEntity<?> approveRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {
@@ -110,7 +110,7 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/decline */
-    @PatchMapping()
+    @GetMapping()
     @RequestMapping(value = "/admin/requests/{id}/decline")
     public ResponseEntity<?> declineRequestByID(@PathVariable(value = "id") Integer requestID) {
         try {

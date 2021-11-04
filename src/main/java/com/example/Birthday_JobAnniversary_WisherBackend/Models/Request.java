@@ -18,7 +18,7 @@ public class Request {
     private int currentTeamID;
 
     @Column(name = "new_team_ID")
-    private int new_team_ID;
+    private int newTeamID;
 
     @Column(name = "status")
     private String status;
@@ -47,12 +47,12 @@ public class Request {
         this.currentTeamID = currentTeamID;
     }
 
-    public int getNew_team_ID() {
-        return new_team_ID;
+    public int getNewTeamID() {
+        return newTeamID;
     }
 
-    public void setNew_team_ID(int new_team_ID) {
-        this.new_team_ID = new_team_ID;
+    public void setNewTeamID(int newTeamID) {
+        this.newTeamID = newTeamID;
     }
 
     public String getStatus() {
