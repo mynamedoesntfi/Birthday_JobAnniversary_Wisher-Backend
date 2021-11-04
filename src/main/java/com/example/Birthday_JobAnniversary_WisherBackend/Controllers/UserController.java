@@ -48,7 +48,7 @@ public class UserController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "All users retrieved");
-            response.put("data", users);
+            response.put("data", UserReturn.convertUsersList(users));
             logger.info("All users retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
@@ -64,8 +64,8 @@ public class UserController {
             User user = userService.getUserById(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "User setails retrieved");
-            response.put("data", user);
+            response.put("message", "User details retrieved");
+            response.put("data", new UserReturn(user));
             logger.info("User details retrieved successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class UserController {
             jwt = jwt.substring(7);
             String username = jwtUtilService.extractUsername(jwt);
 
-            Map<String,List<User>> users = userService.getAllUsersWithUpcomingEvents(username);
+            Map<String,List<UserReturn>> users = userService.getAllUsersWithUpcomingEvents(username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "All user event retrieved");

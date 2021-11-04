@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
@@ -40,7 +41,7 @@ public class TeamController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Team members retrieved");
-            response.put("data", users);
+            response.put("data", UserReturn.convertUsersList(users));
             logger.info("Team members retrieved.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -113,7 +114,7 @@ public class TeamController {
     }
 
     /**
-     * localhost:8080/api/admin/teams/new
+     * localhost:8080/api/admin/teams/{id}
      */
     @DeleteMapping
     @RequestMapping(value = "/admin/teams/{id}", method = RequestMethod.DELETE)
@@ -125,9 +126,9 @@ public class TeamController {
             if (updatedUsers == null)
                 response.put("message", "Team deleted successfully");
             else
-                response.put("message", "Team deleted succesfully");
-            response.put("data", updatedUsers);
-            logger.info("Team deleted succesfully. ");
+                response.put("message", "Team deleted successfully");
+            response.put("data", UserReturn.convertUsersList(updatedUsers));
+            logger.info("Team deleted successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot delete. Error:" + e.getMessage());
