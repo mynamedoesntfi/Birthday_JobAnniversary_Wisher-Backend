@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.EmailService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
@@ -45,7 +46,7 @@ public class AdminController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "user removed from team");
-            response.put("data", user);
+            response.put("data", new UserReturn(user));
             logger.info("User removed from team successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {

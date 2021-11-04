@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.AuthenticationRequest;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.TeamService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
@@ -86,7 +87,7 @@ public class HomeController {
         response.put("status", "success");
         response.put("message", "Logged in successfully");
         response.put("token", jwt);
-        response.put("data", userService.getUserByUsername(authenticationRequest.getUsername()));
+        response.put("data", new UserReturn(userService.getUserByUsername(authenticationRequest.getUsername())));
         logger.info("Logged in successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -116,7 +117,7 @@ public class HomeController {
             response.put("status", "success");
             response.put("message", "Registration successful");
             response.put("token", jwt);
-            response.put("data", newUser);
+            response.put("data", new UserReturn(newUser));
             logger.info("Logged in successfully.");
 
             logger.info("User registered successfully.");

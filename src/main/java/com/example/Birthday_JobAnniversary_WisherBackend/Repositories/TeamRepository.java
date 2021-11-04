@@ -114,7 +114,7 @@ public class TeamRepository {
                     "select user_ID,username,first_name,last_name,email,hire_date,team_ID," +
                             "DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR) AS birth_date from users\n" +
                             "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE()+7 AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=? order by username;";
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=? order by username;";
             users = jdbcTemplate.query(query, new EventRowMapper(), teamID, userID);
 
             String q = "select * from wishes where sender_id=? and subject='BIRTHDAY_WISHES';";
@@ -157,7 +157,7 @@ public class TeamRepository {
                     "select user_ID,username,first_name,last_name,email,birth_date,team_ID," +
                             "DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR) AS hire_date from users\n" +
                             "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE()+7 AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=? order by username;";
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and team_ID=? and user_id!=? order by username;";
             users = jdbcTemplate.query(query, new EventRowMapper(), teamID, userID);
 
             String q = "select * from wishes where sender_id=? and subject='JOB_ANNIVERSARY_WISHES';";

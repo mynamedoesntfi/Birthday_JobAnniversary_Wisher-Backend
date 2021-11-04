@@ -1,6 +1,7 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.RequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
@@ -79,12 +80,12 @@ public class UserService implements UserDetailsService {
         return userRepository.removeUserFromTeam(userId);
     }
 
-    public Map<String, List<User>> getAllUsersWithUpcomingEvents(String username) {
+    public Map<String, List<UserReturn>> getAllUsersWithUpcomingEvents(String username) {
         Integer userID = userRepository.getUserByUsername(username).getUserID();
 
-        Map<String, List<User>> usersWithUpcomingEvents = new HashMap<>();
-        usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithUpcomingBirthDays(userID));
-        usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithUpcomingJobAnniversaries(userID));
+        Map<String, List<UserReturn>> usersWithUpcomingEvents = new HashMap<>();
+        usersWithUpcomingEvents.put("Birthday", UserReturn.convertUsersList(userRepository.getAllUsersWithUpcomingBirthDays(userID)));
+        usersWithUpcomingEvents.put("Anniversary", UserReturn.convertUsersList(userRepository.getAllUsersWithUpcomingJobAnniversaries(userID)));
         return usersWithUpcomingEvents;
     }
 
