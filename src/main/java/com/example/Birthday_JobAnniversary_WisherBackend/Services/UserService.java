@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 
 /**
@@ -58,11 +59,7 @@ public class UserService implements UserDetailsService {
 //        newUser.setUsername(user.getUsername());
 //        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 //        newUser.setPassword(user.getPassword());
-        try{
             return userRepository.createUser(user);
-        } catch (Exception e){
-            throw new Exception("Username already exists");
-        }
 
     }
 

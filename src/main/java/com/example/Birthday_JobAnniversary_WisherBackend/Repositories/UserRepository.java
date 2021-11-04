@@ -5,6 +5,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.User
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class UserRepository {
             List<User> userResponse = jdbcTemplate.query(query, new UserRowMapper(), username);
 //            logger.info("userResponse= " + userResponse);
             if (username != null) {
-               logger.info("userResponse: "+userResponse.get(0));
+                logger.info("userResponse: " + userResponse.get(0));
                 return userResponse.get(0);
             }
         } catch (Exception e) {
@@ -51,7 +52,7 @@ public class UserRepository {
     public List<User> getAllUsers() {
         List<User> users = null;
         try {
-            String query = "select * from users";
+            String query = "select * from users order by username";
             users = jdbcTemplate.query(query, new UserRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -71,11 +72,11 @@ public class UserRepository {
         return user;
     }
 
-    public User createUser(User user) throws Exception {
+    public User createUser(User user) throws Exception{
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        logger.info("details to enter:{} ",user);
-        try{
+        logger.info("details to enter:{} ", user);
+        try {
             String query = "insert into users(username,first_name,last_name,email,password) values(?,?,?,?,?)";
             jdbcTemplate.update(
                     new PreparedStatementCreator() {
@@ -91,9 +92,13 @@ public class UserRepository {
                     }, keyHolder);
             logger.info("Registered userID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
             return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
-            throw new Exception("Error occurred in adding user");
+            if(e instanceof SQLIntegrityConstraintViolationException || e instanceof DuplicateKeyException)
+                throw new SQLIntegrityConstraintViolationException("Username already exists");
+            else
+                throw new Exception(e.getMessage());
         }
     }
 
@@ -125,7 +130,7 @@ public class UserRepository {
                     "select * \n" +
                             "from users\n" +
                             "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=?";
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=? order by username";
             users = jdbcTemplate.query(query, new UserRowMapper(), userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -141,7 +146,7 @@ public class UserRepository {
                     "select * \n" +
                             "from users\n" +
                             "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=?";
+                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=? order by username";
             users = jdbcTemplate.query(query, new UserRowMapper(), userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));

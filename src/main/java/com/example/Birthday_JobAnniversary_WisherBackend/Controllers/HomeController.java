@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,12 +48,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body("Welcome to our application");
     }
 
-    /**
-     * localhost:8080/api/login
-     */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        Map<String, Object> response = new HashMap<>();
+    public String getToken(AuthenticationRequest authenticationRequest) throws Exception {
 
         //region authenticating the user
         try {
@@ -60,17 +56,32 @@ public class HomeController {
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
-            response.put("status", "error");
-            response.put("message", "incorrect username and password");
             logger.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            throw new Exception(e);
         }
         //endregion
 
         //region generating token using user details
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtilService.generateToken(userDetails);
+        return jwtUtilService.generateToken(userDetails);
         //endregion
+    }
+
+    /**
+     * localhost:8080/api/login
+     */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        String jwt="";
+
+        try {
+            jwt = getToken(authenticationRequest);
+
+        } catch(Exception e){
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Incorrect username or password");
+        }
 
         response.put("status", "success");
         response.put("message", "Logged in successfully");
@@ -87,17 +98,31 @@ public class HomeController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             User newUser = userService.registerUser(user);
+            AuthenticationRequest request= new AuthenticationRequest();
+            request.setUsername(user.getUsername());
+            request.setPassword(user.getPassword());
+
+            String jwt="";
             Map<String, Object> response = new HashMap<>();
-            Map<String, Object> data = new HashMap<>();
+
+            try {
+                jwt = getToken(request);
+
+            } catch(Exception e){
+                logger.error(e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Incorrect username or password");
+            }
+
             response.put("status", "success");
             response.put("message", "Registration successful");
-            data.put("authToken","something");
-            data.put("userData",newUser);
-            response.put("data", data);
+            response.put("token", jwt);
+            response.put("data", newUser);
+            logger.info("Logged in successfully.");
+
             logger.info("User registered successfully.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            logger.error("Cannot register user. Error:" + e.getMessage());
+            logger.error("Error registering user. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

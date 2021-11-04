@@ -30,7 +30,9 @@ public class TeamController {
     @Autowired
     private UserService userService;
 
-    /** localhost:8080/api/teams/{id}/members */
+    /**
+     * localhost:8080/api/teams/{id}/members
+     */
     @GetMapping("/teams/{id}/members")
     public ResponseEntity<?> getTeamMembersByTeamId(@PathVariable Integer id) {
         try {
@@ -47,7 +49,9 @@ public class TeamController {
         }
     }
 
-    /** localhost:8080/api/teams */
+    /**
+     * localhost:8080/api/teams
+     */
     @GetMapping()
     @RequestMapping(value = "/teams")
     public ResponseEntity<?> getAllTeams() {
@@ -66,7 +70,9 @@ public class TeamController {
         }
     }
 
-    /** localhost:8080/api/teams/{id} */
+    /**
+     * localhost:8080/api/teams/{id}
+     */
     @GetMapping()
     @RequestMapping(value = "/teams/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTeamById(@PathVariable Integer id) {
@@ -86,10 +92,12 @@ public class TeamController {
     }
 
 
-    /** localhost:8080/api/admin/teams/new */
+    /**
+     * localhost:8080/api/admin/teams/new
+     */
     @PostMapping
     @RequestMapping(value = "/admin/teams/new")
-    public ResponseEntity<?> addNewTeam(@RequestBody Team team){
+    public ResponseEntity<?> addNewTeam(@RequestBody Team team) {
         try {
             Team newTeam = teamService.addNewTeam(team);
             Map<String, Object> response = new HashMap<>();
@@ -104,15 +112,17 @@ public class TeamController {
         }
     }
 
-    /** localhost:8080/api/admin/teams/new */
+    /**
+     * localhost:8080/api/admin/teams/new
+     */
     @DeleteMapping
     @RequestMapping(value = "/admin/teams/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteTeamById(@PathVariable Integer id){
+    public ResponseEntity<?> deleteTeamById(@PathVariable Integer id) {
         try {
             List<User> updatedUsers = teamService.deleteTeamById(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            if(updatedUsers == null)
+            if (updatedUsers == null)
                 response.put("message", "Team deleted successfully");
             else
                 response.put("message", "Team deleted succesfully");
@@ -125,14 +135,16 @@ public class TeamController {
         }
     }
 
-    /** localhost:8080/api/teams/{id}/upcomingEvents */
+    /**
+     * localhost:8080/api/teams/{id}/upcomingEvents
+     */
     @GetMapping("/teams/{id}/upcomingEvents")
     public ResponseEntity<?> getAllTeamMembersWithUpcomingEvents(@PathVariable Integer id, @RequestHeader("Authorization") String jwt) {
         try {
             jwt = jwt.substring(7);
             String username = jwtUtilService.extractUsername(jwt);
 
-            Map<String,List<?>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
+            Map<String, List<?>> users = userService.getAllTeamMembersWithUpcomingEvents(id, username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Team events retrieved");

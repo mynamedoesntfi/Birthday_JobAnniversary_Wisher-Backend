@@ -38,7 +38,7 @@ public class WishService {
 
         User toUser = userService.getUserById(toID);
         if(toID.equals(wishRequestBody.getFromID()))
-            throw new Exception("Cannot wish yourself, fromID:" + wishRequestBody.getFromID() + " -> toID:" + toID);
+            throw new Exception("Cannot wish yourself");
         if (toUser.getEmail() == null)
             throw new Exception("Target user does not have an email address");
 
