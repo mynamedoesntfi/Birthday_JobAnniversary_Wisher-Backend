@@ -4,6 +4,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.RequestSta
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.RequestRowMapper;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.RequestsRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Repository
@@ -76,11 +78,13 @@ public class RequestRepository {
         return requests;
     }
 
-    public List<Request> getAllPendingRequests() {
-        List<Request> requests = null;
+    public List<Map<?,?>> getAllPendingRequests(Integer userID) {
+        List<Map<?,?>> requests = null;
         try {
-            String query = "select * from requests where status='PENDING'";
-            requests = jdbcTemplate.query(query, new RequestRowMapper());
+            String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
+                    "where users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id" +
+                    " and status='PENDING' and requests.user_ID!=? order by last_updated";
+            requests = jdbcTemplate.query(query, new RequestsRowMapper(),userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -110,12 +114,15 @@ public class RequestRepository {
         return getRequestByID(requestID);
     }
 
-    public List<Request> getRequestsByUserId(Integer id) {
-        List<Request> requests = null;
+    public List<Map<?,?>> getRequestsByUserId(Integer id) {
+        List<Map<?,?>> requests = null;
         try {
-            String query = "select * from requests where user_id=?";
-            requests = jdbcTemplate.query(query, new RequestRowMapper(), id);
+            String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
+                    "where requests.user_id=? and users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id\n" +
+                    "order by last_updated;";
+            requests = jdbcTemplate.query(query, new RequestsRowMapper(), id);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 

@@ -92,6 +92,27 @@ public class TeamController {
         }
     }
 
+    /**
+     * localhost:8080/api/teams/{id}
+     */
+    @GetMapping()
+    @RequestMapping(value = "/teams/data", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllTeamDetails() {
+
+        try {
+            List<Map<?,?>> team = teamService.getAllTeamsData();
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "All Teams data retrieved");
+            response.put("data", team);
+            logger.info("All Teams data retrieved.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot get team. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
     /**
      * localhost:8080/api/admin/teams/new

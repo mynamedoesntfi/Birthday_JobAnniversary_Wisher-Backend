@@ -74,12 +74,12 @@ public class AdminController {
         }
     }
 
-    /** localhost:8080/api/admin/requests/pending */
+    /** localhost:8080/api/admin/{id}/requests/pending */
     @GetMapping()
-    @RequestMapping(value = "/admin/requests/pending")
-    public ResponseEntity<?> getAllPendingRequests() {
+    @RequestMapping(value = "/admin/{id}/requests/pending")
+    public ResponseEntity<?> getAllPendingRequests(@PathVariable(value = "id") Integer userID) {
         try {
-            List<Request> requests = requestService.getAllPendingRequests();
+            List<Map<?,?>> requests = requestService.getAllPendingRequests(userID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Pending requests retrieved");

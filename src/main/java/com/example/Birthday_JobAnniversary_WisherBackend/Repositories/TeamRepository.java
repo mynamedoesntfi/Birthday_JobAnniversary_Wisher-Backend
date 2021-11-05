@@ -3,10 +3,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.EventRowMapper;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.WishRowMapper;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,16 +59,17 @@ public class TeamRepository {
         return teams;
     }
 
-    public Team getTeamById(Integer id) {
-        Team team = null;
+    public List<Map<?,?>> getAllTeamsData() {
+        List<Map<?,?>> teams = null;
         try {
-            String query = "select * from teams where team_ID=?";
-            team = jdbcTemplate.query(query, new TeamRowMapper(), id).get(0);
+            String query = "select user_ID,username,first_name,last_name,email,users.team_ID,team_name,description FROM users, teams\n" +
+                    "where users.team_ID=teams.team_ID;";
+            teams = jdbcTemplate.query(query, new TeamsDataRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        return team;
+        return teams;
     }
 
     public Team addNewTeam(Team team) {
@@ -95,6 +93,18 @@ public class TeamRepository {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
         return null;
+    }
+
+    public Team getTeamById(Integer id) {
+        Team team = null;
+        try {
+            String query = "select * from teams where team_ID=?";
+            team = jdbcTemplate.query(query, new TeamRowMapper(), id).get(0);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return team;
     }
 
     public void deleteTeam(Integer id) {
@@ -136,7 +146,7 @@ public class TeamRepository {
                     if ((wish.getReceiverID() == user.getUserID()) && (wish.getSenderID() == userID) &&
                             (wish.getSendDate().toLocalDate().toString().equals(user.getBirthDate().toLocalDate().toString()))) {
                         res.replace("wish_id", wish.getWishID());
-                        res.replace("status",wish.getStatus());
+                        res.replace("status", wish.getStatus());
                     }
                 }
                 events.add(res);
@@ -179,7 +189,7 @@ public class TeamRepository {
                     if ((wish.getReceiverID() == user.getUserID()) && (wish.getSenderID() == userID) &&
                             (wish.getSendDate().toLocalDate().toString().equals(user.getHireDate().toLocalDate().toString()))) {
                         res.replace("wish_id", wish.getWishID());
-                        res.replace("status",wish.getStatus());
+                        res.replace("status", wish.getStatus());
                     }
                 }
                 events.add(res);

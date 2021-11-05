@@ -5,9 +5,11 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.RequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RequestService {
@@ -41,11 +43,11 @@ public class RequestService {
         return requestRepository.declineRequestByID(requestID);
     }
 
-    public List<Request> getAllPendingRequests() {
-        return requestRepository.getAllPendingRequests();
+    public List<Map<?,?>> getAllPendingRequests(Integer userID) {
+        return requestRepository.getAllPendingRequests(userID);
     }
 
-    public List<Request> getRequestsByUserId(Integer id) {
+    public List<Map<?,?>> getRequestsByUserId(Integer id) {
         return requestRepository.getRequestsByUserId(id);
     }
 }

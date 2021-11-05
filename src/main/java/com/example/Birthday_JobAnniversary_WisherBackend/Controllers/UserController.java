@@ -108,7 +108,7 @@ public class UserController {
     @GetMapping("/users/{id}/requests")
     public ResponseEntity<?> getRequestsByUserId(@PathVariable Integer id) {
         try {
-            List<Request> requests = requestService.getRequestsByUserId(id);
+            List<Map<?,?>> requests = requestService.getRequestsByUserId(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Requests retrieved");
