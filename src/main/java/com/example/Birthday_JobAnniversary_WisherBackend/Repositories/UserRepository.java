@@ -2,6 +2,7 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +31,9 @@ public class UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     public User getUserByUsername(String username) {
-//        logger.info("inside repository");
-//        logger.info(username);
         try {
             String query = "select * from users where username=?";
             List<User> userResponse = jdbcTemplate.query(query, new UserRowMapper(), username);
-//            logger.info("userResponse= " + userResponse);
             if (username != null) {
                 logger.info("userResponse: " + userResponse.get(0));
                 return userResponse.get(0);
@@ -61,18 +56,7 @@ public class UserRepository {
         return users;
     }
 
-    public User getUserById(Integer id) {
-        User user = null;
-        try {
-            String query = "select * from users where user_id=?";
-            user = jdbcTemplate.query(query, new UserRowMapper(), id).get(0);
-        } catch (Exception e) {
-            logger.error(Arrays.toString(e.getStackTrace()));
-        }
-        return user;
-    }
-
-    public User createUser(User user) throws Exception{
+    public User createUser(User user) throws Exception {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("details to enter:{} ", user);
@@ -92,14 +76,24 @@ public class UserRepository {
                     }, keyHolder);
             logger.info("Registered userID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
             return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
-            if(e instanceof SQLIntegrityConstraintViolationException || e instanceof DuplicateKeyException)
+            if (e instanceof SQLIntegrityConstraintViolationException || e instanceof DuplicateKeyException)
                 throw new SQLIntegrityConstraintViolationException("Username already exists");
             else
                 throw new Exception(e.getMessage());
         }
+    }
+
+    public User getUserById(Integer id) {
+        User user = null;
+        try {
+            String query = "select * from users where user_id=?";
+            user = jdbcTemplate.query(query, new UserRowMapper(), id).get(0);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return user;
     }
 
     public User removeUserFromTeam(Integer userID) {
@@ -155,30 +149,30 @@ public class UserRepository {
         return users;
     }
 
-
-//    public User updateUserDetails(User user){
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//
-//        logger.info("details to update={} ",user);
-//        try{
-//            String query = "update users set username,first_name,last_name,email,password) values(?,?,?,?,?)";
-//            jdbcTemplate.update(
-//                    new PreparedStatementCreator() {
-//                        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-//                            PreparedStatement ps = connection.prepareStatement(query, new String[]{"userID"});
-//                            ps.setString(1, user.getUsername());
-//                            ps.setString(2, user.getFirstName());
-//                            ps.setString(3, user.getLastName());
-//                            ps.setString(4, user.getEmail());
-//                            ps.setString(5, user.getPassword());
-//                            return ps;
-//                        }
-//                    }, keyHolder);
-//            logger.info("Registered userID = {}", Objects.requireNonNull(keyHolder.getKey()).intValue());
-//            return getUserById(Objects.requireNonNull(keyHolder.getKey()).intValue());
-//        } catch (Exception e) {
-//            logger.error(Arrays.toString(e.getStackTrace()));
-//        }
-//        return null;
-//    }
+    public int updateUserDetails(Integer id, User user) {
+        int res=0;
+        logger.info("details to update={}", user);
+        try {
+            String query = "update users set birth_date=?, hire_date=?, gender=?, address=?,contact=? where user_ID=?";
+            res=jdbcTemplate.update(
+                    new PreparedStatementCreator() {
+                        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                            PreparedStatement ps = connection.prepareStatement(query, new String[]{"userID"});
+                            ps.setDate(1, user.getBirthDate());
+                            ps.setDate(2, user.getHireDate());
+                            ps.setObject(3, user.getGender());
+                            ps.setObject(4, user.getAddress());
+                            ps.setObject(5, user.getContact());
+                            ps.setInt(6, id);
+                            return ps;
+                        }
+                    });
+            logger.info("Edited User Details");
+            return res;
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+            logger.error(e.getMessage());
+        }
+        return res;
+    }
 }

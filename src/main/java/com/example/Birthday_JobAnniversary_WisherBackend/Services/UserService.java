@@ -5,6 +5,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.RequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,10 +99,9 @@ public class UserService implements UserDetailsService {
         return teamMembersWithUpcomingEvents;
     }
 
-//
-//    public User updateUserDetails(User user) {
-//        return userRepository.updateUserDetails(user);
-//    }
+    public int updateUserDetails(Integer id, User user) {
+        return userRepository.updateUserDetails(id,user);
+    }
 
 
 }

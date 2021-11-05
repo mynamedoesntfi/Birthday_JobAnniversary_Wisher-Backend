@@ -5,6 +5,7 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.WishService;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,17 @@ public class UserController {
     private JwtUtilService jwtUtilService;
 
 
-    /** localhost:8080/api/testUser */
+    /**
+     * localhost:8080/api/testUser
+     */
     @GetMapping("/testUser")
     public ResponseEntity<?> test() {
         return ResponseEntity.ok("Hello User");
     }
 
-    /** localhost:8080/api/users */
+    /**
+     * localhost:8080/api/users
+     */
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         try {
@@ -57,7 +62,9 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/users/{id} */
+    /**
+     * localhost:8080/api/users/{id}
+     */
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         try {
@@ -74,7 +81,9 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/users/{id}/teamChangeRequest/{teamID} */
+    /**
+     * localhost:8080/api/users/{id}/teamChangeRequest/{teamID}
+     */
     @PostMapping()
     @RequestMapping(value = "/users/{userID}/teamChangeRequest/{teamID}")
     public ResponseEntity<?> createRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
@@ -93,7 +102,9 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/users/{id}/requests */
+    /**
+     * localhost:8080/api/users/{id}/requests
+     */
     @GetMapping("/users/{id}/requests")
     public ResponseEntity<?> getRequestsByUserId(@PathVariable Integer id) {
         try {
@@ -110,14 +121,16 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/users/upcomingEvents */
+    /**
+     * localhost:8080/api/users/upcomingEvents
+     */
     @GetMapping("/users/upcomingEvents")
     public ResponseEntity<?> getAllUsersWithUpcomingEvents(@RequestHeader("Authorization") String jwt) {
         try {
             jwt = jwt.substring(7);
             String username = jwtUtilService.extractUsername(jwt);
 
-            Map<String,List<UserReturn>> users = userService.getAllUsersWithUpcomingEvents(username);
+            Map<String, List<UserReturn>> users = userService.getAllUsersWithUpcomingEvents(username);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "All user event retrieved");
@@ -130,7 +143,9 @@ public class UserController {
         }
     }
 
-    /** localhost:8080/api/users/{toID}/wish */
+    /**
+     * localhost:8080/api/users/{toID}/wish
+     */
     @PostMapping()
     @RequestMapping(value = "/users/{toID}/wish")
     public ResponseEntity<?> wishUserByID(@PathVariable(value = "toID") Integer toID, @RequestBody WishRequestBody wishRequestBody) {
@@ -148,11 +163,27 @@ public class UserController {
         }
     }
 
-
-
-//    /** localhost:8080/api/users/{id} */
-//    @RequestMapping(value = "/users/{id}",method = RequestMethod.PUT)
-//    public ResponseEntity<?> updateDetails(@RequestBody User user) {
-//        return ResponseEntity.ok(userService.updateUserDetails(user));
-//    }
+    /**
+     * localhost:8080/api/users/{id}
+     */
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateDetails(@PathVariable Integer id, @RequestBody User user) {
+        try {
+            int i=userService.updateUserDetails(id, user);
+            if(i==0){
+                logger.error("Cannot update details. Some error occured");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Cannot update details. Some error occured");
+            }
+            Request request = requestService.createRequest(id, user.getTeamID());
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Details updated and team join request sent");
+            response.put("data",request);
+            logger.info("Details updated and team join request sent.");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot create wish. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
