@@ -96,7 +96,7 @@ public class HomeController {
      * localhost:8080/api/signup
      */
     @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody User user){
         try {
             User newUser = userService.registerUser(user);
             AuthenticationRequest request= new AuthenticationRequest();
@@ -111,14 +111,13 @@ public class HomeController {
 
             } catch(Exception e){
                 logger.error(e.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Incorrect username or password");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generatin token");
             }
 
             response.put("status", "success");
             response.put("message", "Registration successful");
             response.put("token", jwt);
             response.put("data", new UserReturn(newUser));
-            logger.info("Logged in successfully.");
 
             logger.info("User registered successfully.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
