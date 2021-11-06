@@ -95,7 +95,7 @@ public class UserController {
             response.put("message", "Request sent successfully");
             response.put("data", request);
             logger.info("Team change request sent successfully.");
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             logger.error("Cannot create team change request. Error:" + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

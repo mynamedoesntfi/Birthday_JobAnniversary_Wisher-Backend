@@ -144,10 +144,10 @@ public class TeamController {
             List<User> updatedUsers = teamService.deleteTeamById(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            if (updatedUsers == null)
-                response.put("message", "Team deleted successfully");
-            else
-                response.put("message", "Team deleted successfully");
+//            if (updatedUsers == null)
+//                response.put("message", "Team deleted successfully");
+//            else
+            response.put("message", "Team deleted successfully");
             response.put("data", UserReturn.convertUsersList(updatedUsers));
             logger.info("Team deleted successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);

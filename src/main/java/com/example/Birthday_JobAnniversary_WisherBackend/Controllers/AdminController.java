@@ -38,14 +38,14 @@ public class AdminController {
     }
 
 
-    /** localhost:8080/api/admin/users/{id}/removeFromTeam */
-    @GetMapping("admin/users/{id}/removeFromTeam")
-    public ResponseEntity<?> removeUserFromTeam(@PathVariable Integer userId) {
+    /** localhost:8080/api/admin/users/removeFromTeam */
+    @RequestMapping(value = "admin/users/removeFromTeam",method = RequestMethod.POST)
+    public ResponseEntity<?> removeUserFromTeam(@RequestBody Integer id) {
         try {
-            User user = userService.removeUserFromTeam(userId);
+            User user = userService.removeUserFromTeam(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "user removed from team");
+            response.put("message", "User removed from team successfully");
             response.put("data", new UserReturn(user));
             logger.info("User removed from team successfully. ");
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -93,9 +93,9 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/approve */
-    @GetMapping()
-    @RequestMapping(value = "/admin/requests/{id}/approve")
-    public ResponseEntity<?> approveRequestByID(@PathVariable(value = "id") Integer requestID) {
+    @PostMapping()
+    @RequestMapping(value = "/admin/requests/approve")
+    public ResponseEntity<?> approveRequestByID(@RequestBody Integer requestID) {
         try {
             Request request = requestService.approveRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
@@ -111,9 +111,9 @@ public class AdminController {
     }
 
     /** localhost:8080/api/admin/requests/{id}/decline */
-    @GetMapping()
-    @RequestMapping(value = "/admin/requests/{id}/decline")
-    public ResponseEntity<?> declineRequestByID(@PathVariable(value = "id") Integer requestID) {
+    @PostMapping()
+    @RequestMapping(value = "/admin/requests/decline")
+    public ResponseEntity<?> declineRequestByID(@RequestBody Integer requestID) {
         try {
             Request request = requestService.declineRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();

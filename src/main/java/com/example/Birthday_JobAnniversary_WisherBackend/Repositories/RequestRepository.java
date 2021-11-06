@@ -119,7 +119,7 @@ public class RequestRepository {
         try {
             String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
                     "where requests.user_id=? and users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id\n" +
-                    "order by last_updated;";
+                    "order by last_updated desc;";
             requests = jdbcTemplate.query(query, new RequestsRowMapper(), id);
         } catch (Exception e) {
             logger.error(e.getMessage());

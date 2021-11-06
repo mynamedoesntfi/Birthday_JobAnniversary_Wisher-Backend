@@ -50,7 +50,7 @@ public class TeamRepository {
     public List<Team> getAllTeams() {
         List<Team> teams = null;
         try {
-            String query = "select * from teams";
+            String query = "select * from teams order by team_name";
             teams = jdbcTemplate.query(query, new TeamRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -63,7 +63,7 @@ public class TeamRepository {
         List<Map<?,?>> teams = null;
         try {
             String query = "select user_ID,username,first_name,last_name,email,users.team_ID,team_name,description FROM users, teams\n" +
-                    "where users.team_ID=teams.team_ID;";
+                    "where users.team_ID=teams.team_ID order by team_name,first_name;";
             teams = jdbcTemplate.query(query, new TeamsDataRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
