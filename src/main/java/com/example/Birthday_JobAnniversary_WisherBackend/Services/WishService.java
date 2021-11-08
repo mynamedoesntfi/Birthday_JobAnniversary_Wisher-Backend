@@ -4,19 +4,15 @@ import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.EventSubje
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.WishRequestBody;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.WishRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailMessage;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,15 +33,15 @@ public class WishService {
     public Wish wishUserByID(Integer toID, WishRequestBody wishRequestBody) throws Exception {
 
         User toUser = userService.getUserById(toID);
-        if(toID.equals(wishRequestBody.getFromID()))
+        if (toID.equals(wishRequestBody.getFromID()))
             throw new Exception("Cannot wish yourself");
         if (toUser.getEmail() == null)
             throw new Exception("Target user does not have an email address");
 
         Date eventDate = null;
-        if(wishRequestBody.getSubject().equals(EventSubject.BIRTHDAY_WISHES.toString()))
+        if (wishRequestBody.getSubject().equals(EventSubject.BIRTHDAY_WISHES.toString()))
             eventDate = toUser.getBirthDate();
-        else if(wishRequestBody.getSubject().equals(EventSubject.JOB_ANNIVERSARY_WISHES.toString()))
+        else if (wishRequestBody.getSubject().equals(EventSubject.JOB_ANNIVERSARY_WISHES.toString()))
             eventDate = toUser.getHireDate();
 
         if (eventDate == null)
@@ -64,18 +60,19 @@ public class WishService {
     //@Scheduled(cron ="s m h dom m dow")
     //@Scheduled(cron = "0 0 12 * * *")
 //    @Scheduled(cron = "0 */1 * * * *")
-    void scheduledJobs() {
+//     @Scheduled(cron = "20 * * * * *")
+    public void scheduledJobs() throws Exception {
 
         /**
          * TODO: Uncomment following to add email sending
          */
-        //retrieveWishes();
+        retrieveWishes();
 
         logger.info("DUMMY TEXT INSTEAD OF SENDING EMAIL");
     }
 
 
-    void retrieveWishes() {
+    void retrieveWishes() throws Exception {
 
         /**
          * TODO: uncomment to send only today's wishes
@@ -88,10 +85,13 @@ public class WishService {
         logger.info("Compiled: " + messages.toString());
 
         List<HashMap<String, SimpleMailMessage>> listOfMaps = new ArrayList<>(messages.values());
-        List<SimpleMailMessage> allMessages = new ArrayList<>();
         for (HashMap<String, SimpleMailMessage> map :
                 listOfMaps) {
-            emailService.sendEmails(new ArrayList<>(map.values()));
+            try {
+                emailService.sendEmails(new ArrayList<>(map.values()));
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
 
         /**
@@ -108,15 +108,15 @@ public class WishService {
             User toUser = userService.getUserById(wish.getReceiverID());
 
             /** Same Person */
-            if(messages.containsKey(wish.getReceiverID())) {
+            if (messages.containsKey(wish.getReceiverID())) {
 
                 HashMap<String, SimpleMailMessage> messageMap = messages.get(wish.getReceiverID());
 
                 /** Same Subject */
-                if(messageMap.containsKey(wish.getSubject())) {
+                if (messageMap.containsKey(wish.getSubject())) {
                     //Edit the message
                     SimpleMailMessage mailMessage = (SimpleMailMessage) messageMap.get(wish.getSubject());
-                    String mailMessageText = mailMessage.getText().concat(craftText(fromUser, wish.getMessage()));
+                    String mailMessageText = mailMessage.getText().concat(craftText(fromUser, wish, toUser));
                     mailMessage.setText(mailMessageText);
                 }
                 /** Different Subject */
@@ -142,25 +142,31 @@ public class WishService {
         return messages;
     }
 
+    private String craftText(User sender, Wish wish, User receiver) {
+
+        String stringBuilder = sender.getName() + " wishes, \"" +
+                wish.getMessage() + "\"\n\n";
+        return stringBuilder;
+    }
+
     private SimpleMailMessage createNewMessage(User fromUser, User toUser, Wish wish) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setFrom("sdcb0113977-4a2a66@inbox.mailtrap.io");
+        String header = "";
+        mailMessage.setFrom("springboot.dummy.test.email@gmail.com");
         mailMessage.setTo(toUser.getEmail());
-        mailMessage.setSubject(wish.getSubject());
+        if (wish.getSubject().equals("BIRTHDAY_WISHES")) {
+            mailMessage.setSubject("BIRTHDAY WISHES FROM YOUR TEAM");
+            header = "Hi " + toUser.getName() + ", Happy Birthday! \n\n *********************************** \t\t\t\t\n";
 
-        mailMessage.setText(craftText(fromUser, wish.getMessage()));
+        } else {
+            mailMessage.setSubject("JOB ANNIVERSARY WISHES FROM YOUR TEAM");
+            header = "Hi " + toUser.getName() + ", Happy Job Anniversary! \n\n ********************************** \t\t\t\t\n";
+
+        }
+        mailMessage.setText(header + craftText(fromUser, wish, toUser));
+
         return mailMessage;
-    }
-
-    private String craftText(User user, String message) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("==================================================\n");
-        sb.append(user.getName());
-        sb.append("(").append(user.getUsernameUserID()).append(")\n\n");
-        sb.append("\t\t");
-        sb.append(message).append("\n");
-        return sb.toString();
     }
 
     //endregion

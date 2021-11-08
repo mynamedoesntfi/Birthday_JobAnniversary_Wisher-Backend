@@ -1,10 +1,7 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.*;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
-import com.example.Birthday_JobAnniversary_WisherBackend.Services.WishService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.*;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +27,9 @@ public class UserController {
 
     @Autowired
     private WishService wishService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private JwtUtilService jwtUtilService;
@@ -178,7 +178,7 @@ public class UserController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Details updated and team join request sent");
-            response.put("data",request);
+            response.put("data",new UserReturn(userService.getUserById(id)));
             logger.info("Details updated and team join request sent.");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
@@ -186,4 +186,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+//    @PostMapping()
+//    @RequestMapping(value = "testEmail")
+//    public ResponseEntity<?> testEmail() {
+//        try {
+//            wishService.scheduledJobs();
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("status", "success");
+//            response.put("message", "Wish sent successfully");
+//            logger.info("Wish created, will be sent on event day.");
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            logger.error("Cannot create wish. Error:" + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+//        }
+//    }
 }
