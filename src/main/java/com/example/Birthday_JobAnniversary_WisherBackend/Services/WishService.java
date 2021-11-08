@@ -94,9 +94,7 @@ public class WishService {
             }
         }
 
-        /**
-         * TODO: Change status of today's wishes
-         */
+        wishRepository.changeWishesStatus();
     }
 
     private HashMap<Integer, HashMap<String, SimpleMailMessage>> compileMessages(List<Wish> wishes) {

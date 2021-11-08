@@ -187,19 +187,19 @@ public class UserController {
         }
     }
 
-//    @PostMapping()
-//    @RequestMapping(value = "testEmail")
-//    public ResponseEntity<?> testEmail() {
-//        try {
-//            wishService.scheduledJobs();
-//            Map<String, Object> response = new HashMap<>();
-//            response.put("status", "success");
-//            response.put("message", "Wish sent successfully");
-//            logger.info("Wish created, will be sent on event day.");
-//            return ResponseEntity.ok(response);
-//        } catch (Exception e) {
-//            logger.error("Cannot create wish. Error:" + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-//        }
-//    }
+    @PostMapping()
+    @RequestMapping(value = "testEmail")
+    public ResponseEntity<?> testEmail() {
+        try {
+            wishService.scheduledJobs();
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Wish sent successfully");
+            logger.info("Wish created, will be sent on event day.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Cannot create wish. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }

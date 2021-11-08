@@ -1,9 +1,7 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Team;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.WishRequestBody;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.TeamRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.WishRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,7 @@ public class WishRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("Adding wish ...");
-        try{
+        try {
             String query = "insert into wishes(sender_id, receiver_id, subject, message, send_date)" +
                     " values(?, ?, ?, ?, " +
                     "DATE_FORMAT(DATE_ADD(?, INTERVAL (YEAR(CURRENT_DATE()) - YEAR(?) + if(DAYOFYEAR(CURRENT_DATE()) > DAYOFYEAR(?), 1, 0)) YEAR), '%Y-%m-%d'))";
@@ -83,6 +81,17 @@ public class WishRepository {
         }
 
         return wishes;
+    }
+
+    public int changeWishesStatus() {
+        try {
+            String query = "update wishes set status='SENT' where send_date=CURRENT_DATE";
+            return jdbcTemplate.update(query);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return 0;
     }
 
     public List<Wish> getAllWishes() {
