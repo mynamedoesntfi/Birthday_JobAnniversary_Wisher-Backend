@@ -92,7 +92,7 @@ public class AdminController {
         }
     }
 
-    /** localhost:8080/api/admin/requests/{id}/approve */
+    /** localhost:8080/api/admin/requests/approve */
     @PostMapping()
     @RequestMapping(value = "/admin/requests/approve")
     public ResponseEntity<?> approveRequestByID(@RequestBody Integer requestID) {
@@ -110,7 +110,7 @@ public class AdminController {
         }
     }
 
-    /** localhost:8080/api/admin/requests/{id}/decline */
+    /** localhost:8080/api/admin/requests/decline */
     @PostMapping()
     @RequestMapping(value = "/admin/requests/decline")
     public ResponseEntity<?> declineRequestByID(@RequestBody Integer requestID) {
