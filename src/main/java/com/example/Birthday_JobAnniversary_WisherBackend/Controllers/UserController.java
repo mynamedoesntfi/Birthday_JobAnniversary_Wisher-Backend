@@ -89,7 +89,7 @@ public class UserController {
     public ResponseEntity<?> createRequest(@PathVariable(value = "userID") Integer userID, @PathVariable(value = "teamID") Integer teamID) {
 
         try {
-            Request request = requestService.createRequest(userID, teamID);
+            Map<?,?> request = requestService.createRequest(userID, teamID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Request sent successfully");
@@ -174,7 +174,7 @@ public class UserController {
                 logger.error("Cannot update details. Some error occured");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Cannot update details. Some error occured");
             }
-            Request request = requestService.createRequest(id, user.getTeamID());
+            Map<?,?> request = requestService.createRequest(id, user.getTeamID());
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Details updated and team join request sent");

@@ -28,9 +28,9 @@
 
   +++ Get all requests                                             (GET)     api/admin/requests
   +++ Get all pending requests                                     (GET)     api/admin/requests/pending
-  +++ Approve request                                              (GET)     api/admin/requests/{id}/approve
-  +++ Decline the requests                                         (GET)     api/admin/requests/{id}/decline
-  +++ Remove user from a team                                      (PUT)     api/admin/users/{id}/removeFromTeam
+  +++ Approve request                                              (POST)    api/admin/requests/approve
+  +++ Decline the requests                                         (POST)    api/admin/requests/decline
+  +++ Remove user from a team                                      (POST)    api/admin/users/removeFromTeam
   +++ Add a new team                                               (POST)    api/admin/teams/new
   +++ Remove a team                                                (DELETE)  api/admin/teams/{id}
                                                                                  Indirectly removes users from team
@@ -41,29 +41,5 @@
   +++ Send event email to users                                    ()        api/admin/userEventEmails (scheduler)
   
   =======================================================================================
-
-  requests{
-    userID:121721,
-    curTeamID:default(null),
-    newTeamID:89182,
-    status:PENDING,APPROVED,DECLINED
-  }
-
-  All wishes in one mail
-  wishes{
-    senderID: 100,
-    receiverID: 101,
-    message: "happy birthday sabachan",
-    subject: "BIRTHDAY WISHES",
-    sendDate: "10-10-2022",
-    status: SENT,PENDING
-  }
-
-  =======================================================================================
-
-  BUGS
-
-  (fixed) sender wishes himself
-
 
 

@@ -61,7 +61,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests")
     public ResponseEntity<?> getAllRequests() {
         try {
-            List<Request> requests = requestService.getAllRequests();
+            List<Map<?,?>> requests = requestService.getAllRequests();
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Requests retrieved");
@@ -97,7 +97,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests/approve")
     public ResponseEntity<?> approveRequestByID(@RequestBody Integer requestID) {
         try {
-            Request request = requestService.approveRequestByID(requestID);
+            Map<?,?> request = requestService.approveRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Request approved");
@@ -115,7 +115,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/requests/decline")
     public ResponseEntity<?> declineRequestByID(@RequestBody Integer requestID) {
         try {
-            Request request = requestService.declineRequestByID(requestID);
+            Map<?,?> request = requestService.declineRequestByID(requestID);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Request declined");

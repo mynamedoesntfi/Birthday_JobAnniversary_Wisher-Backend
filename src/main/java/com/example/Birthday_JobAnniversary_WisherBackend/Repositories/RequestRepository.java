@@ -1,10 +1,8 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.Enums.RequestStatus;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.RequestRowMapper;
-import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.RequestsRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class RequestRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public Request createRequest(User user, Integer teamID) {
+    public Map<?,?> createRequest(User user, Integer teamID) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         logger.info("request to change teams for UserID: {}, {} -> {}", user.getUserID(), user.getTeamID(), teamID);
@@ -54,10 +52,11 @@ public class RequestRepository {
         return null;
     }
 
-    private Request getRequestByID(int id) {
-        Request request = null;
+    private Map<?,?> getRequestByID(int id) {
+        Map<?,?> request = null;
         try {
-            String query = "select * from requests where id=?";
+            String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
+                    "where users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id and id=?";
             request = jdbcTemplate.query(query, new RequestRowMapper(), id).get(0);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -66,10 +65,11 @@ public class RequestRepository {
         return request;
     }
 
-    public List<Request> getAllRequests() {
-        List<Request> requests = null;
+    public List<Map<?,?>> getAllRequests() {
+        List<Map<?,?>> requests = null;
         try {
-            String query = "select * from requests";
+            String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
+                    "where users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id";
             requests = jdbcTemplate.query(query, new RequestRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
@@ -84,7 +84,7 @@ public class RequestRepository {
             String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
                     "where users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id" +
                     " and status='PENDING' and requests.user_ID!=? order by last_updated";
-            requests = jdbcTemplate.query(query, new RequestsRowMapper(),userID);
+            requests = jdbcTemplate.query(query, new RequestRowMapper(),userID);
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
@@ -92,7 +92,7 @@ public class RequestRepository {
         return requests;
     }
 
-    public Request approveRequestByID(Integer requestID) {
+    public Map<?,?> approveRequestByID(Integer requestID) {
         try {
             String query = "update requests set status=? where id=?";
             jdbcTemplate.update(query, RequestStatus.APPROVED.toString(), requestID);
@@ -103,7 +103,7 @@ public class RequestRepository {
         return getRequestByID(requestID);
     }
 
-    public Request declineRequestByID(Integer requestID) {
+    public Map<?,?> declineRequestByID(Integer requestID) {
         try {
             String query = "update requests set status=? where id=?";
             jdbcTemplate.update(query, RequestStatus.DECLINED.toString(), requestID);
@@ -120,7 +120,7 @@ public class RequestRepository {
             String query = "select id,status,requests.user_id,username,current_team_id,new_team_id,team_name,last_updated from users,teams,requests\n" +
                     "where requests.user_id=? and users.user_ID=requests.user_ID and teams.team_ID=requests.new_team_id\n" +
                     "order by last_updated desc;";
-            requests = jdbcTemplate.query(query, new RequestsRowMapper(), id);
+            requests = jdbcTemplate.query(query, new RequestRowMapper(), id);
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.error(Arrays.toString(e.getStackTrace()));

@@ -2,7 +2,6 @@ package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
-import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -108,6 +110,7 @@ public class UserRepository {
     }
 
     public void changeTeamByID(int userID, int new_team_id) {
+        System.out.println("here: " + userID + " - " + new_team_id);
         try {
             String query = "update users set team_id=? where user_id=?";
             jdbcTemplate.update(query, new_team_id, userID);
@@ -150,11 +153,11 @@ public class UserRepository {
     }
 
     public int updateUserDetails(Integer id, User user) {
-        int res=0;
+        int res = 0;
         logger.info("details to update={}", user);
         try {
             String query = "update users set birth_date=?, hire_date=?, gender=?, address=?,contact=? where user_ID=?";
-            res=jdbcTemplate.update(
+            res = jdbcTemplate.update(
                     new PreparedStatementCreator() {
                         public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                             PreparedStatement ps = connection.prepareStatement(query, new String[]{"userID"});

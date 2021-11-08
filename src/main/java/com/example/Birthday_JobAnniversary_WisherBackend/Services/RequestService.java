@@ -23,23 +23,24 @@ public class RequestService {
     @Autowired
     private RequestRepository requestRepository;
 
-    public Request createRequest(Integer userID, Integer teamID) {
+    public Map<?,?> createRequest(Integer userID, Integer teamID) {
         User user = userService.getUserById(userID);
         return requestRepository.createRequest(user, teamID);
     }
 
-    public List<Request> getAllRequests() {
+    public List<Map<?,?>> getAllRequests() {
         return requestRepository.getAllRequests();
     }
 
-    public Request approveRequestByID(Integer requestID) {
-        Request request = requestRepository.approveRequestByID(requestID);
+    public Map<?,?> approveRequestByID(Integer requestID) {
+        Map<?,?> request = requestRepository.approveRequestByID(requestID);
+        System.out.println(request);
         // change the team for the user assuming team exists
-        userRepository.changeTeamByID(request.getUserID(), request.getNewTeamID());
+        userRepository.changeTeamByID((int) request.get("user_id"),(int) request.get("new_team_id"));
         return request;
     }
 
-    public Request declineRequestByID(Integer requestID) {
+    public Map<?,?> declineRequestByID(Integer requestID) {
         return requestRepository.declineRequestByID(requestID);
     }
 
