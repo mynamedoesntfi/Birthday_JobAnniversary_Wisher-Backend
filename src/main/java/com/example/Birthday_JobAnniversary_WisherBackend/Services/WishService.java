@@ -94,6 +94,9 @@ public class WishService {
             }
         }
 
+        /**
+         * Changing status of sent wishes
+         */
         wishRepository.changeWishesStatus();
     }
 
@@ -154,12 +157,12 @@ public class WishService {
         mailMessage.setFrom("springboot.dummy.test.email@gmail.com");
         mailMessage.setTo(toUser.getEmail());
         if (wish.getSubject().equals("BIRTHDAY_WISHES")) {
-            mailMessage.setSubject("BIRTHDAY WISHES FROM YOUR TEAM");
-            header = "Hi " + toUser.getName() + ", Happy Birthday! \n\n *********************************** \t\t\t\t\n";
+            mailMessage.setSubject("Happy Birthday!");
+            header = "BIRTHDAY WISHES FROM YOUR TEAM \n\n *********************************** \t\t\t\t\n";
 
         } else {
-            mailMessage.setSubject("JOB ANNIVERSARY WISHES FROM YOUR TEAM");
-            header = "Hi " + toUser.getName() + ", Happy Job Anniversary! \n\n ********************************** \t\t\t\t\n";
+            mailMessage.setSubject("Happy Job Anniversary!");
+            header = "JOB ANNIVERSARY WISHES FROM YOUR TEAM \n\n ********************************** \t\t\t\t\n";
 
         }
         mailMessage.setText(header + craftText(fromUser, wish, toUser));
