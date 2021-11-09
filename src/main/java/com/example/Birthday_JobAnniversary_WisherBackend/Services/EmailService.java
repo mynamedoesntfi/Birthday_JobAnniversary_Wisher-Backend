@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmailService {
@@ -19,10 +20,14 @@ public class EmailService {
     JavaMailSender emailSender;
 
     public void celebrationInvites(String subject, String text) {
-        List<User> users = userService.getAllUsers();
+        Map<String, List<User>> users = userService.getAllUsersWithInMonthEvents();
         List<String> emailsIDs = new ArrayList<>();
         for (User user :
-                users) {
+                users.get("Birthday")) {
+            emailsIDs.add(user.getEmail());
+        }
+        for (User user :
+                users.get("Anniversary")) {
             emailsIDs.add(user.getEmail());
         }
         Object[] objects = emailsIDs.toArray();

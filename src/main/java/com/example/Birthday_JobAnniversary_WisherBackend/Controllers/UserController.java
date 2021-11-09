@@ -121,27 +121,7 @@ public class UserController {
         }
     }
 
-    /**
-     * localhost:8080/api/users/upcomingEvents
-     */
-    @GetMapping("/users/upcomingEvents")
-    public ResponseEntity<?> getAllUsersWithUpcomingEvents(@RequestHeader("Authorization") String jwt) {
-        try {
-            jwt = jwt.substring(7);
-            String username = jwtUtilService.extractUsername(jwt);
 
-            Map<String, List<UserReturn>> users = userService.getAllUsersWithUpcomingEvents(username);
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", "success");
-            response.put("message", "All user event retrieved");
-            response.put("data", users);
-            logger.info("Users with upcoming events retrieved successfully. ");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e) {
-            logger.error("Cannot get users with upcoming events. Error:" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 
     /**
      * localhost:8080/api/users/{toID}/wish
@@ -171,7 +151,7 @@ public class UserController {
         try {
             int i=userService.updateUserDetails(id, user);
             if(i==0){
-                logger.error("Cannot update details. Some error occured");
+                logger.error("Cannot update details. Some error occurred");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Cannot update details. Some error occured");
             }
             Map<?,?> request = requestService.createRequest(id, user.getTeamID());

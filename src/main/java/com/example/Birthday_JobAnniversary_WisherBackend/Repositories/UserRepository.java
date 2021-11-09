@@ -1,7 +1,10 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Repositories;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.Wish;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.EventRowMapper;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.UserRowMapper;
+import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.utils.WishRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Repository
 public class UserRepository {
@@ -120,37 +121,37 @@ public class UserRepository {
         }
     }
 
-    public List<User> getAllUsersWithUpcomingBirthDays(Integer userID) {
-        List<User> users = null;
+    public List<User> getAllUsersWithInMonthBirthDays() {
         try {
             String query =
-                    "select * \n" +
-                            "from users\n" +
-                            "where (DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=? order by username";
-            users = jdbcTemplate.query(query, new UserRowMapper(), userID);
+                    "select user_ID,username,first_name,last_name,email,hire_date,team_ID," +
+                            "DATE_ADD(birth_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(birth_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(birth_date), 1, 0) YEAR) AS birth_date from users\n" +
+                            "where MONTH(birth_date)=MONTH(CURRENT_DATE())";
+            return jdbcTemplate.query(query, new EventRowMapper());
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+    public List<User> getAllUsersWithInMonthJobAnniversaries() {
+        try {
+            String query =
+                    "select user_ID,username,first_name,last_name,email,birth_date,team_ID," +
+                            "DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR) AS hire_date from users\n" +
+                            "where MONTH(hire_date)=MONTH(CURRENT_DATE())";
+            return jdbcTemplate.query(query, new EventRowMapper());
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
 
-        return users;
+        return null;
     }
 
-    public List<User> getAllUsersWithUpcomingJobAnniversaries(Integer userID) {
-        List<User> users = null;
-        try {
-            String query =
-                    "select * \n" +
-                            "from users\n" +
-                            "where (DATE_ADD(hire_date, INTERVAL YEAR(CURRENT_DATE()) - YEAR(hire_date) + IF(DAYOFYEAR(CURRENT_DATE())>DAYOFYEAR(hire_date), 1, 0) YEAR)\n" +
-                            "\t\tBETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)) and user_id!=? order by username";
-            users = jdbcTemplate.query(query, new UserRowMapper(), userID);
-        } catch (Exception e) {
-            logger.error(Arrays.toString(e.getStackTrace()));
-        }
 
-        return users;
-    }
+
+
+
 
     public int updateUserDetails(Integer id, User user) {
         int res = 0;

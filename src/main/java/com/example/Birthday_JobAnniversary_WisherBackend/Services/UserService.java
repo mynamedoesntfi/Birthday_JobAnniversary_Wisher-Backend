@@ -1,11 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
 
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.RequestRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.TeamRepository;
 import com.example.Birthday_JobAnniversary_WisherBackend.Repositories.UserRepository;
-import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 
 /**
@@ -81,12 +78,10 @@ public class UserService implements UserDetailsService {
         return userRepository.removeUserFromTeam(userId);
     }
 
-    public Map<String, List<UserReturn>> getAllUsersWithUpcomingEvents(String username) {
-        Integer userID = userRepository.getUserByUsername(username).getUserID();
-
-        Map<String, List<UserReturn>> usersWithUpcomingEvents = new HashMap<>();
-        usersWithUpcomingEvents.put("Birthday", UserReturn.convertUsersList(userRepository.getAllUsersWithUpcomingBirthDays(userID)));
-        usersWithUpcomingEvents.put("Anniversary", UserReturn.convertUsersList(userRepository.getAllUsersWithUpcomingJobAnniversaries(userID)));
+    public Map<String, List<User>> getAllUsersWithInMonthEvents() {
+        Map<String, List<User>> usersWithUpcomingEvents = new HashMap<>();
+        usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithInMonthBirthDays());
+        usersWithUpcomingEvents.put("Anniversary", userRepository.getAllUsersWithInMonthJobAnniversaries());
         return usersWithUpcomingEvents;
     }
 

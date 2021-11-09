@@ -1,9 +1,9 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Controllers;
 
-import com.example.Birthday_JobAnniversary_WisherBackend.Models.Request;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import com.example.Birthday_JobAnniversary_WisherBackend.Models.UserReturn;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.EmailService;
+import com.example.Birthday_JobAnniversary_WisherBackend.Services.JwtUtilService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.RequestService;
 import com.example.Birthday_JobAnniversary_WisherBackend.Services.UserService;
 import org.slf4j.Logger;
@@ -30,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private JwtUtilService jwtUtilService;
 
     /** localhost:8080/api/admin/testAdmin */
     @GetMapping("/admin/testAdmin")
@@ -132,6 +135,24 @@ public class AdminController {
 
 
 
+    /**
+     * localhost:8080/api/admin/inMonthEvents
+     */
+    @GetMapping("/admin/inMonthEvents")
+    public ResponseEntity<?> getAllUsersWithInMonthEvents() {
+        try {
+            Map<String, List<User>> users = userService.getAllUsersWithInMonthEvents();
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "All user event retrieved");
+            response.put("data", users);
+            logger.info("Users with upcoming events retrieved successfully. ");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            logger.error("Cannot get users with upcoming events. Error:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 
     /** localhost:8080/api/admin/celebrationInvites */
@@ -140,8 +161,8 @@ public class AdminController {
     public ResponseEntity<?> celebrationInvites(){
         try {
             emailService.celebrationInvites(
-                    "Celebration at end of month", //
-                    "Invitation of celebration of events that occurred within the month." //
+                    "Invitation for monthly celebration", //
+                    "Hi all, this is an invitation for monthly celebration. Please join the event. It happens on the last day of the month." //
             );
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");

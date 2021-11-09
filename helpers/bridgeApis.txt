@@ -17,7 +17,6 @@
   --- Update user details                                (PATCH)    api/users/{id}
   +++ Get All Teams                                      (GET)      api/teams
   +++ Get Team details                                   (GET)      api/teams/{id}
-  +++ Get All users with upcoming events                 (GET)      api/users/upcomingEvents
   +++ Get All team members with upcoming events          (GET)      api/teams/{id}/upcomingEvents
   +++ Send wishes                                        (POST)     api/users/{toID}/wish
                                                                         RequestBody{ fromID, subject, message }
@@ -35,6 +34,7 @@
   +++ Remove a team                                                (DELETE)  api/admin/teams/{id}
                                                                                  Indirectly removes users from team
 
+  +++ Get All users with events in the month                       (GET)     api/admin/inMonthEvents
   +++ Send email invites for celebration at end of every month     (POST)    api/admin/celebrationInvites
 
 
