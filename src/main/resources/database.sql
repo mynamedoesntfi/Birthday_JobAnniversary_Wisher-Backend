@@ -101,16 +101,16 @@
 --('Nandy',	    'Nandan',	'Bhat',	'1999-07-12',	'2021-08-09',	'nandan@gmail.com',		'admin123',	'ROLE_ADMIN');
 --
 --
---insert into my_db.requests (user_id, current_team_id, new_team_id) values
---(100001, 101, 102),
---(100005, 102, 103),
---(100009, 103, 104),
---(100013, 104, 105),
---(100017, 105, 101);
+--insert into my_db.requests (user_id, current_team_id, new_team_id, status) values
+--(100001, 101, 102,'DECLINED'),
+--(100005, 102, 103,'DECLINED'),
+--(100009, 103, 104,'DECLINED'),
+--(100013, 104, 105,'DECLINED'),
+--(100017, 105, 101,'DECLINED');
 --
 --insert into my_db.wishes (sender_id, receiver_id, subject, message, send_date) values
---(100001, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-11'),
---(100005, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
---(100009, 100023, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-10-30'),
---(100013, 100023, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-10-30'),
---(100017, 100023, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-10-30');
+--(100006, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
+--(100005, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
+--(100009, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
+--(100013, 100004, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-16'),
+--(100017, 100004, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-16');
