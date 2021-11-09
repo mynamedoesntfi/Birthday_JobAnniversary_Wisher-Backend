@@ -50,13 +50,14 @@ public class TeamService {
         List<User> teamMembers = teamRepository.getTeamMembersByTeamId(id);
         List<User> updatedMembers = new ArrayList<>();
 
-        for (User member :
-                teamMembers) {
-            updatedMembers.add(userRepository.removeUserFromTeam(member.getUserID()));
-        }
+        if(teamMembers != null)
+            for (User member :
+                    teamMembers) {
+                updatedMembers.add(userRepository.removeUserFromTeam(member.getUserID()));
+            }
         teamRepository.deleteTeam(id);
 
-        if (teamMembers.size() > 0)
+        if (teamMembers != null)
             return updatedMembers;
         return null;
     }
