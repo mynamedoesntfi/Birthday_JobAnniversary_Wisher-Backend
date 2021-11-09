@@ -73,7 +73,7 @@
 --
 --insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, team_ID) values
 --('Itachi',	'Itachi',	'Uchiha',	'1995-11-01',	'2014-11-04',	'example@gmail.com',	'itachi123',	101),
---('Todoroki',	'Shoto',	'Todoroki',	'1995-11-04',	'2014-11-11',	'example@gmail.com',	'shoto123',		101),
+--('Todoroki',	'Shoto',	'Todoroki',	'1995-11-11',	'2014-11-11',	'example@gmail.com',	'shoto123',		101),
 --('Levi',	    'Levi',		'Ackerman', '1995-11-06',	'2014-11-14',	'example@gmail.com',	'levi123',		101),
 --('Langa',	    'Langa',	'Hasegawa',	'1995-11-14',	'2014-11-16',	'example@gmail.com',	'langa123',		101),
 --('Mikey',	    'Manjiro',	'Sano',	    '1991-10-14',	'2014-11-06',	'example@gmail.com',	'mikey123',		101),
@@ -91,7 +91,7 @@
 --('Sasuke',	'Sasuke',	'Uchiha',	'1995-11-15',	'2014-09-04',	'example@gmail.com',	'sasuke123',	104),
 --('Kougami',	'Shinya',	'Kougami',	'1995-11-16',	'2014-11-11',	'example@gmail.com',	'kougami123',	104),
 --('Mikasa',	'Mikasa',	'Ackerman',	'1995-11-14',	'2004-11-16',	'example@gmail.com',	'mikasa123',	104),
---('Makishima',	'Makishima','Shougo',	'1995-11-13',	'2014-09-04',	'example@gmail.com',	'makishima123',	105),
+--('Makishima',	'Makishima','Shougo',	'1995-11-12',	'2014-11-12',	'example@gmail.com',	'makishima123',	105),
 --('Ichigo',	'Ichigo',	'Kurosaki',	'1995-11-15',	'2014-09-04',	'example@gmail.com',	'ichigo123',	105),
 --('Madara',	'Madara',	'Uchiha',	'1995-10-08',	'2014-11-04',	'example@gmail.com',	'madara123',	105),
 --('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'example@gmail.com',	'kakashi123',	105);
@@ -103,14 +103,25 @@
 --
 --insert into my_db.requests (user_id, current_team_id, new_team_id, status) values
 --(100001, 101, 102,'DECLINED'),
---(100005, 102, 103,'DECLINED'),
---(100009, 103, 104,'DECLINED'),
---(100013, 104, 105,'DECLINED'),
---(100017, 105, 101,'DECLINED');
+--(100005, 101, 103,'DECLINED'),
+--(100009, 102, 104,'DECLINED'),
+--(100013, 103, 105,'DECLINED'),
+--(100017, 104, 101,'DECLINED'),
+--(100001, 101, 104,'PENDING'),
+--(100005, 101, 105,'PENDING'),
+--(100009, 102, 102,'PENDING'),
+--(100013, 103, 103,'PENDING'),
+--(100017, 104, 101,'PENDING');
+
 --
 --insert into my_db.wishes (sender_id, receiver_id, subject, message, send_date) values
---(100006, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
---(100005, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
---(100009, 100004, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-14'),
---(100013, 100004, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-16'),
---(100017, 100004, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-16');
+--(100001, 100002, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-11'),
+--(100003, 100002, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-11'),
+--(100004, 100002, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-11'),
+--(100005, 100002, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-11'),
+--(100006, 100002, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-11'),
+--(100021, 100020, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-12'),
+--(100022, 100020, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-12'),
+--(100023, 100020, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-12'),
+--(100021, 100020, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-12'),
+--(100023, 100020, 'JOB_ANNIVERSARY_WISHES', 'Happy Work Anniversary!!!', '2021-11-12');
