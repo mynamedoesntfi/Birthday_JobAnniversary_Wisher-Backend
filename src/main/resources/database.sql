@@ -34,9 +34,11 @@
 --  `current_team_id` int DEFAULT NULL,
 --  `new_team_id` int DEFAULT NULL,
 --  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
---  `last_updated` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ;
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--  PRIMARY KEY (`id`),
+--  KEY `fk_user_id_idx` (`user_id`),
+--  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_ID`)
+--) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --CREATE TABLE `wishes` (
@@ -47,8 +49,12 @@
 --  `message` varchar(100) DEFAULT NULL,
 --  `send_date` date NOT NULL,
 --  `status` varchar(45) NOT NULL DEFAULT 'PENDING',
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--  PRIMARY KEY (`id`),
+--  KEY `fk_sender_id_idx` (`sender_id`),
+--  KEY `fk_receiver_id_idx` (`receiver_id`),
+--  CONSTRAINT `fk_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_ID`),
+--  CONSTRAINT `fk_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_ID`)
+--) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --ALTER TABLE users AUTO_INCREMENT=100001;
@@ -88,14 +94,12 @@
 --('Makishima',	'Makishima','Shougo',	'1995-09-01',	'2014-09-04',	'example@gmail.com',	'makishima123',	105),
 --('Ichigo',	'Ichigo',	'Kurosaki',	'1995-09-01',	'2014-09-04',	'example@gmail.com',	'ichigo123',	105),
 --('Madara',	'Madara',	'Uchiha',	'1995-10-08',	'2014-10-04',	'example@gmail.com',	'madara123',	105),
---('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'example@gmail.com',	'kakashi123',	105),
+--('Kakashi',	'Kakashi',	'Hatake',	'1995-11-23',	'2014-08-25',	'example@gmail.com',	'kakashi123',	105);
 --
 --insert into my_db.users (username, first_name, last_name, birth_date, hire_date, email, password, role) values
 --('KSK',		'Saba',		'Khan',	'1998-10-10',	'2021-08-09',	'saba@gmail.com',	'admin123',	'ROLE_ADMIN'),
 --('Nandy',	'Nandan',	'Bhat',	'1999-07-12',	'2021-08-09',	'nandan@gmail.com',		'admin123',	'ROLE_ADMIN');
 --
---insert into my_db.users(username, first_name, last_name, birth_date, hire_date, email, password, role, team_ID) values
---('Test',	'test',	'test',	'1995-11-05',	'2014-11-05',	'nandan@clarivate.com',	'admin123', 'ROLE_ADMIN',	101);
 --
 --insert into my_db.requests (user_id, current_team_id, new_team_id) values
 --(100001, 101, 102),
