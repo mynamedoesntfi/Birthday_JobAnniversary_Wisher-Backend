@@ -38,7 +38,7 @@
   +++ Send email invites for celebration at end of every month     (POST)    api/admin/celebrationInvites
 
 
-  +++ Send event email to users                                    ()        api/scheduledJobs (scheduler)
+  +++ Send event email to users                                    (POST)    api/scheduledJobs (scheduler)
   
   =======================================================================================
 
