@@ -25,7 +25,7 @@
 --  UNIQUE KEY `username_UNIQUE` (`username`),
 --  KEY `fk_users_teams` (`team_ID`),
 --  CONSTRAINT `fk_users_teams` FOREIGN KEY (`team_ID`) REFERENCES `teams` (`team_ID`)
---) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --CREATE TABLE `requests` (
@@ -38,7 +38,7 @@
 --  PRIMARY KEY (`id`),
 --  KEY `fk_user_id_idx` (`user_id`),
 --  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_ID`)
---) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --CREATE TABLE `wishes` (
@@ -54,7 +54,7 @@
 --  KEY `fk_receiver_id_idx` (`receiver_id`),
 --  CONSTRAINT `fk_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_ID`),
 --  CONSTRAINT `fk_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_ID`)
---) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 --
 --ALTER TABLE users AUTO_INCREMENT=100001;

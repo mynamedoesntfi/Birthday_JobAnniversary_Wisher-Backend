@@ -121,6 +121,19 @@ public class UserRepository {
         }
     }
 
+        public Set<?> emailsWithInMonthEvents() {
+        try {
+           List<String> emails= jdbcTemplate.queryForList("select email from users "+
+                    "where MONTH(hire_date)=MONTH(CURRENT_DATE()) or MONTH(birth_date)=MONTH(CURRENT_DATE())", String.class);
+
+            return new HashSet<>(emails);
+        } catch (Exception e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
+        }
+
+        return null;
+    }
+
     public List<User> getAllUsersWithInMonthBirthDays() {
         try {
             String query =
@@ -147,11 +160,6 @@ public class UserRepository {
 
         return null;
     }
-
-
-
-
-
 
     public int updateUserDetails(Integer id, User user) {
         int res = 0;

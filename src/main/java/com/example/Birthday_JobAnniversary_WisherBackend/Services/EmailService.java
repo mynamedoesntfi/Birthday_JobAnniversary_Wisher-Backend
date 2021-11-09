@@ -5,10 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EmailService {
@@ -20,22 +17,15 @@ public class EmailService {
     JavaMailSender emailSender;
 
     public void celebrationInvites(String subject, String text) {
-        Map<String, List<User>> users = userService.getAllUsersWithInMonthEvents();
-        List<String> emailsIDs = new ArrayList<>();
-        for (User user :
-                users.get("Birthday")) {
-            emailsIDs.add(user.getEmail());
-        }
-        for (User user :
-                users.get("Anniversary")) {
-            emailsIDs.add(user.getEmail());
-        }
-        Object[] objects = emailsIDs.toArray();
-        String[] emailIDsArray = Arrays.copyOf(objects, objects.length, String[].class);
+
+        Set<?> emails= userService.getAllEmailsWithInMonthEvents();
+
+        Object[] objects = emails.toArray();
+        String[] recepients=Arrays.copyOf(objects, objects.length,String[].class);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("springboot.dummy.test.email@gmail.com");
-        message.setTo(emailIDsArray);
+        message.setTo(recepients);
         message.setSubject(subject);
         message.setText(text);
 

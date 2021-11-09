@@ -131,10 +131,6 @@ public class AdminController {
         }
     }
 
-
-
-
-
     /**
      * localhost:8080/api/admin/inMonthEvents
      */
@@ -166,7 +162,7 @@ public class AdminController {
             );
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
-            response.put("message", "Email sent successfully");
+            response.put("message", "Email Invite sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Cannot send email. Error:" + e.getMessage());

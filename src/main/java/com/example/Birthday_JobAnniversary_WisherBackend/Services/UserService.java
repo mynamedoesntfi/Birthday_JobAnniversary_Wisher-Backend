@@ -78,6 +78,10 @@ public class UserService implements UserDetailsService {
         return userRepository.removeUserFromTeam(userId);
     }
 
+    public Set<?> getAllEmailsWithInMonthEvents() {
+        return userRepository.emailsWithInMonthEvents();
+    }
+
     public Map<String, List<User>> getAllUsersWithInMonthEvents() {
         Map<String, List<User>> usersWithUpcomingEvents = new HashMap<>();
         usersWithUpcomingEvents.put("Birthday", userRepository.getAllUsersWithInMonthBirthDays());
