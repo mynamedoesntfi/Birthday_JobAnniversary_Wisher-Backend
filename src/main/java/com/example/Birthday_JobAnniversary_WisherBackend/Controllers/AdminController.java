@@ -134,12 +134,12 @@ public class AdminController {
 
 
 
-    /** localhost:8080/api/admin/sendEmailInvite */
+    /** localhost:8080/api/admin/celebrationInvites */
     @PostMapping
-    @RequestMapping(value = "/admin/sendEmailInvite")
-    public ResponseEntity<?> sendEmailInvite(){
+    @RequestMapping(value = "/admin/celebrationInvites")
+    public ResponseEntity<?> celebrationInvites(){
         try {
-            emailService.sendEmailInvite("dcb0113977-4a2a66@inbox.mailtrap.io", //
+            emailService.celebrationInvites(
                     "Celebration at end of month", //
                     "Invitation of celebration of events that occurred within the month." //
             );

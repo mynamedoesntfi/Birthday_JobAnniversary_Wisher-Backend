@@ -112,7 +112,7 @@
 --(100009, 102, 102,'PENDING'),
 --(100013, 103, 103,'PENDING'),
 --(100017, 104, 101,'PENDING');
-
+--
 --
 --insert into my_db.wishes (sender_id, receiver_id, subject, message, send_date) values
 --(100001, 100002, 'BIRTHDAY_WISHES', 'Happy Birthday!!!', '2021-11-11'),

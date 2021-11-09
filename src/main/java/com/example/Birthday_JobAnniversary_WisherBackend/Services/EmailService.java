@@ -1,23 +1,36 @@
 package com.example.Birthday_JobAnniversary_WisherBackend.Services;
-import net.minidev.json.JSONObject;
+import com.example.Birthday_JobAnniversary_WisherBackend.Models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class EmailService {
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     JavaMailSender emailSender;
 
-    public void sendEmailInvite(String to, String subject, String text) {
+    public void celebrationInvites(String subject, String text) {
+        List<User> users = userService.getAllUsers();
+        List<String> emailsIDs = new ArrayList<>();
+        for (User user :
+                users) {
+            emailsIDs.add(user.getEmail());
+        }
+        Object[] objects = emailsIDs.toArray();
+        String[] emailIDsArray = Arrays.copyOf(objects, objects.length, String[].class);
+
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("sdcb0113977-4a2a66@inbox.mailtrap.io");
-        message.setTo(to);
+        message.setFrom("springboot.dummy.test.email@gmail.com");
+        message.setTo(emailIDsArray);
         message.setSubject(subject);
         message.setText(text);
 

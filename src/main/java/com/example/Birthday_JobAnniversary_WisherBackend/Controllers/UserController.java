@@ -188,8 +188,8 @@ public class UserController {
     }
 
     @PostMapping()
-    @RequestMapping(value = "testEmail")
-    public ResponseEntity<?> testEmail() {
+    @RequestMapping(value = "scheduledJobs")
+    public ResponseEntity<?> scheduledJobs() {
         try {
             wishService.scheduledJobs();
             Map<String, Object> response = new HashMap<>();
