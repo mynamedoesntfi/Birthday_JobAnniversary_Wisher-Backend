@@ -15,7 +15,7 @@ public class TeamsDataRowMapper implements RowMapper<Map<?, ?>> {
 
         Map<Object, List<Map<Object, Object>>> data = new HashMap<>();
 
-        while (resultSet.next()) {
+        do{
             List<Map<Object, Object>> members;
             Map<Object, Object> member = new HashMap<>();
             String key = resultSet.getString("team_ID");
@@ -36,7 +36,7 @@ public class TeamsDataRowMapper implements RowMapper<Map<?, ?>> {
             members.add(member);
             data.put(resultSet.getString("team_ID"), members);
 
-        }
-        return data;
+        }while (resultSet.next());
+            return data;
     }
 }

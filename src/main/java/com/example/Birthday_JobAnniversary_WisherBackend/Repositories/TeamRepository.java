@@ -68,7 +68,6 @@ public class TeamRepository {
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }
-
         return teams;
     }
 

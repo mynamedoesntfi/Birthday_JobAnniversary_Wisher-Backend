@@ -88,10 +88,10 @@
 --('Dazai',	    'Osamu',	'Dazai',	    '1995-11-12',	'2014-11-14',	'example@gmail.com',	'dazai123',	    103),
 --('Kuro',	    'Kuro',	    'Yatogami',	    '1995-11-11',	'2014-11-15',	'example@gmail.com',	'kuro123',	    103),
 --('Kaneki',	'Ken',	    'Kaneki',	    '1995-11-15',	'2014-09-04',	'example@gmail.com',	'ken123',	    103),
---('Sasuke',	'Sasuke',	'Uchiha',	    '1995-11-15',	'2014-09-04',	'example@gmail.com',	'sasuke123',	104),
+--('Sasuke',	'Sasuke',	'Uchiha',	    '1995-11-15',	'2014-09-04',	'example3@gmail.com',	'sasuke123',	104),
 --('Kougami',	'Shinya',	'Kougami',	    '1995-11-16',	'2014-11-11',	'example@gmail.com',	'kougami123',	104),
 --('Mikasa',	'Mikasa',	'Ackerman',	    '1995-11-14',	'2004-11-16',	'example@gmail.com',	'mikasa123',	104),
---('Makishima',	'Makishima','Shougo',	    '1995-11-15',	'2014-11-15',	'example@gmail.com',	'makishima123',	105),
+--('Makishima',	'Makishima','Shougo',	    '1995-11-15',	'2014-11-15',	'example2@gmail.com',	'makishima123',	105),
 --('Ichigo',	'Ichigo',	'Kurosaki', 	'1995-11-15',	'2014-09-04',	'example@gmail.com',	'ichigo123',	105),
 --('Madara',	'Madara',	'Uchiha',	    '1995-10-08',	'2014-11-04',	'example@gmail.com',	'madara123',	105),
 --('Kakashi',	'Kakashi',	'Hatake',	    '1995-11-23',	'2014-08-25',	'example@gmail.com',	'kakashi123',	105);
